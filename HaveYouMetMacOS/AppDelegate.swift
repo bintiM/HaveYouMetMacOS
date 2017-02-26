@@ -7,11 +7,12 @@
 //
 
 import Cocoa
+import Contacts
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+    var store = CNContactStore()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -21,6 +22,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-
+    
+    func checkAccessStatus(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+        
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+        
+        switch authorizationStatus {
+        case .authorized:
+            completionHandler(true)
+        case .denied, .notDetermined:
+            self.store.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
+                if access {
+                    completionHandler(true)
+                } else {
+                    print("access denied")
+                }
+            })
+        default:
+            completionHandler(false)
+        }
+ 
+ 
+    }
+    
+    class func sharedDelegate() -> AppDelegate {
+        return NSApplication.shared().delegate as! AppDelegate
+    }
 }
 
