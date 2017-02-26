@@ -68,7 +68,7 @@ class ViewController: NSViewController {
         
     }
     
-    //MARK: - contact helper functions
+    //MARK: - contact helper functions//
 
     func findContactsWithName(name: String) {
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
