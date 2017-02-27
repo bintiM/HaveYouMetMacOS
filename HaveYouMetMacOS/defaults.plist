@@ -40,10 +40,44 @@ Vielen Dank - und viel Erfolg beim Netzwerken!
 Mit besten Grüssen
 </string>
 	<key>message1title</key>
-	<string>private</string>
+	<string>Sehr geehrte Damen und Herren</string>
 	<key>message2</key>
-	<string>sehr geehrte</string>
+	<string>Grüezi Herr [name1], lieber [name2]
+        
+        Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompliziert in Verbindung bringen, direkt “kurzschliessen”.
+        
+        Zur Erinnerung:
+        Herr [name1] ist…
+        
+        Xxx [name2] ist…
+        
+        Hier nun die jeweiligen konkreten Adressen:
+        Firma
+        [fullname1] – Funktion
+        Strasse
+        PLz Ort
+        Tel. direkt:
+        Mobil:
+        e-Mail:
+        Website:
+        
+        Firma
+        [fullname2] – Funktion
+        Strasse
+        PLz Ort
+        Tel. direkt:
+        Mobil:
+        e-Mail:
+        Website:
+        
+        @ Herr [name1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [name2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+        
+        @ [name2]: darf ich Dich bitten, dass Du in der nächsten Zeit mit [name2] Kontakt aufnimmst, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+        
+        Vielen Dank - und viel Erfolg beim Netzwerken!
+        
+        Mit besten Grüssen</string>
 	<key>message2title</key>
-	<string>business1</string>
+	<string>Servus Leute</string>
 </dict>
 </plist>

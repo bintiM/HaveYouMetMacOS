@@ -21,6 +21,8 @@ class ViewController: NSViewController {
 
     @IBOutlet var businessMessageTextView: NSTextView!
     @IBOutlet var privateMessageTextView: NSTextView!
+    @IBOutlet weak var businessMessageSubject: NSTextField!
+    @IBOutlet weak var privateMessageSubject: NSTextField!
     
     
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
@@ -43,7 +45,6 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         contactTableView.delegate = self
         contactTableView.dataSource = self
         
@@ -64,7 +65,9 @@ class ViewController: NSViewController {
         let message2title = defaults.object(forKey: "message2title") as! String
         
         businessMessageTextView.string = message1
+        businessMessageSubject.stringValue = message1title
         privateMessageTextView.string = message2
+        privateMessageSubject.stringValue = message2title
         
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             print(accessGranted)
@@ -90,7 +93,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func buttonPushed(_ sender: Any) {
-        SendEmail.send()
+        SendEmail.send(mailOne: recipientOne.stringValue, mailTwo: recipientTwo.stringValue, subject: businessMessageSubject.stringValue, message: businessMessageTextView.string!)
     }
 
         // set first Recipient to selected Contact
@@ -164,12 +167,12 @@ class ViewController: NSViewController {
     }
 
     class SendEmail: NSObject {
-        static func send() {
+        static func send(mailOne:String, mailTwo:String, subject:String, message:String) {
             let service = NSSharingService(named: NSSharingServiceNameComposeEmail)!
-            service.recipients = ["marc.bintinger@yahoo.com"]
-            service.subject = "HaveYouMetTest"
+            service.recipients = [mailOne, mailTwo]
+            service.subject = subject
             
-            service.perform(withItems: ["This is an email for auto testing through code."])
+            service.perform(withItems: [message])
         }
     }
     
