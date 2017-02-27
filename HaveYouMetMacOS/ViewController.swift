@@ -11,8 +11,6 @@ import Contacts
 
 class ViewController: NSViewController {
 
-    @IBOutlet var messageTextView: NSTextView!
-    @IBOutlet weak var appTitleTextField: NSTextField!
     @IBOutlet weak var searchNameOutlet: NSTextField!
     
     @IBOutlet weak var contactTableView: NSTableView!
@@ -20,10 +18,27 @@ class ViewController: NSViewController {
     @IBOutlet weak var recipientOne: NSTextField!
     @IBOutlet weak var recipientTwo: NSTextField!
     
+
+    @IBOutlet var businessMessageTextView: NSTextView!
+    @IBOutlet var privateMessageTextView: NSTextView!
+    
+    
+    @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
+    @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
+    
+    
     var store = CNContactStore()
     var contacts: [CNContact] = []
     
     
+    @IBAction func deleteRecipientOneAction(_ sender: Any) {
+        recipientOne.stringValue = ""
+        deleteRecipientOneOutlet.isHidden = true
+    }
+    @IBAction func deleteRecipientTwoAction(_ sender: Any) {
+        recipientTwo.stringValue = ""
+        deleteRecipientTwoOutlet.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +47,24 @@ class ViewController: NSViewController {
         contactTableView.delegate = self
         contactTableView.dataSource = self
         
-        messageTextView.string = "Das ist ein Test"
+        deleteRecipientOneOutlet.isHidden = true
+        deleteRecipientTwoOutlet.isHidden = true
+        
+        let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
+        
+        let defaultDictionary = NSDictionary(contentsOf: defaultsFile!)
+        let standardwerte = defaultDictionary as! [String : AnyObject]
+        
+        UserDefaults.standard.register(defaults: standardwerte)
+        
+        let defaults = UserDefaults.standard
+        let message1 = defaults.object(forKey: "message1") as! String
+        let message1title = defaults.object(forKey: "message1title") as! String
+        let message2 = defaults.object(forKey: "message2") as! String
+        let message2title = defaults.object(forKey: "message2title") as! String
+        
+        businessMessageTextView.string = message1
+        privateMessageTextView.string = message2
         
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             print(accessGranted)
@@ -58,13 +90,21 @@ class ViewController: NSViewController {
     }
 
     @IBAction func buttonPushed(_ sender: Any) {
-        print("button wurde gedrückt")
+        SendEmail.send()
     }
 
         // set first Recipient to selected Contact
     func updateRecipients() {
         let selectedItem = contactTableView.selectedRow
-        recipientOne.stringValue = contacts[selectedItem].familyName + " " + contacts[selectedItem].givenName
+        
+        if(recipientOne.stringValue.isEmpty) {
+            recipientOne.stringValue = contacts[selectedItem].familyName + " " + contacts[selectedItem].givenName
+            deleteRecipientOneOutlet.isHidden = false
+        }
+        else {
+            recipientTwo.stringValue = contacts[selectedItem].familyName + " " + contacts[selectedItem].givenName
+            deleteRecipientTwoOutlet.isHidden = false
+        }
         
     }
     
@@ -123,6 +163,15 @@ class ViewController: NSViewController {
         })
     }
 
+    class SendEmail: NSObject {
+        static func send() {
+            let service = NSSharingService(named: NSSharingServiceNameComposeEmail)!
+            service.recipients = ["marc.bintinger@yahoo.com"]
+            service.subject = "HaveYouMetTest"
+            
+            service.perform(withItems: ["This is an email for auto testing through code."])
+        }
+    }
     
 }
 
@@ -163,6 +212,8 @@ extension ViewController: NSTableViewDataSource {
         return contacts.count
     }
 }
+
+
 
 
 /*
