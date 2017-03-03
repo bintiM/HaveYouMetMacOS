@@ -31,7 +31,7 @@ public class ContactStore {
                         }
                         for container in allContainers {
                             let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey, CNContactImageDataKey] as [Any]
+                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey, CNContactImageDataKey, CNContactThumbnailImageDataKey] as [Any]
                             
                             self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
                             

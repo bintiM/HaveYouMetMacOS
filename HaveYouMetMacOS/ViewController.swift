@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Contacts
 
 class ViewController: NSViewController {
 
@@ -141,45 +142,30 @@ extension ViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn:NSTableColumn?, row: Int) -> NSView? {
         let cellIdentifier = "nameCell"
         
-        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? NSTableCellView {
-            // cell.textField?.stringValue = ContactStore.contactsToShow[row].familyName + " " + ContactStore.contactsToShow[row].givenName
-            
+        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? contactTableCellView {
+           
             let contact = ContactStore.contactsToShow[row]
-            
-            cell.textField?.stringValue = contact.fullname
+            cell.contactNameTextFieldOutlet.stringValue = contact.fullname
             
             if #available(OSX 10.12, *) {
                 if contact.imageDataAvailable {
-                    let image = NSImage(data: contact.imageData!)
-                    cell.imageView?.image = image
-                                    }
+                    cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
+                }
+                else {
+                    cell.contactImageViewOutlet.image = NSImage(byReferencingFile: "dummy.png")
+                }
             } else {
                 if (contact.imageData != nil) {
-                    let image = NSImage(data: contact.imageData!)
-                    cell.imageView?.image = image
-                    imageOutlet.image = image
-                    print("habe image, alt")
+                    cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
+                }
+                else {
+                    cell.contactImageViewOutlet.image = NSImage(byReferencingFile: "dummy.png")
                 }
             }
-            /*
-            if let contactImage = NSImage.init(data: (ContactStore.contacts[row].imageData)!) {
-                cell.imageView?.image = contactImage
-            }
-            */
-            
-            
             return cell
         }
         
-        /*
-         if let birthday = contacts[row].birthday {
-         let formatter = DateFormatter()
-         formatter.dateStyle = DateFormatter.Style.long
-         formatter.timeStyle = .none
-         
-         cell!.detailTextLabel?.text = formatter.string(from: (birthday.date)!)
-         }
-         */
+
         return nil
     }
     

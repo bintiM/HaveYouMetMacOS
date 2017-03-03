@@ -743,30 +743,34 @@
                                                                     <rect key="frame" x="1" y="1" width="225" height="50"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ekv-wP-iCN">
-                                                                            <rect key="frame" x="53" y="17" width="119" height="17"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Hq5-pw-5Re">
-                                                                                <font key="font" metaFont="system"/>
-                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                            </textFieldCell>
-                                                                        </textField>
-                                                                        <imageView identifier="contactImage" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wck-TR-bJt">
-                                                                            <rect key="frame" x="88" y="18" width="48" height="48"/>
+                                                                        <imageView identifier="contactImage" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wck-TR-bJt">
+                                                                            <rect key="frame" x="3" y="1" width="48" height="48"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="48" id="Cs1-rn-fg9"/>
                                                                                 <constraint firstAttribute="height" constant="48" id="caZ-gf-SeM"/>
                                                                             </constraints>
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="0qL-16-qMv"/>
                                                                         </imageView>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ekv-wP-iCN">
+                                                                            <rect key="frame" x="57" y="16" width="119" height="17"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Hq5-pw-5Re">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
                                                                     </subviews>
                                                                     <constraints>
                                                                         <constraint firstItem="ekv-wP-iCN" firstAttribute="centerY" secondItem="V5W-VF-zy3" secondAttribute="centerY" id="3fX-D7-FVn"/>
-                                                                        <constraint firstItem="ekv-wP-iCN" firstAttribute="leading" secondItem="V5W-VF-zy3" secondAttribute="leading" constant="55" id="czt-av-BgO"/>
-                                                                        <constraint firstItem="ekv-wP-iCN" firstAttribute="centerX" secondItem="V5W-VF-zy3" secondAttribute="centerX" id="hpE-j6-p9z"/>
-                                                                        <constraint firstItem="Wck-TR-bJt" firstAttribute="leading" secondItem="V5W-VF-zy3" secondAttribute="leading" id="udL-w0-KuK"/>
+                                                                        <constraint firstItem="Wck-TR-bJt" firstAttribute="centerY" secondItem="ekv-wP-iCN" secondAttribute="centerY" id="CtX-9z-bs9"/>
+                                                                        <constraint firstItem="ekv-wP-iCN" firstAttribute="leading" secondItem="V5W-VF-zy3" secondAttribute="leading" constant="59" id="czt-av-BgO"/>
+                                                                        <constraint firstItem="ekv-wP-iCN" firstAttribute="centerX" secondItem="V5W-VF-zy3" secondAttribute="centerX" constant="4" id="hpE-j6-p9z"/>
+                                                                        <constraint firstItem="Wck-TR-bJt" firstAttribute="leading" secondItem="V5W-VF-zy3" secondAttribute="leading" constant="3" id="udL-w0-KuK"/>
                                                                     </constraints>
                                                                     <connections>
+                                                                        <outlet property="contactImageOutlet" destination="Wck-TR-bJt" id="t9f-Qe-2d9"/>
+                                                                        <outlet property="contactImageViewOutlet" destination="Wck-TR-bJt" id="OZo-k1-9qt"/>
+                                                                        <outlet property="contactNameTextFieldOutlet" destination="ekv-wP-iCN" id="f8p-iJ-Dg4"/>
                                                                         <outlet property="textField" destination="ekv-wP-iCN" id="LEZ-ds-5aI"/>
                                                                     </connections>
                                                                 </tableCellView>
