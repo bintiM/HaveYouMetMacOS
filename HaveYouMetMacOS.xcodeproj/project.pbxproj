@@ -12,6 +12,7 @@
 		2C66B8FC1E6330A600115B39 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66B8FB1E6330A600115B39 /* ViewController.swift */; };
 		2C66B8FE1E6330A600115B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C66B8FD1E6330A600115B39 /* Assets.xcassets */; };
 		2C66B9011E6330A600115B39 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C66B8FF1E6330A600115B39 /* Main.storyboard */; };
+		2CC4042D1E69B447006AE32B /* contactTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4042C1E69B447006AE32B /* contactTableCellView.swift */; };
 		2CFDFD0A1E64AEED00E967BB /* Löschen-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD091E64AEED00E967BB /* Löschen-50.png */; };
 		2CFDFD0D1E64AF6000E967BB /* Löschen Filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD0C1E64AF6000E967BB /* Löschen Filled-50.png */; };
 		2CFDFD101E64B46F00E967BB /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD0F1E64B46F00E967BB /* defaults.plist */; };
@@ -25,6 +26,7 @@
 		2C66B8FD1E6330A600115B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C66B9001E6330A600115B39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C66B9021E6330A600115B39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CC4042C1E69B447006AE32B /* contactTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactTableCellView.swift; sourceTree = "<group>"; };
 		2CFDFD091E64AEED00E967BB /* Löschen-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Löschen-50.png"; sourceTree = "<group>"; };
 		2CFDFD0C1E64AF6000E967BB /* Löschen Filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Löschen Filled-50.png"; sourceTree = "<group>"; };
 		2CFDFD0F1E64B46F00E967BB /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				2CFDFD0B1E64AEFA00E967BB /* icons */,
 				2C66B8F91E6330A600115B39 /* AppDelegate.swift */,
 				2C66B8FB1E6330A600115B39 /* ViewController.swift */,
+				2CC4042C1E69B447006AE32B /* contactTableCellView.swift */,
 				2C04CFEF1E693A0D006664CA /* ContactStore.swift */,
 				2C66B8FD1E6330A600115B39 /* Assets.xcassets */,
 				2C66B8FF1E6330A600115B39 /* Main.storyboard */,
@@ -164,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CC4042D1E69B447006AE32B /* contactTableCellView.swift in Sources */,
 				2C66B8FC1E6330A600115B39 /* ViewController.swift in Sources */,
 				2C66B8FA1E6330A600115B39 /* AppDelegate.swift in Sources */,
 				2C04CFF01E693A0D006664CA /* ContactStore.swift in Sources */,

@@ -31,7 +31,7 @@ public class ContactStore {
                         }
                         for container in allContainers {
                             let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey] as [Any]
+                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey, CNContactImageDataKey] as [Any]
                             
                             self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
                             
@@ -59,5 +59,18 @@ public class ContactStore {
  
 }
 
+extension CNContact {
+    public var fullname: String {
+        get {
+            // just return space if there is a givenname
+            if (givenName.isEmpty) {
+                return familyName
+            }
+            else {
+                return givenName + " " + familyName
+            }
+        }
+    }
+}
 
 

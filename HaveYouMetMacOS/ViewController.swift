@@ -27,6 +27,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
     @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
     
+    @IBOutlet weak var imageOutlet: NSImageView!
     
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         recipientOne.stringValue = ""
@@ -50,7 +51,8 @@ class ViewController: NSViewController {
         
         contactTableView.delegate = self
         contactTableView.dataSource = self
-
+        contactTableView.rowHeight = 50
+        
         self.contactTableView.reloadData()
         
         deleteRecipientOneOutlet.isHidden = true
@@ -75,6 +77,7 @@ class ViewController: NSViewController {
         privateMessageSubject.stringValue = message2title
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.fieldTextDidChange), name: .NSControlTextDidChange, object: nil)
+        
         
 
     }
@@ -139,7 +142,32 @@ extension ViewController: NSTableViewDelegate {
         let cellIdentifier = "nameCell"
         
         if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? NSTableCellView {
-            cell.textField?.stringValue = ContactStore.contactsToShow[row].familyName + " " + ContactStore.contactsToShow[row].givenName
+            // cell.textField?.stringValue = ContactStore.contactsToShow[row].familyName + " " + ContactStore.contactsToShow[row].givenName
+            
+            let contact = ContactStore.contactsToShow[row]
+            
+            cell.textField?.stringValue = contact.fullname
+            
+            if #available(OSX 10.12, *) {
+                if contact.imageDataAvailable {
+                    let image = NSImage(data: contact.imageData!)
+                    cell.imageView?.image = image
+                                    }
+            } else {
+                if (contact.imageData != nil) {
+                    let image = NSImage(data: contact.imageData!)
+                    cell.imageView?.image = image
+                    imageOutlet.image = image
+                    print("habe image, alt")
+                }
+            }
+            /*
+            if let contactImage = NSImage.init(data: (ContactStore.contacts[row].imageData)!) {
+                cell.imageView?.image = contactImage
+            }
+            */
+            
+            
             return cell
         }
         
