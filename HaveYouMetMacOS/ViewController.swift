@@ -74,16 +74,12 @@ class ViewController: NSViewController {
         privateMessageTextView.string = message2
         privateMessageSubject.stringValue = message2title
         
-
-    }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
-    @IBAction func searchNameValueChanged(_ sender: Any) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.fieldTextDidChange), name: .NSControlTextDidChange, object: nil)
         
+
+    }
+
+    func fieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
             // ContactStore.findContactsWithName(name: query)
@@ -94,9 +90,15 @@ class ViewController: NSViewController {
             ContactStore.getContacts()
             self.contactTableView.reloadData()
         }
-        
     }
-
+    
+    override var representedObject: Any? {
+        didSet {
+        // Update the view, if already loaded.
+        }
+    }
+    
+    
     @IBAction func buttonPushed(_ sender: Any) {
         SendEmail.send(mailOne: recipientOne.stringValue, mailTwo: recipientTwo.stringValue, subject: businessMessageSubject.stringValue, message: businessMessageTextView.string!)
     }
