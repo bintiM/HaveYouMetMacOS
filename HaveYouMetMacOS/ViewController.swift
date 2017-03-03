@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Contacts
 
 class ViewController: NSViewController {
 
@@ -29,10 +28,6 @@ class ViewController: NSViewController {
     @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
     
     
-    var store = CNContactStore()
-    var contacts: [CNContact] = []
-    
-    
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         recipientOne.stringValue = ""
         deleteRecipientOneOutlet.isHidden = true
@@ -44,9 +39,19 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ContactStore.getContacts()
+        
+        AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
+            print(accessGranted)
+        })
 
+
+        
         contactTableView.delegate = self
         contactTableView.dataSource = self
+
+        self.contactTableView.reloadData()
         
         deleteRecipientOneOutlet.isHidden = true
         deleteRecipientTwoOutlet.isHidden = true
@@ -69,10 +74,7 @@ class ViewController: NSViewController {
         privateMessageTextView.string = message2
         privateMessageSubject.stringValue = message2title
         
-        AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
-            print(accessGranted)
-        })
-        getContacts()
+
     }
 
     override var representedObject: Any? {
@@ -84,10 +86,13 @@ class ViewController: NSViewController {
         
         let query = searchNameOutlet.stringValue
         if query != "" {
-            findContactsWithName(name: query)
+            // ContactStore.findContactsWithName(name: query)
+            ContactStore.filterContacts(by: query)
+            self.contactTableView.reloadData()
         }
         else {
-            getContacts()
+            ContactStore.getContacts()
+            self.contactTableView.reloadData()
         }
         
     }
@@ -101,70 +106,16 @@ class ViewController: NSViewController {
         let selectedItem = contactTableView.selectedRow
         
         if(recipientOne.stringValue.isEmpty) {
-            recipientOne.stringValue = contacts[selectedItem].familyName + " " + contacts[selectedItem].givenName
+            recipientOne.stringValue = ContactStore.contactsToShow[selectedItem].familyName + " " + ContactStore.contactsToShow[selectedItem].givenName
             deleteRecipientOneOutlet.isHidden = false
         }
         else {
-            recipientTwo.stringValue = contacts[selectedItem].familyName + " " + contacts[selectedItem].givenName
+            recipientTwo.stringValue = ContactStore.contactsToShow[selectedItem].familyName + " " + ContactStore.contactsToShow[selectedItem].givenName
             deleteRecipientTwoOutlet.isHidden = false
         }
         
     }
     
-    //MARK: - contact helper functions//
-
-    func findContactsWithName(name: String) {
-        AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
-            if accessGranted {
-                self.contacts.removeAll(keepingCapacity: false)
-                
-                DispatchQueue.main.async(execute: { () -> Void in
-                    do {
-                        let predicate: NSPredicate = CNContact.predicateForContacts(matchingName: name)
-                        let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey] as [Any]
-                        self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
-                        self.contactTableView.reloadData()
-                    }
-                    catch {
-                        print("Unable to refetch the selected contact.")
-                    }
-                })
-            }
-        })
-    }
-
-    
-    func getContacts() {
-        AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
-            if accessGranted {
-                
-                DispatchQueue.main.async(execute: { () -> Void in
-                    do {
-                        self.contacts.removeAll(keepingCapacity: false)
-                        
-                        // Get all the containers
-                        var allContainers: [CNContainer] = []
-                        do {
-                            allContainers = try self.store.containers(matching: nil)
-                            //allContainers = try contactStore.containersMatchingPredicate(nil)
-                        } catch {
-                            print("Error fetching containers")
-                        }
-                        for container in allContainers {
-                            let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey] as [Any]
-                            self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
-                            
-                        }
-                        self.contactTableView.reloadData()
-                    }
-                    catch {
-                        print("Unable to refetch the selected contact.")
-                    }
-                })
-            }
-        })
-    }
 
     class SendEmail: NSObject {
         static func send(mailOne:String, mailTwo:String, subject:String, message:String) {
@@ -186,7 +137,7 @@ extension ViewController: NSTableViewDelegate {
         let cellIdentifier = "nameCell"
         
         if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? NSTableCellView {
-            cell.textField?.stringValue = contacts[row].familyName + " " + contacts[row].givenName
+            cell.textField?.stringValue = ContactStore.contactsToShow[row].familyName + " " + ContactStore.contactsToShow[row].givenName
             return cell
         }
         
@@ -212,41 +163,11 @@ extension ViewController: NSTableViewDataSource {
 
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return contacts.count
+        return ContactStore.contactsToShow.count
+        // return ContactStore.contacts.count
     }
 }
 
 
 
 
-/*
-extension MainViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // let controller = CNContactViewController(for: contacts[indexPath.row])
-        
-        if(user1Label.text == standardUser1) {
-            user1 = contacts[indexPath.row]
-            user1Label.text = CNContactFormatter.string(from: user1, style: .fullName)
-            
-            if(user2Label.text != standardUser2) {
-                sendButton.isEnabled = true
-            }
-            
-        }
-        else {
-            if(user2Label.text == standardUser2) {
-                user2 = contacts[indexPath.row]
-                user2Label.text = CNContactFormatter.string(from: user2, style: .fullName)
-                
-                if(user1Label.text != standardUser1) {
-                    sendButton.isEnabled = true
-                }
-            }
-        }
-        // controller.contactStore = self.store
-        // controller.allowsEditing = false
-        // self.navigationController?.pushViewController(controller, animated: true)
-    }
-}
- */
