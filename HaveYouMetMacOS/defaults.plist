@@ -44,39 +44,39 @@ Mit besten Grüssen
 	<key>message2</key>
 	<string>Grüezi Herr [name1], lieber [name2]
         
-        Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompliziert in Verbindung bringen, direkt “kurzschliessen”.
+Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompliziert in Verbindung bringen, direkt “kurzschliessen”.
         
-        Zur Erinnerung:
-        Herr [name1] ist…
+Zur Erinnerung:
+Herr [name1] ist…
+
+Xxx [name2] ist…
         
-        Xxx [name2] ist…
+Hier nun die jeweiligen konkreten Adressen:
+Firma
+[fullname1] – Funktion
+Strasse
+PLZ Ort
+Tel. direkt:
+Mobil:
+e-Mail:
+Website:
         
-        Hier nun die jeweiligen konkreten Adressen:
-        Firma
-        [fullname1] – Funktion
-        Strasse
-        PLz Ort
-        Tel. direkt:
-        Mobil:
-        e-Mail:
-        Website:
+Firma
+[fullname2] – Funktion
+Strasse
+PLZ Ort
+Tel. direkt:
+Mobil:
+e-Mail:
+Website:
         
-        Firma
-        [fullname2] – Funktion
-        Strasse
-        PLz Ort
-        Tel. direkt:
-        Mobil:
-        e-Mail:
-        Website:
+@ Herr [name1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [name2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
         
-        @ Herr [name1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [name2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+@ [name2]: darf ich Dich bitten, dass Du in der nächsten Zeit mit [name2] Kontakt aufnimmst, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
         
-        @ [name2]: darf ich Dich bitten, dass Du in der nächsten Zeit mit [name2] Kontakt aufnimmst, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+Vielen Dank - und viel Erfolg beim Netzwerken!
         
-        Vielen Dank - und viel Erfolg beim Netzwerken!
-        
-        Mit besten Grüssen</string>
+Mit besten Grüssen</string>
 	<key>message2title</key>
 	<string>Servus Leute</string>
 </dict>

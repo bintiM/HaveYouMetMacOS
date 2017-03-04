@@ -17,6 +17,8 @@ class contactTableCellView: NSTableCellView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
+        contactImageViewOutlet.layer?.cornerRadius = (contactImageViewOutlet.layer?.frame.width)! / 2
+        
         // Drawing code here.
     }
     

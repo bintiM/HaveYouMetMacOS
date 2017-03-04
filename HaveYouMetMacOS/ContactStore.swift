@@ -31,14 +31,22 @@ public class ContactStore {
                         }
                         for container in allContainers {
                             let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey, CNContactImageDataKey, CNContactThumbnailImageDataKey] as [Any]
+                            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactBirthdayKey, CNContactImageDataKey, CNContactThumbnailImageDataKey, CNContactEmailAddressesKey] as [Any]
                             
                             self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
                             
                             
                         }
-                    contacts.sort(by: {$0.familyName < $1.familyName})
-                    contactsToShow = contacts
+                    
+                        contacts.sort(by: {$0.familyName < $1.familyName})
+                        contactsToShow.removeAll()
+                        
+                        //remove empty names
+                        for contact in contacts {
+                            if !contact.fullname.isEmpty {
+                               contactsToShow.append(contact)
+                            }
+                        }
 
                     }
                     catch {

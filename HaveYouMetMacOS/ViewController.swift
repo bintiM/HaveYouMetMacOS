@@ -11,12 +11,18 @@ import Contacts
 
 class ViewController: NSViewController {
 
+    
     @IBOutlet weak var searchNameOutlet: NSTextField!
     
     @IBOutlet weak var contactTableView: NSTableView!
     
-    @IBOutlet weak var recipientOne: NSTextField!
-    @IBOutlet weak var recipientTwo: NSTextField!
+
+
+    @IBOutlet weak var recipientOneLabelOutlet: NSTextField!
+    @IBOutlet weak var recipientTwoLabelOutlet: NSTextField!
+    @IBOutlet weak var recipientOneImageOutlet: NSImageView!
+    @IBOutlet weak var recipientTwoImageOutlet: NSImageView!
+    @IBOutlet weak var recipientOneMultiEmailadressesOutlet: NSPopUpButton!
     
 
     @IBOutlet var businessMessageTextView: NSTextView!
@@ -28,14 +34,17 @@ class ViewController: NSViewController {
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
     @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
     
-    @IBOutlet weak var imageOutlet: NSImageView!
+    @IBOutlet weak var messageTabViewOutlet: NSTabView!
+    
     
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
-        recipientOne.stringValue = ""
+        recipientOneLabelOutlet.stringValue = Defaults.recipientOne
+        recipientOneMultiEmailadressesOutlet.removeAllItems()
+        recipientOneMultiEmailadressesOutlet.isHidden = true
         deleteRecipientOneOutlet.isHidden = true
     }
     @IBAction func deleteRecipientTwoAction(_ sender: Any) {
-        recipientTwo.stringValue = ""
+        recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
         deleteRecipientTwoOutlet.isHidden = true
     }
     
@@ -43,21 +52,24 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         ContactStore.getContacts()
-        
+       
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             print(accessGranted)
         })
 
-
-        
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
         
         self.contactTableView.reloadData()
         
+        //setup empty recipients
         deleteRecipientOneOutlet.isHidden = true
         deleteRecipientTwoOutlet.isHidden = true
+        recipientOneLabelOutlet.stringValue = Defaults.recipientOne
+        recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
+        recipientOneMultiEmailadressesOutlet.isHidden = true
+        
         
         let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
         
@@ -79,14 +91,16 @@ class ViewController: NSViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.fieldTextDidChange), name: .NSControlTextDidChange, object: nil)
         
+        recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
+        recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
+        recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
+        recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
         
-
     }
 
     func fieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
-            // ContactStore.findContactsWithName(name: query)
             ContactStore.filterContacts(by: query)
             self.contactTableView.reloadData()
         }
@@ -104,19 +118,32 @@ class ViewController: NSViewController {
     
     
     @IBAction func buttonPushed(_ sender: Any) {
-        SendEmail.send(mailOne: recipientOne.stringValue, mailTwo: recipientTwo.stringValue, subject: businessMessageSubject.stringValue, message: businessMessageTextView.string!)
+        SendEmail.send(mailOne: recipientOneLabelOutlet.stringValue, mailTwo: recipientTwoLabelOutlet.stringValue, subject: businessMessageSubject.stringValue, message: businessMessageTextView.string!)
     }
 
         // set first Recipient to selected Contact
     func updateRecipients() {
         let selectedItem = contactTableView.selectedRow
         
-        if(recipientOne.stringValue.isEmpty) {
-            recipientOne.stringValue = ContactStore.contactsToShow[selectedItem].familyName + " " + ContactStore.contactsToShow[selectedItem].givenName
+        if(recipientOneLabelOutlet.stringValue == Defaults.recipientOne) {
+            recipientOneLabelOutlet.stringValue = ContactStore.contactsToShow[selectedItem].fullname
+            
+            let emailadresses = ContactStore.contactsToShow[selectedItem].emailAddresses
+            if emailadresses.count > 0 {
+                recipientOneLabelOutlet.textColor = NSColor.black
+                recipientOneMultiEmailadressesOutlet.removeAllItems()
+                recipientOneMultiEmailadressesOutlet.isHidden = false
+                for email in emailadresses {
+                    recipientOneMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+                }
+            }
+            else {
+                recipientOneLabelOutlet.textColor = NSColor.red
+            }
             deleteRecipientOneOutlet.isHidden = false
         }
         else {
-            recipientTwo.stringValue = ContactStore.contactsToShow[selectedItem].familyName + " " + ContactStore.contactsToShow[selectedItem].givenName
+            recipientTwoLabelOutlet.stringValue = ContactStore.contactsToShow[selectedItem].fullname
             deleteRecipientTwoOutlet.isHidden = false
         }
         
@@ -152,14 +179,15 @@ extension ViewController: NSTableViewDelegate {
                     cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
                 }
                 else {
-                    cell.contactImageViewOutlet.image = NSImage(byReferencingFile: "dummy.png")
+                    cell.contactImageViewOutlet.image = NSImage(named: "placeholder_contact.png")
                 }
             } else {
                 if (contact.imageData != nil) {
                     cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
                 }
                 else {
-                    cell.contactImageViewOutlet.image = NSImage(byReferencingFile: "dummy.png")
+                    cell.contactImageViewOutlet.image = NSImage(named: "placeholder_contact.png")
+                    cell.contactImageViewOutlet.layer?.cornerRadius = (cell.contactImageViewOutlet.layer?.frame.width)! / 2
                 }
             }
             return cell
