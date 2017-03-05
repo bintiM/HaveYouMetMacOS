@@ -3,33 +3,31 @@
 <plist version="1.0">
 <dict>
 	<key>message1</key>
-	<string>Grüezi Herr [name1], lieber [name2]
+	<string>Grüezi Herr [familyname1], lieber [familyname2]
 
 Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompliziert in Verbindung bringen, direkt “kurzschliessen”.
 
 Zur Erinnerung:
-Herr [name1] ist…
+Herr [familyname1] ist…
 
-Xxx [name2] ist…
+Herr [familyname2] ist…
 
 Hier nun die jeweiligen konkreten Adressen:
-Firma
+Firma [organization1]
 [fullname1] – Funktion
-Strasse
-PLz Ort
+[address1]
 Tel. direkt:
-Mobil:
-e-Mail:
-Website:
+Mobil: [phone1]
+e-Mail: [email1]
+Website: [url1]
 
-Firma
+Firma [organization2]
 [fullname2] – Funktion
-Strasse
-PLz Ort
+[address2]
 Tel. direkt:
-Mobil:
-e-Mail:
-Website:
+Mobil: [phone2]
+e-Mail: [email2]
+Website: [url2]
 
 @ Herr [name1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [name2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
 

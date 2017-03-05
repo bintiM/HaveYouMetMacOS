@@ -18,6 +18,10 @@ class windowController: NSWindowController {
         self.window?.titlebarAppearsTransparent = true
         self.window?.isMovableByWindowBackground = true
         
+        // backgroundcolor
+        self.window?.backgroundColor = NSColor.white
+    
+        
     }
 
 }

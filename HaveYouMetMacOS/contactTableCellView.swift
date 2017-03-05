@@ -19,7 +19,6 @@ class contactTableCellView: NSTableCellView {
 
         contactImageViewOutlet.layer?.cornerRadius = (contactImageViewOutlet.layer?.frame.width)! / 2
         
-        // Drawing code here.
     }
     
 }

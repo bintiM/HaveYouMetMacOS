@@ -12,10 +12,13 @@ import Contacts
 class ViewController: NSViewController {
 
     
-    @IBOutlet weak var searchNameOutlet: NSTextField!
+
+    @IBOutlet weak var searchNameOutlet: NSSearchField!
     
     @IBOutlet weak var contactTableView: NSTableView!
     
+    var recipientOne: CNContact = CNContact()
+    var recipientTwo: CNContact = CNContact()
 
 
     @IBOutlet weak var recipientOneLabelOutlet: NSTextField!
@@ -23,40 +26,70 @@ class ViewController: NSViewController {
     @IBOutlet weak var recipientOneImageOutlet: NSImageView!
     @IBOutlet weak var recipientTwoImageOutlet: NSImageView!
     @IBOutlet weak var recipientOneMultiEmailadressesOutlet: NSPopUpButton!
+    @IBOutlet weak var recipientTwoMultiEmailadressesOutlet: NSPopUpButton!
     
 
     @IBOutlet var businessMessageTextView: NSTextView!
     @IBOutlet var privateMessageTextView: NSTextView!
     @IBOutlet weak var businessMessageSubject: NSTextField!
     @IBOutlet weak var privateMessageSubject: NSTextField!
-    
+    var message1:String = ""
     
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
     @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
     
     @IBOutlet weak var messageTabViewOutlet: NSTabView!
+    @IBOutlet weak var composeMailButtonOutlet: NSButton!
     
     
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
+        
+        recipientOne = CNContact()
+        
         recipientOneLabelOutlet.stringValue = Defaults.recipientOne
+        recipientOneLabelOutlet.textColor = NSColor.black
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientOneMultiEmailadressesOutlet.isHidden = true
         deleteRecipientOneOutlet.isHidden = true
+        recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
+        recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
+        
+        //reset message
+        businessMessageTextView.string = message1
+        // reset sendButton
+        updateSendButton()
     }
     @IBAction func deleteRecipientTwoAction(_ sender: Any) {
+        
+        recipientTwo = CNContact()
+        
         recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
+        recipientTwoLabelOutlet.textColor = NSColor.black
+        recipientTwoMultiEmailadressesOutlet.removeAllItems()
+        recipientTwoMultiEmailadressesOutlet.isHidden = true
         deleteRecipientTwoOutlet.isHidden = true
+        recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
+        recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
+        
+        //reset Message
+        businessMessageTextView.string = message1
+
+        // reset sendButton
+        updateSendButton()
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ContactStore.getContacts()
+
        
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             print(accessGranted)
         })
 
+        ContactStore.getContacts()
+        
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
@@ -69,6 +102,7 @@ class ViewController: NSViewController {
         recipientOneLabelOutlet.stringValue = Defaults.recipientOne
         recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
         recipientOneMultiEmailadressesOutlet.isHidden = true
+        recipientTwoMultiEmailadressesOutlet.isHidden = true
         
         
         let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
@@ -79,7 +113,7 @@ class ViewController: NSViewController {
         UserDefaults.standard.register(defaults: standardwerte)
         
         let defaults = UserDefaults.standard
-        let message1 = defaults.object(forKey: "message1") as! String
+        message1 = defaults.object(forKey: "message1") as! String
         let message1title = defaults.object(forKey: "message1title") as! String
         let message2 = defaults.object(forKey: "message2") as! String
         let message2title = defaults.object(forKey: "message2title") as! String
@@ -95,6 +129,11 @@ class ViewController: NSViewController {
         recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
         recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
         recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
+        
+        recipientOneMultiEmailadressesOutlet.removeAllItems()
+        recipientTwoMultiEmailadressesOutlet.removeAllItems()
+     
+        updateSendButton()
         
     }
 
@@ -116,19 +155,35 @@ class ViewController: NSViewController {
         }
     }
     
-    
-    @IBAction func buttonPushed(_ sender: Any) {
-        SendEmail.send(mailOne: recipientOneLabelOutlet.stringValue, mailTwo: recipientTwoLabelOutlet.stringValue, subject: businessMessageSubject.stringValue, message: businessMessageTextView.string!)
+    @IBAction func composeMailAction(_ sender: Any) {
+        
+        let mailadress1 = recipientOneMultiEmailadressesOutlet.selectedItem?.title
+        let mailadress2 = recipientTwoMultiEmailadressesOutlet.selectedItem?.title
+        let mailSubject = businessMessageSubject.stringValue
+        let mailMessage = businessMessageTextView.string!
+        
+        SendEmail.send(mailOne: mailadress1!, mailTwo: mailadress2!, subject: mailSubject, message: mailMessage)
     }
+    
 
         // set first Recipient to selected Contact
     func updateRecipients() {
         let selectedItem = contactTableView.selectedRow
+        let contact = ContactStore.contactsToShow[selectedItem]
         
         if(recipientOneLabelOutlet.stringValue == Defaults.recipientOne) {
-            recipientOneLabelOutlet.stringValue = ContactStore.contactsToShow[selectedItem].fullname
+            recipientOne = contact
             
-            let emailadresses = ContactStore.contactsToShow[selectedItem].emailAddresses
+            
+            
+            recipientOneLabelOutlet.stringValue = contact.fullname
+            if (contact.imageData != nil) {
+                recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
+            }
+            else {
+                recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
+            }
+            let emailadresses = contact.emailAddresses
             if emailadresses.count > 0 {
                 recipientOneLabelOutlet.textColor = NSColor.black
                 recipientOneMultiEmailadressesOutlet.removeAllItems()
@@ -141,14 +196,99 @@ class ViewController: NSViewController {
                 recipientOneLabelOutlet.textColor = NSColor.red
             }
             deleteRecipientOneOutlet.isHidden = false
+            
         }
-        else {
-            recipientTwoLabelOutlet.stringValue = ContactStore.contactsToShow[selectedItem].fullname
+        else if(recipientTwoLabelOutlet.stringValue == Defaults.recipientTwo) {
+            recipientTwo = contact
+            
+            
+            recipientTwoLabelOutlet.stringValue = contact.fullname
+            if (contact.imageData != nil) {
+                recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
+            }
+            else {
+                recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
+            }
+
+            let emailadresses = contact.emailAddresses
+            if emailadresses.count > 0 {
+                recipientTwoLabelOutlet.textColor = NSColor.black
+                recipientTwoMultiEmailadressesOutlet.removeAllItems()
+                recipientTwoMultiEmailadressesOutlet.isHidden = false
+                for email in emailadresses {
+                    recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+                }
+            }
+            else {
+                recipientTwoLabelOutlet.textColor = NSColor.red
+            }
+
             deleteRecipientTwoOutlet.isHidden = false
+            
+ 
         }
+        
+        // update Messagetext with contact Information
+        businessMessageTextView.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+
+        
+        //update status of sendbutton
+        updateSendButton()
         
     }
     
+    // check if sendButton should be active
+    func updateSendButton () {
+        if recipientOneMultiEmailadressesOutlet.itemArray.count > 0 && recipientTwoMultiEmailadressesOutlet.itemArray.count > 0 {
+            composeMailButtonOutlet.isEnabled = true
+        }
+        else {
+            composeMailButtonOutlet.isEnabled = false
+        }
+    }
+    
+    // replace all [name1],.. etc with contact information
+    func processMessage(contact1:CNContact, contact2:CNContact) -> String? {
+        var text = businessMessageTextView.string!
+        
+        //familyname
+        if !contact1.familyName.isEmpty {
+                text = text.replacingOccurrences(of: "[familyname1]", with: contact1.familyName)
+        }
+        if !contact2.familyName.isEmpty {
+            text = text.replacingOccurrences(of: "[familyname2]", with: contact2.familyName)
+        }
+        
+        //selected email
+        if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
+            text = text.replacingOccurrences(of: "[email1]", with: (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!)
+        }
+        if recipientTwoMultiEmailadressesOutlet.selectedItem != nil {
+            text = text.replacingOccurrences(of: "[email2]", with: (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!)
+        }
+        
+        //organization
+        if !contact1.organizationName.isEmpty {
+            text = text.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
+        }
+        if !contact2.organizationName.isEmpty {
+            text = text.replacingOccurrences(of: "[organizationName1]", with: contact2.organizationName)
+        }
+        
+        //adress
+        
+        if let postaladress = contact1.postalAddresses.first {
+            
+            let street = postaladress.value.street
+            let city = postaladress.value.city
+            let postalCode = postaladress.value.postalCode
+            
+            text = text.replacingOccurrences(of: "[address1]", with: "\(street)\n\(postalCode) \(city)")
+        }
+
+        
+        return text
+    }
 
     class SendEmail: NSObject {
         static func send(mailOne:String, mailTwo:String, subject:String, message:String) {

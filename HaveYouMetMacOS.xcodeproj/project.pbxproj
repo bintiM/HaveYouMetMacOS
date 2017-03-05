@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C04CFF01E693A0D006664CA /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04CFEF1E693A0D006664CA /* ContactStore.swift */; };
+		2C5CA9CE1E6B02C9001F269B /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C5CA9CD1E6B02C9001F269B /* delete.png */; };
 		2C66B8FA1E6330A600115B39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66B8F91E6330A600115B39 /* AppDelegate.swift */; };
 		2C66B8FC1E6330A600115B39 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66B8FB1E6330A600115B39 /* ViewController.swift */; };
 		2C66B8FE1E6330A600115B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C66B8FD1E6330A600115B39 /* Assets.xcassets */; };
@@ -16,13 +17,12 @@
 		2C67C2C41E6A9EF40079B9E1 /* defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C67C2C31E6A9EF40079B9E1 /* defaults.swift */; };
 		2CACE98F1E6A0FF200EB97C3 /* placeholder_contact.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CACE98E1E6A0FF200EB97C3 /* placeholder_contact.png */; };
 		2CC4042D1E69B447006AE32B /* contactTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4042C1E69B447006AE32B /* contactTableCellView.swift */; };
-		2CFDFD0A1E64AEED00E967BB /* Löschen-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD091E64AEED00E967BB /* Löschen-50.png */; };
-		2CFDFD0D1E64AF6000E967BB /* Löschen Filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD0C1E64AF6000E967BB /* Löschen Filled-50.png */; };
 		2CFDFD101E64B46F00E967BB /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CFDFD0F1E64B46F00E967BB /* defaults.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2C04CFEF1E693A0D006664CA /* ContactStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
+		2C5CA9CD1E6B02C9001F269B /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		2C66B8F61E6330A600115B39 /* HaveYouMetMacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaveYouMetMacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C66B8F91E6330A600115B39 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C66B8FB1E6330A600115B39 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,8 +33,6 @@
 		2C67C2C31E6A9EF40079B9E1 /* defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = defaults.swift; sourceTree = "<group>"; };
 		2CACE98E1E6A0FF200EB97C3 /* placeholder_contact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder_contact.png; sourceTree = "<group>"; };
 		2CC4042C1E69B447006AE32B /* contactTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactTableCellView.swift; sourceTree = "<group>"; };
-		2CFDFD091E64AEED00E967BB /* Löschen-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Löschen-50.png"; sourceTree = "<group>"; };
-		2CFDFD0C1E64AF6000E967BB /* Löschen Filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Löschen Filled-50.png"; sourceTree = "<group>"; };
 		2CFDFD0F1E64B46F00E967BB /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,9 +83,8 @@
 		2CFDFD0B1E64AEFA00E967BB /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				2CFDFD0C1E64AF6000E967BB /* Löschen Filled-50.png */,
+				2C5CA9CD1E6B02C9001F269B /* delete.png */,
 				2CACE98E1E6A0FF200EB97C3 /* placeholder_contact.png */,
-				2CFDFD091E64AEED00E967BB /* Löschen-50.png */,
 			);
 			name = icons;
 			sourceTree = "<group>";
@@ -165,8 +162,7 @@
 				2C66B8FE1E6330A600115B39 /* Assets.xcassets in Resources */,
 				2C66B9011E6330A600115B39 /* Main.storyboard in Resources */,
 				2CFDFD101E64B46F00E967BB /* defaults.plist in Resources */,
-				2CFDFD0A1E64AEED00E967BB /* Löschen-50.png in Resources */,
-				2CFDFD0D1E64AF6000E967BB /* Löschen Filled-50.png in Resources */,
+				2C5CA9CE1E6B02C9001F269B /* delete.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +290,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SZ3529JGC3;
 				INFOPLIST_FILE = HaveYouMetMacOS/Info.plist;
@@ -308,6 +305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SZ3529JGC3;
 				INFOPLIST_FILE = HaveYouMetMacOS/Info.plist;
