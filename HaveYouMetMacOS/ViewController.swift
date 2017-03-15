@@ -44,38 +44,56 @@ class ViewController: NSViewController {
     
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         
+        //delete data from recipientOne
         recipientOne = CNContact()
         
+        //reset Label of recipients name
         recipientOneLabelOutlet.stringValue = Defaults.recipientOne
         recipientOneLabelOutlet.textColor = NSColor.black
+        
+        //reset Emaildress dropdown list
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientOneMultiEmailadressesOutlet.isHidden = true
+        
+        //hide delete recipient button
         deleteRecipientOneOutlet.isHidden = true
+        
+        //reset recipient to default empty recipent Image
         recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
         recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
         
-        //reset message
+        //reset mail message -> remove recipients name of email-message
         businessMessageTextView.string = message1
-        // reset sendButton
-        updateSendButton()
+        
+        // deactivate sendButton
+        composeMailButtonOutlet.isEnabled = false
     }
+    
     @IBAction func deleteRecipientTwoAction(_ sender: Any) {
         
+        //delete data from recipientTwo
         recipientTwo = CNContact()
         
+        //reset Label of recipients name
         recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
         recipientTwoLabelOutlet.textColor = NSColor.black
+        
+        //reset Emaildress dropdown list
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.isHidden = true
+        
+        //hide delete recipient button
         deleteRecipientTwoOutlet.isHidden = true
+        
+        //reset recipient to default empty recipent Image
         recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
         recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
         
         //reset Message
         businessMessageTextView.string = message1
 
-        // reset sendButton
-        updateSendButton()
+        // deactivate sendButton
+        composeMailButtonOutlet.isEnabled = false
 
     }
     

@@ -14,11 +14,14 @@ class contactTableCellView: NSTableCellView {
     @IBOutlet weak var contactImageViewOutlet: NSImageView!    
     @IBOutlet weak var contactNameTextFieldOutlet: NSTextField!
     
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
         contactImageViewOutlet.layer?.cornerRadius = (contactImageViewOutlet.layer?.frame.width)! / 2
         
     }
+    
+    
     
 }
