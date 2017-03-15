@@ -53,11 +53,19 @@ class ViewController: NSViewController {
     }
     
 
-    @IBOutlet var businessMessageTextView: NSTextView!
-    @IBOutlet var privateMessageTextView: NSTextView!
-    @IBOutlet weak var businessMessageSubject: NSTextField!
-    @IBOutlet weak var privateMessageSubject: NSTextField!
+    //@IBOutlet var businessMessageTextView: NSTextView!
+    //@IBOutlet var privateMessageTextView: NSTextView!
+    //@IBOutlet weak var businessMessageSubject: NSTextField!
+    //@IBOutlet weak var privateMessageSubject: NSTextField!
+    @IBOutlet weak var messageSubjectTextViewOutlet: NSTextField!
+    @IBOutlet var messageTextViewOutlet: NSTextView!
+    
+    
+    
     var message1:String = ""
+    
+    
+    
     
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton! {
         didSet {
@@ -95,7 +103,7 @@ class ViewController: NSViewController {
         recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset mail message -> remove recipients name of email-message
-        businessMessageTextView.string = message1
+        messageTextViewOutlet.string = message1
         
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
@@ -121,7 +129,7 @@ class ViewController: NSViewController {
         recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset Message
-        businessMessageTextView.string = message1
+        messageTextViewOutlet.string = message1
 
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
@@ -132,9 +140,8 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
 
-       
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
-            print(accessGranted)
+            print("Zugriff auf Kontakte möglich " + String(accessGranted))
         })
 
         //initialize ContactStore with available contacts
@@ -156,15 +163,12 @@ class ViewController: NSViewController {
         let defaults = UserDefaults.standard
         message1 = defaults.object(forKey: "message1") as! String
         let message1title = defaults.object(forKey: "message1title") as! String
-        let message2 = defaults.object(forKey: "message2") as! String
-        let message2title = defaults.object(forKey: "message2title") as! String
+
         
-        businessMessageTextView.string = message1
-        businessMessageSubject.stringValue = message1title
-        privateMessageTextView.string = message2
-        privateMessageSubject.stringValue = message2title
+        messageTextViewOutlet.string = message1
+        messageSubjectTextViewOutlet.stringValue = message1title
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.fieldTextDidChange), name: .NSControlTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.searchFieldTextDidChange), name: .NSControlTextDidChange, object: nil)
         
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
@@ -176,7 +180,7 @@ class ViewController: NSViewController {
         recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
     }
 
-    func fieldTextDidChange() {
+    func searchFieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
             ContactStore.filterContacts(by: query)
@@ -198,18 +202,19 @@ class ViewController: NSViewController {
         
         let mailadress1 = recipientOneMultiEmailadressesOutlet.selectedItem?.title
         let mailadress2 = recipientTwoMultiEmailadressesOutlet.selectedItem?.title
-        let mailSubject = businessMessageSubject.stringValue
-        let mailMessage = businessMessageTextView.string!
+        let mailSubject = messageSubjectTextViewOutlet.stringValue
+        let mailMessage = messageTextViewOutlet.string!
         
         SendEmail.send(mailOne: mailadress1!, mailTwo: mailadress2!, subject: mailSubject, message: mailMessage)
     }
     
 
-        // set first Recipient to selected Contact
+    
     func updateRecipients() {
         let selectedItem = contactTableView.selectedRow
         let contact = ContactStore.contactsToShow[selectedItem]
         
+        // set first Recipient to selected Contact
         if(recipientOneLabelOutlet.stringValue == Defaults.recipientOne) {
             recipientOne = contact
             
@@ -268,7 +273,7 @@ class ViewController: NSViewController {
         }
         
         // update Messagetext with contact Information
-        businessMessageTextView.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
 
         
         //update status of sendbutton
@@ -288,7 +293,7 @@ class ViewController: NSViewController {
     
     // replace all [name1],.. etc with contact information
     func processMessage(contact1:CNContact, contact2:CNContact) -> String? {
-        var text = businessMessageTextView.string!
+        var text = messageTextViewOutlet.string!
         
         //familyname
         if !contact1.familyName.isEmpty {
@@ -378,6 +383,8 @@ extension ViewController: NSTableViewDelegate {
     func tableViewSelectionDidChange(_ notification: Notification) {
         updateRecipients()
     }
+    
+    
     
 }
 
