@@ -21,12 +21,36 @@ class ViewController: NSViewController {
     var recipientTwo: CNContact = CNContact()
 
 
-    @IBOutlet weak var recipientOneLabelOutlet: NSTextField!
-    @IBOutlet weak var recipientTwoLabelOutlet: NSTextField!
-    @IBOutlet weak var recipientOneImageOutlet: NSImageView!
-    @IBOutlet weak var recipientTwoImageOutlet: NSImageView!
-    @IBOutlet weak var recipientOneMultiEmailadressesOutlet: NSPopUpButton!
-    @IBOutlet weak var recipientTwoMultiEmailadressesOutlet: NSPopUpButton!
+    @IBOutlet weak var recipientOneLabelOutlet: NSTextField! {
+        didSet {
+                    recipientOneLabelOutlet.stringValue = Defaults.recipientOne
+        }
+    }
+    @IBOutlet weak var recipientTwoLabelOutlet: NSTextField! {
+        didSet {
+                    recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
+        }
+    }
+    @IBOutlet weak var recipientOneImageOutlet: NSImageView! {
+        didSet {
+            recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
+        }
+    }
+    @IBOutlet weak var recipientTwoImageOutlet: NSImageView! {
+        didSet {
+            recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
+        }
+    }
+    @IBOutlet weak var recipientOneMultiEmailadressesOutlet: NSPopUpButton! {
+        didSet {
+            recipientOneMultiEmailadressesOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var recipientTwoMultiEmailadressesOutlet: NSPopUpButton! {
+        didSet {
+        recipientTwoMultiEmailadressesOutlet.isHidden = true
+        }
+    }
     
 
     @IBOutlet var businessMessageTextView: NSTextView!
@@ -35,8 +59,17 @@ class ViewController: NSViewController {
     @IBOutlet weak var privateMessageSubject: NSTextField!
     var message1:String = ""
     
-    @IBOutlet weak var deleteRecipientOneOutlet: NSButton!
-    @IBOutlet weak var deleteRecipientTwoOutlet: NSButton!
+    @IBOutlet weak var deleteRecipientOneOutlet: NSButton! {
+        didSet {
+            deleteRecipientOneOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var deleteRecipientTwoOutlet: NSButton! {
+        didSet {
+            deleteRecipientTwoOutlet.isHidden = true
+        }
+    }
+
     
     @IBOutlet weak var messageTabViewOutlet: NSTabView!
     @IBOutlet weak var composeMailButtonOutlet: NSButton!
@@ -59,8 +92,7 @@ class ViewController: NSViewController {
         deleteRecipientOneOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
-        recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
-        recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
+        recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset mail message -> remove recipients name of email-message
         businessMessageTextView.string = message1
@@ -86,8 +118,7 @@ class ViewController: NSViewController {
         deleteRecipientTwoOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
-        recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
-        recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
+        recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset Message
         businessMessageTextView.string = message1
@@ -106,23 +137,15 @@ class ViewController: NSViewController {
             print(accessGranted)
         })
 
+        //initialize ContactStore with available contacts
         ContactStore.getContacts()
         
+        //set delegate and dataSource of contactTable
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
-        
         self.contactTableView.reloadData()
-        
-        //setup empty recipients
-        deleteRecipientOneOutlet.isHidden = true
-        deleteRecipientTwoOutlet.isHidden = true
-        recipientOneLabelOutlet.stringValue = Defaults.recipientOne
-        recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
-        recipientOneMultiEmailadressesOutlet.isHidden = true
-        recipientTwoMultiEmailadressesOutlet.isHidden = true
-        
-        
+
         let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
         
         let defaultDictionary = NSDictionary(contentsOf: defaultsFile!)
@@ -143,16 +166,14 @@ class ViewController: NSViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.fieldTextDidChange), name: .NSControlTextDidChange, object: nil)
         
-        recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
-        recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
-        recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
-        recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
-        
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
      
         updateSendButton()
         
+        // make placeholder for recipient Image rounded
+        recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
+        recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
     }
 
     func fieldTextDidChange() {
@@ -199,7 +220,7 @@ class ViewController: NSViewController {
                 recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
             }
             else {
-                recipientOneImageOutlet.image = NSImage(named: "placeholder_contact.png")
+                recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
             }
             let emailadresses = contact.emailAddresses
             if emailadresses.count > 0 {
@@ -225,7 +246,7 @@ class ViewController: NSViewController {
                 recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
             }
             else {
-                recipientTwoImageOutlet.image = NSImage(named: "placeholder_contact.png")
+                recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
             }
 
             let emailadresses = contact.emailAddresses
@@ -337,15 +358,14 @@ extension ViewController: NSTableViewDelegate {
                     cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
                 }
                 else {
-                    cell.contactImageViewOutlet.image = NSImage(named: "placeholder_contact.png")
+                    cell.contactImageViewOutlet.image = NSImage(named: Defaults.placeholderImage)
                 }
             } else {
                 if (contact.imageData != nil) {
                     cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
                 }
                 else {
-                    cell.contactImageViewOutlet.image = NSImage(named: "placeholder_contact.png")
-                    cell.contactImageViewOutlet.layer?.cornerRadius = (cell.contactImageViewOutlet.layer?.frame.width)! / 2
+                    cell.contactImageViewOutlet.image = NSImage(named: Defaults.placeholderImage)
                 }
             }
             return cell

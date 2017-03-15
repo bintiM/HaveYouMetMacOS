@@ -12,4 +12,7 @@ import Foundation
 struct Defaults {
     static let recipientOne = "recipient one"
     static let recipientTwo = "recipient two"
+    
+    
+    static let placeholderImage = "placeholder_contact_rounded_45px.png"
 }

@@ -708,7 +708,7 @@
                                             <constraint firstAttribute="width" constant="45" id="fA6-19-rrZ"/>
                                             <constraint firstAttribute="height" constant="45" id="qUO-qz-5AM"/>
                                         </constraints>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vGf-tf-sxZ"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="vGf-tf-sxZ"/>
                                     </imageView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yzP-hg-RIM">
                                         <rect key="frame" x="53" y="0.0" width="225" height="45"/>
@@ -787,7 +787,7 @@
                                             <constraint firstAttribute="height" constant="45" id="8YK-uc-wok"/>
                                             <constraint firstAttribute="width" constant="45" id="xui-hT-TGb"/>
                                         </constraints>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Qjh-Hx-8ED"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="Qjh-Hx-8ED"/>
                                     </imageView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPe-0Z-eZ2">
                                         <rect key="frame" x="53" y="0.0" width="225" height="46"/>
@@ -1028,7 +1028,7 @@
                                                                                 <constraint firstAttribute="width" constant="45" id="Cs1-rn-fg9"/>
                                                                                 <constraint firstAttribute="height" constant="45" id="caZ-gf-SeM"/>
                                                                             </constraints>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="0qL-16-qMv"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="0qL-16-qMv"/>
                                                                         </imageView>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ekv-wP-iCN">
                                                                             <rect key="frame" x="57" y="16" width="131" height="17"/>
