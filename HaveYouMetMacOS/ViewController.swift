@@ -12,6 +12,7 @@ import Contacts
 class ViewController: NSViewController {
 
     
+    @IBOutlet weak var recipientOnetopLayer: RecipientOneDestinationView!
 
     @IBOutlet weak var searchNameOutlet: NSSearchField!
     
@@ -53,10 +54,6 @@ class ViewController: NSViewController {
     }
     
 
-    //@IBOutlet var businessMessageTextView: NSTextView!
-    //@IBOutlet var privateMessageTextView: NSTextView!
-    //@IBOutlet weak var businessMessageSubject: NSTextField!
-    //@IBOutlet weak var privateMessageSubject: NSTextField!
     @IBOutlet weak var messageSubjectTextViewOutlet: NSTextField!
     @IBOutlet var messageTextViewOutlet: NSTextView!
     
@@ -139,7 +136,10 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        // set selft as delegate of recipientOneLayer for Drag&Drop
+        recipientOnetopLayer.delegate = self
+        
+        //get access to contacts
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             print("Zugriff auf Kontakte möglich " + String(accessGranted))
         })
@@ -375,16 +375,21 @@ extension ViewController: NSTableViewDelegate {
             }
             return cell
         }
-        
-
         return nil
     }
+
+   
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+        
+        let data:NSData = NSKeyedArchiver.archivedData(withRootObject: rowIndexes) as NSData
+        let registeredTypes:[String] = [ContactDrag.type]
+        pboard.declareTypes(registeredTypes, owner: self)
+        pboard.setData(data as Data, forType: ContactDrag.type)
     
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        updateRecipients()
+        return true
     }
-    
-    
+
+
     
 }
 
@@ -397,6 +402,36 @@ extension ViewController: NSTableViewDataSource {
     }
 }
 
+extension ViewController: RecipientOneDestinationViewDelegate {
 
+    func processContact(_ indexSet: NSIndexSet) {
 
+        let index = indexSet.firstIndex
+        let contact = ContactStore.contactsToShow[index]
+        recipientOne = contact
+        
+        recipientOneLabelOutlet.stringValue = contact.fullname
+        if (contact.imageData != nil) {
+            recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
+        }
+        else {
+            recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
+        }
+        let emailadresses = contact.emailAddresses
+        if emailadresses.count > 0 {
+            recipientOneLabelOutlet.textColor = NSColor.black
+            recipientOneMultiEmailadressesOutlet.removeAllItems()
+            recipientOneMultiEmailadressesOutlet.isHidden = false
+            for email in emailadresses {
+                recipientOneMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+            }
+        }
+        else {
+            recipientOneLabelOutlet.textColor = NSColor.red
+        }
+        deleteRecipientOneOutlet.isHidden = false
+
+    }
+
+}
 

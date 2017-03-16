@@ -71,7 +71,7 @@ public class ContactStore {
         
         // contactsToShow = contacts.filter { ($0.familyName.contains(name) ||  $0.givenName.contains(name)) }
         contactsToShow = contacts.filter { $0.familyName.lowercased().contains(name.lowercased()) || $0.givenName.lowercased().contains(name.lowercased())}
-       
+     
     }
  
 }

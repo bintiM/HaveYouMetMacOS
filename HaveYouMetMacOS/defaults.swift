@@ -16,3 +16,8 @@ struct Defaults {
     
     static let placeholderImage = "placeholder_contact_rounded_45px.png"
 }
+
+enum ContactDrag {
+    static let type = "mb.HaveYouMetMacOS.ContactAction"
+    static let action = "DragContact"
+}
