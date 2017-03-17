@@ -13,7 +13,11 @@ class ViewController: NSViewController {
 
     
     @IBOutlet weak var recipientOnetopLayer: RecipientOneDestinationView!
+    @IBOutlet weak var recipientOneRoundedRectView: RoundedRectView!
 
+    @IBOutlet weak var recipientTwotopLayer: RecipientTwoDestinationView!
+    @IBOutlet weak var recipientTwoRoundedRectView: RoundedRectView!
+    
     @IBOutlet weak var searchNameOutlet: NSSearchField!
     
     @IBOutlet weak var contactTableView: NSTableView!
@@ -61,9 +65,7 @@ class ViewController: NSViewController {
     
     var message1:String = ""
     
-    
-    
-    
+   
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton! {
         didSet {
             deleteRecipientOneOutlet.isHidden = true
@@ -136,12 +138,13 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // set selft as delegate of recipientOneLayer for Drag&Drop
+        // set self as delegate of recipientOneLayer for Drag&Drop
         recipientOnetopLayer.delegate = self
+        recipientTwotopLayer.delegate = self
         
         //get access to contacts
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
-            print("Zugriff auf Kontakte möglich " + String(accessGranted))
+            NSLog("access to contacts allowed ")
         })
 
         //initialize ContactStore with available contacts
@@ -178,6 +181,10 @@ class ViewController: NSViewController {
         // make placeholder for recipient Image rounded
         recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
         recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
+        
+        //hide highlight for possible drop locations
+        recipientOneRoundedRectView.isHidden = true
+        recipientTwoRoundedRectView.isHidden = true
     }
 
     func searchFieldTextDidChange() {
@@ -334,6 +341,15 @@ class ViewController: NSViewController {
         return text
     }
 
+    func highlightPossibleDropTargets() {
+        if recipientOneLabelOutlet.stringValue  == Defaults.recipientOne {
+            recipientOneRoundedRectView.isHidden = false
+        }
+        if recipientTwoLabelOutlet.stringValue == Defaults.recipientTwo {
+            recipientTwoRoundedRectView.isHidden = false
+        }
+    }
+    
     class SendEmail: NSObject {
         static func send(mailOne:String, mailTwo:String, subject:String, message:String) {
             let service = NSSharingService(named: NSSharingServiceNameComposeEmail)!
@@ -380,6 +396,9 @@ extension ViewController: NSTableViewDelegate {
 
    
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+        NSLog("Drag starts")
+        
+        highlightPossibleDropTargets()
         
         let data:NSData = NSKeyedArchiver.archivedData(withRootObject: rowIndexes) as NSData
         let registeredTypes:[String] = [ContactDrag.type]
@@ -398,13 +417,12 @@ extension ViewController: NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         return ContactStore.contactsToShow.count
-        // return ContactStore.contacts.count
     }
 }
 
 extension ViewController: RecipientOneDestinationViewDelegate {
 
-    func processContact(_ indexSet: NSIndexSet) {
+    func processContactOne(_ indexSet: NSIndexSet) {
 
         let index = indexSet.firstIndex
         let contact = ContactStore.contactsToShow[index]
@@ -427,11 +445,56 @@ extension ViewController: RecipientOneDestinationViewDelegate {
             }
         }
         else {
+            recipientOneMultiEmailadressesOutlet.removeAllItems()
+            recipientOneMultiEmailadressesOutlet.isHidden = true
             recipientOneLabelOutlet.textColor = NSColor.red
         }
         deleteRecipientOneOutlet.isHidden = false
 
+        //hide highlights of recipientFields
+        recipientOneRoundedRectView.isHidden = true
+        recipientTwoRoundedRectView.isHidden = true
+        
     }
 
 }
 
+extension ViewController: RecipientTwoDestinationViewDelegate {
+    
+    func processContactTwo(_ indexSet: NSIndexSet) {
+        
+        let index = indexSet.firstIndex
+        let contact = ContactStore.contactsToShow[index]
+        recipientTwo = contact
+        
+        recipientTwoLabelOutlet.stringValue = contact.fullname
+        if (contact.imageData != nil) {
+            recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
+        }
+        else {
+            recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
+        }
+        let emailadresses = contact.emailAddresses
+        if emailadresses.count > 0 {
+            recipientTwoLabelOutlet.textColor = NSColor.black
+            recipientTwoMultiEmailadressesOutlet.removeAllItems()
+            recipientTwoMultiEmailadressesOutlet.isHidden = false
+            for email in emailadresses {
+                recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+            }
+        }
+        else {
+            recipientTwoMultiEmailadressesOutlet.removeAllItems()
+            recipientTwoMultiEmailadressesOutlet.isHidden = true
+            recipientTwoLabelOutlet.textColor = NSColor.red
+        }
+        deleteRecipientTwoOutlet.isHidden = false
+        
+        //hide highlights of recipientFields
+        recipientOneRoundedRectView.isHidden = true
+        recipientTwoRoundedRectView.isHidden = true
+        
+        
+    }
+    
+}

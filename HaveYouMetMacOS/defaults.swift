@@ -10,9 +10,9 @@ import Foundation
 
 
 struct Defaults {
-    static let recipientOne = "recipient one"
-    static let recipientTwo = "recipient two"
-    
+    static let recipientOne = "Drag Recipient here"
+    static let recipientTwo = "Drag Recipient here"
+    static let radius: CGFloat = 10.0
     
     static let placeholderImage = "placeholder_contact_rounded_45px.png"
 }

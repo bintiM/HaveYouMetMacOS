@@ -9,11 +9,11 @@
 import Cocoa
 import Contacts
 
-protocol RecipientOneDestinationViewDelegate {
-    func processContactOne(_ indexSet: NSIndexSet)
+protocol RecipientTwoDestinationViewDelegate {
+    func processContactTwo(_ indexSet: NSIndexSet)
 }
 
-class RecipientOneDestinationView: NSView {
+class RecipientTwoDestinationView: NSView {
     
     enum Appearance {
         static let lineWidth: CGFloat = 10.0
@@ -23,10 +23,10 @@ class RecipientOneDestinationView: NSView {
             needsDisplay = true
         }
     }
-    var delegate: RecipientOneDestinationViewDelegate?
+    var delegate: RecipientTwoDestinationViewDelegate?
     
     var acceptableTypes: [String] = [ContactDrag.type]
-
+    
     
     override func awakeFromNib() {
         setup()
@@ -70,16 +70,16 @@ class RecipientOneDestinationView: NSView {
         
         isReceivingDrag = false
         let pasteBoard = draggingInfo.draggingPasteboard()
-
+        
         if let types = pasteBoard.types, types.contains(ContactDrag.type) {
             
             let data:NSData = draggingInfo.draggingPasteboard().data(forType: ContactDrag.type)! as NSData
             let rowIndexes:NSIndexSet = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as! NSIndexSet
-
-            delegate?.processContactOne(rowIndexes)
+            
+            delegate?.processContactTwo(rowIndexes)
             return true
         }
-            
+        
         return false
         
     }
