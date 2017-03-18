@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>message1</key>
-	<string>Grüezi Herr [familyname1], lieber [familyname2]
+	<string>Grüezi Herr [familyname1], lieber Herr [familyname2]
 
 Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompliziert in Verbindung bringen, direkt “kurzschliessen”.
 
@@ -13,7 +13,7 @@ Herr [familyname1] ist…
 Herr [familyname2] ist…
 
 Hier nun die jeweiligen konkreten Adressen:
-Firma [organization1]
+Firma [organizationName1]
 [fullname1] – Funktion
 [address1]
 Tel. direkt:
@@ -21,7 +21,7 @@ Mobil: [phone1]
 e-Mail: [email1]
 Website: [url1]
 
-Firma [organization2]
+Firma [organizationName2]
 [fullname2] – Funktion
 [address2]
 Tel. direkt:
@@ -29,9 +29,9 @@ Mobil: [phone2]
 e-Mail: [email2]
 Website: [url2]
 
-@ Herr [name1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [name2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+@ Herr [familyname1]: darf ich Sie bitten, dass Sie in nächster Zeit mit [fullname2]  Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
 
-@ [name2]: darf ich Dich bitten, dass Du in der nächsten Zeit mit [name2] Kontakt aufnimmst, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
+@ Herr [familyname2]: darf ich Dich bitten, dass Du in der nächsten Zeit mit [fullname1] Kontakt aufnimmst, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?
 
 Vielen Dank - und viel Erfolg beim Netzwerken!
 
@@ -47,7 +47,7 @@ Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf diese Weise unkompli
 Zur Erinnerung:
 Herr [name1] ist…
 
-Xxx [name2] ist…
+Herr [name2] ist…
         
 Hier nun die jeweiligen konkreten Adressen:
 Firma

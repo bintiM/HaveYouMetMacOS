@@ -216,7 +216,7 @@ class ViewController: NSViewController {
     }
     
 
-    
+    /*
     func updateRecipients() {
         let selectedItem = contactTableView.selectedRow
         let contact = ContactStore.contactsToShow[selectedItem]
@@ -287,6 +287,7 @@ class ViewController: NSViewController {
         updateSendButton()
         
     }
+ */
     
     // check if sendButton should be active
     func updateSendButton () {
@@ -310,6 +311,14 @@ class ViewController: NSViewController {
             text = text.replacingOccurrences(of: "[familyname2]", with: contact2.familyName)
         }
         
+        //fullname
+        if !contact1.fullname.isEmpty {
+            text = text.replacingOccurrences(of: "[fullname1]", with: contact1.fullname)
+        }
+        if !contact2.fullname.isEmpty {
+            text = text.replacingOccurrences(of: "[fullname2]", with: contact2.fullname)
+        }
+        
         //selected email
         if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
             text = text.replacingOccurrences(of: "[email1]", with: (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!)
@@ -326,17 +335,42 @@ class ViewController: NSViewController {
             text = text.replacingOccurrences(of: "[organizationName1]", with: contact2.organizationName)
         }
         
-        //adress
+        //address
         
-        if let postaladress = contact1.postalAddresses.first {
+        if let postaladdress = contact1.postalAddresses.first {
             
-            let street = postaladress.value.street
-            let city = postaladress.value.city
-            let postalCode = postaladress.value.postalCode
+            let street = postaladdress.value.street
+            let city = postaladdress.value.city
+            let postalCode = postaladdress.value.postalCode
             
             text = text.replacingOccurrences(of: "[address1]", with: "\(street)\n\(postalCode) \(city)")
         }
 
+        if let postaladdress2 = contact2.postalAddresses.first {
+            
+            let street2 = postaladdress2.value.street
+            let city2 = postaladdress2.value.city
+            let postalCode2 = postaladdress2.value.postalCode
+            
+            text = text.replacingOccurrences(of: "[address2]", with: "\(street2)\n\(postalCode2) \(city2)")
+        }
+        
+        //phones
+        if let phoneNumber = contact1.phoneNumbers.first?.value.stringValue {
+            text = text.replacingOccurrences(of: "[phone1]", with: phoneNumber)
+        }
+        if let phoneNumber2 = contact2.phoneNumbers.first?.value.stringValue {
+            text = text.replacingOccurrences(of: "[phone2]", with: phoneNumber2)
+        }
+        
+        //urls
+        if let url1 = contact1.urlAddresses.first?.value {
+            text = text.replacingOccurrences(of: "[url1]", with: url1 as String)
+        }
+        if let url2 = contact2.urlAddresses.first?.value {
+            text = text.replacingOccurrences(of: "[url2]", with: url2 as String)
+        }
+        
         
         return text
     }
@@ -431,9 +465,11 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         recipientOneLabelOutlet.stringValue = contact.fullname
         if (contact.imageData != nil) {
             recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
+            recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
         }
         else {
             recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
+            
         }
         let emailadresses = contact.emailAddresses
         if emailadresses.count > 0 {
@@ -454,6 +490,13 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
+     
+        // update Messagetext with contact Information
+        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+        
+        
+        //update status of sendbutton
+        updateSendButton()
         
     }
 
@@ -470,6 +513,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         recipientTwoLabelOutlet.stringValue = contact.fullname
         if (contact.imageData != nil) {
             recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
+            recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
         }
         else {
             recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
@@ -494,6 +538,12 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
         
+        // update Messagetext with contact Information
+        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+        
+        
+        //update status of sendbutton
+        updateSendButton()
         
     }
     
