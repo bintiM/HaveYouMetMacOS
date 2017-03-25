@@ -9,12 +9,14 @@
 import Foundation
 import Contacts
 
-public class ContactStore {
+@available(OSX 10.11, *)
+public class newContactStore {
+
     static var store = CNContactStore()
-    static var contacts: [CNContact] = []
-    static var contactsToShow:[CNContact] = []
+    static var contacts: [MyCNContact] = []
+    static var contactsToShow:[MyCNContact] = []
     
-    static func getContacts() {
+    static func getContactsCN() {
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             if accessGranted {
                 
@@ -42,12 +44,17 @@ public class ContactStore {
                                                CNContactUrlAddressesKey,
                                                CNContactOrganizationNameKey] as [Any]
                             
-                            self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
+                            let foundContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor])
                             
+                            for contact in foundContacts {
+                               contacts.append(MyCNContact(with: contact))
+                            }
+                            // self.contacts.append(contentsOf: foundContacts as! [MyCNContact])
+                            // self.contacts.append(foundContacts as! [MyCNContact])
                             
                         }
                     
-                        contacts.sort(by: {$0.familyName < $1.familyName})
+                        contacts.sort(by: {$0.surname < $1.surname})
                         contactsToShow.removeAll()
                         
                         //remove empty names
@@ -64,18 +71,34 @@ public class ContactStore {
                 
             }
         })
+        
 
+            
+    }
+    static func checkAccessCN() -> Bool {
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+        
+        switch authorizationStatus {
+        case .authorized:
+            return true
+        case .denied, .notDetermined:
+            return false
+        default:
+            return false
+        }
     }
     
-    static func filterContacts(by name:String) {
+    static func filterContactsCN(by name:String) {
         
         // contactsToShow = contacts.filter { ($0.familyName.contains(name) ||  $0.givenName.contains(name)) }
-        contactsToShow = contacts.filter { $0.familyName.lowercased().contains(name.lowercased()) || $0.givenName.lowercased().contains(name.lowercased())}
+        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
      
     }
  
 }
 
+/*
+@available(OSX 10.11, *)
 extension CNContact {
     public var fullname: String {
         get {
@@ -91,5 +114,186 @@ extension CNContact {
         }
     }
 }
+*/
+
+public protocol Contact {
+    var prename:String {get}
+    var surname:String {get}
+    var fullname:String {get}
+    var image:Data? {get}
+    var imageAvailable:Bool {get}
+    var emails:[String] {get}
+}
+
+@available(OSX 10.11, *)
+public class MyCNContact:  Contact {
+
+    public var _contact: CNContact
+    
+    init(with contact:CNContact) {
+        _contact = contact
+    }
+    
+    public var surname: String {
+        get {
+            return _contact.familyName
+        }
+    }
+
+    public var prename: String {
+        get {
+            return _contact.givenName
+        }
+    }
+
+    public var fullname: String {
+        get {
+            // just return space if there is a givenname
+            if (_contact.givenName.isEmpty) {
+                return _contact.familyName
+            }
+            else {
+                return _contact.givenName + " " + _contact.familyName
+            }
+        }
+    }
+    
+    public var image:Data? {
+        if (_contact.imageData != nil) {
+            return _contact.imageData!
+        }
+        else {
+            return Data()
+        }
+    }
+    
+    public var imageAvailable: Bool {
+        if _contact.imageData != nil {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public var emails: [String] {
+        get {
+            var data = [String]()
+            for email in _contact.emailAddresses {
+                data.append(email.value as String)
+            }
+            return data
+        }
+    }
+    
+}
+
+@available(OSX 10.10, *)
+public class MyContact: Contact {
+    
+    public var fullname:String {
+        get {
+            return "old fullname"
+        }
+    }
+
+    public var surname: String {
+        get {
+            return "old surname"
+        }
+    }
+
+    public var prename: String {
+        get {
+            return "old prename"
+        }
+    }
+    
+    public var image:Data? {
+        get {
+            return Data()
+        }
+    }
+    
+    public var imageAvailable: Bool {
+        return false
+    }
+    
+    public var emails: [String] {
+        get {
+            let data = [String]()
+            return data
+        }
+    }
+    
+}
+
+
+
+protocol CStore {
+    var StoreContacts:[Contact] {get}
+    var StoreContactsToShow:[Contact] {get}
+    static func checkAccess() -> Bool
+    func getContacts()
+    func filterContacts(by name:String)
+}
+
+@available(OSX 10.11, *)
+public class newCStore : newContactStore, CStore {
+    
+    public var StoreContacts: [Contact] {
+        get {
+            return newContactStore.contacts
+        }
+    }
+
+    public var StoreContactsToShow: [Contact] {
+        get {
+            return newContactStore.contactsToShow
+        }
+    }
+
+    public static func checkAccess() -> Bool {
+        return newContactStore.checkAccessCN()
+    }
+    
+    public func getContacts() {
+        newContactStore.getContactsCN()
+    }
+    
+    public func filterContacts(by name: String) {
+        newContactStore.filterContactsCN(by: name)
+    }
+    
+}
+
+@available(OSX 10.10, *)
+public class oldCStore: CStore {
+
+    public static func checkAccess() -> Bool {
+        return true
+    }
+    
+    public var StoreContacts: [Contact] {
+        get {
+            return [Contact]()
+        }
+    }
+    
+    public var StoreContactsToShow: [Contact] {
+        get {
+            return [Contact]()
+        }
+    }
+    
+    public func getContacts() {
+    }
+    
+    public func filterContacts(by name: String) {
+        //
+    }
+   
+}
+
 
 

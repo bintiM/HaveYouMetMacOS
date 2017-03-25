@@ -22,10 +22,11 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var contactTableView: NSTableView!
     
-    var recipientOne: CNContact = CNContact()
-    var recipientTwo: CNContact = CNContact()
+    var recipientOne: Contact!
+    var recipientTwo: Contact!
 
-
+    var contactStore: CStore!
+    
     @IBOutlet weak var recipientOneLabelOutlet: NSTextField! {
         didSet {
                     recipientOneLabelOutlet.stringValue = Defaults.recipientOne
@@ -85,7 +86,8 @@ class ViewController: NSViewController {
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         
         //delete data from recipientOne
-        recipientOne = CNContact()
+        // recipientOne = CNContact()
+        recipientOne = nil
         
         //reset Label of recipients name
         recipientOneLabelOutlet.stringValue = Defaults.recipientOne
@@ -111,7 +113,8 @@ class ViewController: NSViewController {
     @IBAction func deleteRecipientTwoAction(_ sender: Any) {
         
         //delete data from recipientTwo
-        recipientTwo = CNContact()
+        // recipientTwo = CNContact()
+        recipientTwo = nil
         
         //reset Label of recipients name
         recipientTwoLabelOutlet.stringValue = Defaults.recipientTwo
@@ -135,20 +138,32 @@ class ViewController: NSViewController {
 
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if #available(OSX 10.11, *) {
+            contactStore = newCStore()
+        } else {
+            contactStore = oldCStore()
+        }
+
+
         
         // set self as delegate of recipientOneLayer for Drag&Drop
         recipientOnetopLayer.delegate = self
         recipientTwotopLayer.delegate = self
         
         //get access to contacts
-        AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
+        
+        
+        /*AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             NSLog("access to contacts allowed ")
-        })
+        })*/
 
         //initialize ContactStore with available contacts
-        ContactStore.getContacts()
+        contactStore.getContacts()
+        // ContactStore.getContacts()
         
         //set delegate and dataSource of contactTable
         contactTableView.delegate = self
@@ -190,11 +205,11 @@ class ViewController: NSViewController {
     func searchFieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
-            ContactStore.filterContacts(by: query)
+            contactStore.filterContacts(by: query)
             self.contactTableView.reloadData()
         }
         else {
-            ContactStore.getContacts()
+            contactStore.getContacts()
             self.contactTableView.reloadData()
         }
     }
@@ -216,79 +231,6 @@ class ViewController: NSViewController {
     }
     
 
-    /*
-    func updateRecipients() {
-        let selectedItem = contactTableView.selectedRow
-        let contact = ContactStore.contactsToShow[selectedItem]
-        
-        // set first Recipient to selected Contact
-        if(recipientOneLabelOutlet.stringValue == Defaults.recipientOne) {
-            recipientOne = contact
-            
-            
-            
-            recipientOneLabelOutlet.stringValue = contact.fullname
-            if (contact.imageData != nil) {
-                recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
-            }
-            else {
-                recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
-            }
-            let emailadresses = contact.emailAddresses
-            if emailadresses.count > 0 {
-                recipientOneLabelOutlet.textColor = NSColor.black
-                recipientOneMultiEmailadressesOutlet.removeAllItems()
-                recipientOneMultiEmailadressesOutlet.isHidden = false
-                for email in emailadresses {
-                    recipientOneMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
-                }
-            }
-            else {
-                recipientOneLabelOutlet.textColor = NSColor.red
-            }
-            deleteRecipientOneOutlet.isHidden = false
-            
-        }
-        else if(recipientTwoLabelOutlet.stringValue == Defaults.recipientTwo) {
-            recipientTwo = contact
-            
-            
-            recipientTwoLabelOutlet.stringValue = contact.fullname
-            if (contact.imageData != nil) {
-                recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
-            }
-            else {
-                recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
-            }
-
-            let emailadresses = contact.emailAddresses
-            if emailadresses.count > 0 {
-                recipientTwoLabelOutlet.textColor = NSColor.black
-                recipientTwoMultiEmailadressesOutlet.removeAllItems()
-                recipientTwoMultiEmailadressesOutlet.isHidden = false
-                for email in emailadresses {
-                    recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
-                }
-            }
-            else {
-                recipientTwoLabelOutlet.textColor = NSColor.red
-            }
-
-            deleteRecipientTwoOutlet.isHidden = false
-            
- 
-        }
-        
-        // update Messagetext with contact Information
-        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
-
-        
-        //update status of sendbutton
-        updateSendButton()
-        
-    }
- */
-    
     // check if sendButton should be active
     func updateSendButton () {
         if recipientOneMultiEmailadressesOutlet.itemArray.count > 0 && recipientTwoMultiEmailadressesOutlet.itemArray.count > 0 {
@@ -300,15 +242,15 @@ class ViewController: NSViewController {
     }
     
     // replace all [name1],.. etc with contact information
-    func processMessage(contact1:CNContact, contact2:CNContact) -> String? {
+    func processMessage(contact1:Contact, contact2:Contact) -> String? {
         var text = messageTextViewOutlet.string!
         
         //familyname
-        if !contact1.familyName.isEmpty {
-                text = text.replacingOccurrences(of: "[familyname1]", with: contact1.familyName)
+        if !contact1.surname.isEmpty {
+                text = text.replacingOccurrences(of: "[familyname1]", with: contact1.surname)
         }
-        if !contact2.familyName.isEmpty {
-            text = text.replacingOccurrences(of: "[familyname2]", with: contact2.familyName)
+        if !contact2.surname.isEmpty {
+            text = text.replacingOccurrences(of: "[familyname2]", with: contact2.surname)
         }
         
         //fullname
@@ -326,7 +268,7 @@ class ViewController: NSViewController {
         if recipientTwoMultiEmailadressesOutlet.selectedItem != nil {
             text = text.replacingOccurrences(of: "[email2]", with: (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!)
         }
-        
+        /*
         //organization
         if !contact1.organizationName.isEmpty {
             text = text.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
@@ -370,7 +312,7 @@ class ViewController: NSViewController {
         if let url2 = contact2.urlAddresses.first?.value {
             text = text.replacingOccurrences(of: "[url2]", with: url2 as String)
         }
-        
+        */
         
         return text
     }
@@ -405,24 +347,17 @@ extension ViewController: NSTableViewDelegate {
         
         if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? contactTableCellView {
            
-            let contact = ContactStore.contactsToShow[row]
+            let contact = contactStore.StoreContactsToShow[row]
             cell.contactNameTextFieldOutlet.stringValue = contact.fullname
             
-            if #available(OSX 10.12, *) {
-                if contact.imageDataAvailable {
-                    cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
-                }
-                else {
-                    cell.contactImageViewOutlet.image = NSImage(named: Defaults.placeholderImage)
-                }
-            } else {
-                if (contact.imageData != nil) {
-                    cell.contactImageViewOutlet.image = NSImage(data: contact.imageData!)
-                }
-                else {
-                    cell.contactImageViewOutlet.image = NSImage(named: Defaults.placeholderImage)
-                }
+            
+            if contact.imageAvailable {
+                cell.contactImageViewOutlet.image = NSImage(data: contact.image!)
             }
+            else {
+                cell.contactImageViewOutlet.image = NSImage(named: Defaults.placeholderImage)
+            }
+            
             return cell
         }
         return nil
@@ -450,7 +385,7 @@ extension ViewController: NSTableViewDataSource {
 
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return ContactStore.contactsToShow.count
+        return contactStore.StoreContactsToShow.count
     }
 }
 
@@ -459,25 +394,25 @@ extension ViewController: RecipientOneDestinationViewDelegate {
     func processContactOne(_ indexSet: NSIndexSet) {
 
         let index = indexSet.firstIndex
-        let contact = ContactStore.contactsToShow[index]
+        let contact = contactStore.StoreContactsToShow[index]
         recipientOne = contact
         
         recipientOneLabelOutlet.stringValue = contact.fullname
-        if (contact.imageData != nil) {
-            recipientOneImageOutlet.image = NSImage(data: contact.imageData!)
+        if contact.imageAvailable {
+            recipientOneImageOutlet.image = NSImage(data: contact.image!)
             recipientOneImageOutlet.layer?.cornerRadius = (recipientOneImageOutlet.layer?.frame.width)! / 2
         }
         else {
             recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
             
         }
-        let emailadresses = contact.emailAddresses
+        let emailadresses = contact.emails
         if emailadresses.count > 0 {
             recipientOneLabelOutlet.textColor = NSColor.black
             recipientOneMultiEmailadressesOutlet.removeAllItems()
             recipientOneMultiEmailadressesOutlet.isHidden = false
             for email in emailadresses {
-                recipientOneMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+                recipientOneMultiEmailadressesOutlet.addItem(withTitle: email)
             }
         }
         else {
@@ -492,7 +427,10 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         recipientTwoRoundedRectView.isHidden = true
      
         // update Messagetext with contact Information
-        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+        if(recipientOne != nil && recipientTwo != nil) {
+                messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
+        }
+        
         
         
         //update status of sendbutton
@@ -507,24 +445,24 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
     func processContactTwo(_ indexSet: NSIndexSet) {
         
         let index = indexSet.firstIndex
-        let contact = ContactStore.contactsToShow[index]
+        let contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
         
         recipientTwoLabelOutlet.stringValue = contact.fullname
-        if (contact.imageData != nil) {
-            recipientTwoImageOutlet.image = NSImage(data: contact.imageData!)
+        if (contact.image != nil) {
+            recipientTwoImageOutlet.image = NSImage(data: contact.image!)
             recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
         }
         else {
             recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         }
-        let emailadresses = contact.emailAddresses
+        let emailadresses = contact.emails
         if emailadresses.count > 0 {
             recipientTwoLabelOutlet.textColor = NSColor.black
             recipientTwoMultiEmailadressesOutlet.removeAllItems()
             recipientTwoMultiEmailadressesOutlet.isHidden = false
             for email in emailadresses {
-                recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email.value as String)
+                recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email)
             }
         }
         else {
@@ -539,7 +477,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         recipientTwoRoundedRectView.isHidden = true
         
         // update Messagetext with contact Information
-        messageTextViewOutlet.string = processMessage(contact1: recipientOne, contact2: recipientTwo)
+        messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
         
         
         //update status of sendbutton
