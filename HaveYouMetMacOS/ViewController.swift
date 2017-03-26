@@ -82,6 +82,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var messageTabViewOutlet: NSTabView!
     @IBOutlet weak var composeMailButtonOutlet: NSButton!
     
+    @IBOutlet weak var recipientOneDeleteButtonCellOutlet: NSButtonCell!
+    @IBOutlet weak var recipientTwoDeleteButtonCellOutlet: NSButtonCell!
     
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         
@@ -199,6 +201,12 @@ class ViewController: NSViewController {
         //hide highlight for possible drop locations
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
+       
+        //design
+        
+        recipientOneDeleteButtonCellOutlet.highlightsBy = NSCellStyleMask(rawValue: 0)
+        recipientTwoDeleteButtonCellOutlet.highlightsBy = NSCellStyleMask(rawValue: 0)
+       
     }
 
     func searchFieldTextDidChange() {
@@ -436,7 +444,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         recipientTwo = contact
         
         recipientTwoLabelOutlet.stringValue = contact.fullname
-        if (contact.image != nil) {
+        if (contact.imageAvailable) {
             recipientTwoImageOutlet.image = NSImage(data: contact.image!)
             recipientTwoImageOutlet.layer?.cornerRadius = (recipientTwoImageOutlet.layer?.frame.width)! / 2
         }

@@ -780,7 +780,7 @@
                                             </subviews>
                                         </clipView>
                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="0ZJ-Sl-3Gq">
-                                            <rect key="frame" x="1" y="-15" width="0.0" height="15"/>
+                                            <rect key="frame" x="-100" y="-100" width="0.0" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="dhV-3f-6WR">
@@ -1013,10 +1013,10 @@
                                 </constraints>
                             </customView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZK-Jv-lS3" userLabel="message">
-                                <rect key="frame" x="281" y="20" width="578" height="272"/>
+                                <rect key="frame" x="281" y="20" width="578" height="307"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pZA-sM-MBn">
-                                        <rect key="frame" x="0.0" y="250" width="578" height="22"/>
+                                        <rect key="frame" x="0.0" y="285" width="578" height="22"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="jzx-yr-KcX">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1024,16 +1024,16 @@
                                         </textFieldCell>
                                     </textField>
                                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4d-hD-nbA">
-                                        <rect key="frame" x="0.0" y="0.0" width="578" height="242"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="578" height="277"/>
                                         <clipView key="contentView" id="gLP-Xn-sD6">
-                                            <rect key="frame" x="1" y="1" width="561" height="240"/>
+                                            <rect key="frame" x="1" y="1" width="561" height="275"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="QpD-EN-9QM">
-                                                    <rect key="frame" x="0.0" y="0.0" width="561" height="240"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="561" height="275"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <size key="minSize" width="561" height="240"/>
+                                                    <size key="minSize" width="561" height="275"/>
                                                     <size key="maxSize" width="578" height="10000000"/>
                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 </textView>
@@ -1045,7 +1045,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="t7m-45-AwW">
-                                            <rect key="frame" x="562" y="1" width="15" height="240"/>
+                                            <rect key="frame" x="562" y="1" width="15" height="275"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
@@ -1068,7 +1068,7 @@
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="width" secondItem="fJJ-6c-2fm" secondAttribute="width" id="D2a-uM-hb3"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="DR0-H6-emL"/>
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="GT7-dW-zCO"/>
-                            <constraint firstItem="cZK-Jv-lS3" firstAttribute="top" secondItem="kPc-ob-UzE" secondAttribute="bottom" constant="55" id="Nir-vX-Tja"/>
+                            <constraint firstItem="cZK-Jv-lS3" firstAttribute="top" secondItem="kPc-ob-UzE" secondAttribute="bottom" constant="20" id="Nir-vX-Tja"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="top" secondItem="fJJ-6c-2fm" secondAttribute="bottom" constant="8" id="S52-Be-G6c"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="height" secondItem="fJJ-6c-2fm" secondAttribute="height" id="WE1-wS-6qg"/>
                             <constraint firstItem="kNM-Y2-XiA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="erP-ai-r6p"/>
@@ -1080,16 +1080,19 @@
                     </view>
                     <connections>
                         <outlet property="composeMailButtonOutlet" destination="kNM-Y2-XiA" id="xE6-IX-28K"/>
+                        <outlet property="contactScrollViewOutlet" destination="nOx-5k-qIY" id="dDz-Mf-LGP"/>
                         <outlet property="contactTableView" destination="odB-F3-bfI" id="ZQX-TP-ATI"/>
                         <outlet property="deleteRecipientOneOutlet" destination="ZL3-v7-hLH" id="4YU-HN-rTr"/>
                         <outlet property="deleteRecipientTwoOutlet" destination="68V-ge-yFS" id="qrS-Tj-QZY"/>
                         <outlet property="messageSubjectTextViewOutlet" destination="pZA-sM-MBn" id="hlW-3O-Zcg"/>
                         <outlet property="messageTextViewOutlet" destination="QpD-EN-9QM" id="znt-0L-cIQ"/>
+                        <outlet property="recipientOneDeleteButtonCellOutlet" destination="cmg-nV-Clm" id="ihq-Hu-ZRG"/>
                         <outlet property="recipientOneImageOutlet" destination="0HQ-Xb-Tp3" id="twn-bx-8UN"/>
                         <outlet property="recipientOneLabelOutlet" destination="ImM-tl-Rj4" id="Tce-mw-qBH"/>
                         <outlet property="recipientOneMultiEmailadressesOutlet" destination="oHm-WJ-Aqy" id="Ygl-Er-Pe8"/>
                         <outlet property="recipientOneRoundedRectView" destination="TZl-2o-Ljs" id="Icz-Yc-P8F"/>
                         <outlet property="recipientOnetopLayer" destination="jUD-tS-6ZH" id="YQr-zO-QVH"/>
+                        <outlet property="recipientTwoDeleteButtonCellOutlet" destination="kxx-Oc-bsx" id="7TM-bJ-ehJ"/>
                         <outlet property="recipientTwoImageOutlet" destination="TMQ-Ik-yzI" id="pCc-d6-G9Y"/>
                         <outlet property="recipientTwoLabelOutlet" destination="Mhx-LG-9JY" id="7jP-zc-Pkc"/>
                         <outlet property="recipientTwoMultiEmailadressesOutlet" destination="XrM-ej-HeF" id="2UG-nI-7ye"/>
