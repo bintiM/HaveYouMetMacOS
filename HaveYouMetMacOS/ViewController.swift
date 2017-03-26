@@ -142,12 +142,12 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if #available(OSX 10.11, *) {
             contactStore = newCStore()
         } else {
             contactStore = oldCStore()
         }
-
 
         
         // set self as delegate of recipientOneLayer for Drag&Drop
@@ -163,7 +163,6 @@ class ViewController: NSViewController {
 
         //initialize ContactStore with available contacts
         contactStore.getContacts()
-        // ContactStore.getContacts()
         
         //set delegate and dataSource of contactTable
         contactTableView.delegate = self
@@ -268,7 +267,7 @@ class ViewController: NSViewController {
         if recipientTwoMultiEmailadressesOutlet.selectedItem != nil {
             text = text.replacingOccurrences(of: "[email2]", with: (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!)
         }
-        /*
+
         //organization
         if !contact1.organizationName.isEmpty {
             text = text.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
@@ -276,43 +275,31 @@ class ViewController: NSViewController {
         if !contact2.organizationName.isEmpty {
             text = text.replacingOccurrences(of: "[organizationName1]", with: contact2.organizationName)
         }
-        
+
         //address
         
-        if let postaladdress = contact1.postalAddresses.first {
-            
-            let street = postaladdress.value.street
-            let city = postaladdress.value.city
-            let postalCode = postaladdress.value.postalCode
-            
-            text = text.replacingOccurrences(of: "[address1]", with: "\(street)\n\(postalCode) \(city)")
-        }
+        text = text.replacingOccurrences(of: "[address1]", with: "\(contact1.street)\n\(contact1.postalCode) \(contact1.city)")
 
-        if let postaladdress2 = contact2.postalAddresses.first {
-            
-            let street2 = postaladdress2.value.street
-            let city2 = postaladdress2.value.city
-            let postalCode2 = postaladdress2.value.postalCode
-            
-            text = text.replacingOccurrences(of: "[address2]", with: "\(street2)\n\(postalCode2) \(city2)")
-        }
+        text = text.replacingOccurrences(of: "[address2]", with: "\(contact2.street)\n\(contact2.postalCode) \(contact2.city)")
+
         
         //phones
-        if let phoneNumber = contact1.phoneNumbers.first?.value.stringValue {
+        if let phoneNumber = contact1.phone.first {
             text = text.replacingOccurrences(of: "[phone1]", with: phoneNumber)
         }
-        if let phoneNumber2 = contact2.phoneNumbers.first?.value.stringValue {
+        if let phoneNumber2 = contact2.phone.first {
             text = text.replacingOccurrences(of: "[phone2]", with: phoneNumber2)
         }
+
         
         //urls
-        if let url1 = contact1.urlAddresses.first?.value {
-            text = text.replacingOccurrences(of: "[url1]", with: url1 as String)
+        if let url1 = contact1.url.first {
+            text = text.replacingOccurrences(of: "[url1]", with: url1)
         }
-        if let url2 = contact2.urlAddresses.first?.value {
-            text = text.replacingOccurrences(of: "[url2]", with: url2 as String)
+        if let url2 = contact2.url.first {
+            text = text.replacingOccurrences(of: "[url2]", with: url2)
         }
-        */
+
         
         return text
     }
@@ -477,8 +464,9 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         recipientTwoRoundedRectView.isHidden = true
         
         // update Messagetext with contact Information
-        messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
-        
+        if(recipientOne != nil && recipientTwo != nil) {
+            messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
+        }
         
         //update status of sendbutton
         updateSendButton()
