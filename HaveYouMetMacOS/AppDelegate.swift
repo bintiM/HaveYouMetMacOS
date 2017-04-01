@@ -12,7 +12,6 @@ import Contacts
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var store = CNContactStore()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
@@ -22,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    
+    @available(OSX 10.11, *)
     func checkAccessStatus(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         
         let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
@@ -31,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         case .authorized:
             completionHandler(true)
         case .denied, .notDetermined:
-            self.store.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
+            self.store().requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
                 if access {
                     completionHandler(true)
                 } else {
@@ -47,6 +46,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     class func sharedDelegate() -> AppDelegate {
         return NSApplication.shared().delegate as! AppDelegate
+    }
+}
+
+@available(OSX 10.11, *)
+extension AppDelegate {
+    func store() -> CNContactStore {
+        return CNContactStore()
     }
 }
 

@@ -8,13 +8,16 @@
 
 import Foundation
 import Contacts
+import AddressBook
 
-public class ContactStore {
+@available(OSX 10.11, *)
+public class newContactStore {
+
     static var store = CNContactStore()
-    static var contacts: [CNContact] = []
-    static var contactsToShow:[CNContact] = []
+    static var contacts: [MyCNContact] = []
+    static var contactsToShow:[MyCNContact] = []
     
-    static func getContacts() {
+    static func getContactsCN() {
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             if accessGranted {
                 
@@ -42,12 +45,17 @@ public class ContactStore {
                                                CNContactUrlAddressesKey,
                                                CNContactOrganizationNameKey] as [Any]
                             
-                            self.contacts.append(contentsOf: try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor]))
+                            let foundContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor])
                             
+                            for contact in foundContacts {
+                               contacts.append(MyCNContact(with: contact))
+                            }
+                            // self.contacts.append(contentsOf: foundContacts as! [MyCNContact])
+                            // self.contacts.append(foundContacts as! [MyCNContact])
                             
                         }
                     
-                        contacts.sort(by: {$0.familyName < $1.familyName})
+                        contacts.sort(by: {$0.surname < $1.surname})
                         contactsToShow.removeAll()
                         
                         //remove empty names
@@ -64,32 +72,398 @@ public class ContactStore {
                 
             }
         })
+        
 
+            
+    }
+    static func checkAccessCN() -> Bool {
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+        
+        switch authorizationStatus {
+        case .authorized:
+            return true
+        case .denied, .notDetermined:
+            return false
+        default:
+            return false
+        }
     }
     
-    static func filterContacts(by name:String) {
+    static func filterContactsCN(by name:String) {
         
         // contactsToShow = contacts.filter { ($0.familyName.contains(name) ||  $0.givenName.contains(name)) }
-        contactsToShow = contacts.filter { $0.familyName.lowercased().contains(name.lowercased()) || $0.givenName.lowercased().contains(name.lowercased())}
+        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
      
     }
  
 }
 
-extension CNContact {
+
+public protocol Contact {
+    var prename:String {get}
+    var surname:String {get}
+    var fullname:String {get}
+    var image:Data? {get}
+    var imageAvailable:Bool {get}
+    var emails:[String] {get}
+    var street:String {get}
+    var postalCode:String {get}
+    var city:String {get}
+    var phone:[String] {get}
+    var url:[String]{get}
+    var organizationName:String {get}
+}
+
+@available(OSX 10.11, *)
+public class MyCNContact:  Contact {
+
+    public var _contact: CNContact
+    
+    init(with contact:CNContact) {
+        _contact = contact
+    }
+    
+    public var surname: String {
+        get {
+            return _contact.familyName
+        }
+    }
+
+    public var prename: String {
+        get {
+            return _contact.givenName
+        }
+    }
+
     public var fullname: String {
         get {
             // just return space if there is a givenname
-            if (givenName.isEmpty) {
-                return familyName
+            if (_contact.givenName.isEmpty) {
+                return _contact.familyName
             }
             else {
-                return givenName + " " + familyName
+                return _contact.givenName + " " + _contact.familyName
             }
-            
-           // return CNContactFormatter.string(from: this, style: .fullName)
+        }
+    }
+    
+    public var image:Data? {
+        if (_contact.imageData != nil) {
+            return _contact.imageData!
+        }
+        else {
+            return Data()
+        }
+    }
+    
+    public var imageAvailable: Bool {
+        if _contact.imageData != nil {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public var emails: [String] {
+        get {
+            var data = [String]()
+            for email in _contact.emailAddresses {
+                data.append(email.value as String)
+            }
+            return data
+        }
+    }
+    
+    public var street: String {
+        get {
+            if let postaladdress = _contact.postalAddresses.first {
+                return postaladdress.value.street
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var city: String {
+        get {
+            if let postaladdress = _contact.postalAddresses.first {
+                return postaladdress.value.city
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var postalCode: String {
+        get {
+            if let postaladdress = _contact.postalAddresses.first {
+                return postaladdress.value.postalCode
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var phone: [String] {
+        get {
+            var data = [String]()
+            for phone in _contact.phoneNumbers {
+                data.append(phone.value.stringValue)
+            }
+            return data
+        }
+    }
+    public var url: [String] {
+        get {
+            var data = [String]()
+            for url in _contact.urlAddresses {
+                data.append(url.value as String)
+            }
+            return data
+        }
+    }
+    public var organizationName: String {
+        get {
+            return _contact.organizationName
+        }
+    }
+    
+}
+
+
+public class MyContact: Contact {
+    
+    public var _contact: ABPerson
+    
+    init(with contact:ABPerson) {
+        _contact = contact
+    }
+    
+    public var fullname:String {
+        get {
+            if prename.characters.count > 0 {
+                return prename + " " + surname
+            }
+            else {
+                return surname
+            }
+        }
+    }
+
+    public var surname: String {
+        get {
+            if let surname = _contact.value(forKey: kABLastNameProperty) {
+                return surname as! String
+            }
+            else {
+                return String()
+            }
+        }
+    }
+
+    public var prename: String {
+        get {
+            if let prename = _contact.value(forKey: kABFirstNameProperty) {
+                    return  prename as! String
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    
+    public var image:Data? {
+        get {
+            return _contact.imageData()
+        }
+    }
+    
+    public var imageAvailable: Bool {
+        if _contact.imageData() != nil {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public var emails: [String] {
+        get {
+            var emailAdresses = [String]()
+            if let multiValue = _contact.value(forKey: kABEmailProperty) as? ABMultiValue {
+                for i in 0 ..< multiValue.count() {
+                    emailAdresses.append(multiValue.value(at: i) as! String)
+                }
+            }
+            return emailAdresses
+        }
+    }
+
+    public var street: String {
+        get {
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
+                
+                let address = postaladdress.value(at: 0) as! NSDictionary
+                let street = address.value(forKey: "Street") as! String
+                return street
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var city: String {
+        get {
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
+                
+                let address = postaladdress.value(at: 0) as! NSDictionary
+                let street = address.value(forKey: "City") as! String
+                return street
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var postalCode: String {
+        get {
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
+                
+                let address = postaladdress.value(at: 0) as! NSDictionary
+                let street = address.value(forKey: "ZIP") as! String
+                return street
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    public var phone: [String] {
+        get {
+            var phones = [String]()
+            if let multiValue = _contact.value(forKey: kABPhoneProperty) as? ABMultiValue {
+                for i in 0 ..< multiValue.count() {
+                    phones.append(multiValue.value(at: i) as! String)
+                }
+            }
+            return phones
+        }
+    }
+    public var url: [String] {
+        get {
+            var urls = [String]()
+            if let multiValue = _contact.value(forKey: kABURLsProperty) as? ABMultiValue {
+                for i in 0 ..< multiValue.count() {
+                    urls.append(multiValue.value(at: i) as! String)
+                }
+            }
+            return urls
+        }
+    }
+    public var organizationName: String {
+        get {
+            if let orga = _contact.value(forKey: kABOrganizationProperty) {
+                return  orga as! String
+            }
+            else {
+                return String()
+            }
         }
     }
 }
+
+
+
+protocol CStore {
+    var StoreContacts:[Contact] {get}
+    var StoreContactsToShow:[Contact] {get}
+    static func checkAccess() -> Bool
+    func getContacts()
+    func filterContacts(by name:String)
+}
+
+@available(OSX 10.11, *)
+public class newCStore : newContactStore, CStore {
+    
+    public var StoreContacts: [Contact] {
+        get {
+            return newContactStore.contacts
+        }
+    }
+
+    public var StoreContactsToShow: [Contact] {
+        get {
+            return newContactStore.contactsToShow
+        }
+    }
+
+    public static func checkAccess() -> Bool {
+        return newContactStore.checkAccessCN()
+    }
+    
+    public func getContacts() {
+        newContactStore.getContactsCN()
+    }
+    
+    public func filterContacts(by name: String) {
+        newContactStore.filterContactsCN(by: name)
+    }
+    
+}
+
+public class oldCStore: CStore {
+
+    var _StoreContacts = [Contact]()
+    var _StoreContactsToShow = [Contact]()
+    public static func checkAccess() -> Bool {
+        if let AddressBook = ABAddressBook.shared() {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public var StoreContacts: [Contact] {
+        get {
+            return _StoreContacts
+        }
+    }
+    
+    public var StoreContactsToShow: [Contact] {
+        get {
+            return _StoreContactsToShow
+        }
+    }
+    
+    public func getContacts() {
+        
+        if let AddressBook = ABAddressBook.shared(),  let people = AddressBook.people() {
+            for person in people {
+                _StoreContacts.append(MyContact(with: person as! ABPerson))
+            }
+            
+            _StoreContacts.sort(by: {$0.surname < $1.surname})
+            
+            _StoreContactsToShow.removeAll()
+            
+            //remove empty names
+            for contact in _StoreContacts {
+                if !contact.fullname.isEmpty {
+                    _StoreContactsToShow.append(contact)
+                }
+            }
+            
+        }
+        
+    }
+    
+    public func filterContacts(by name: String) {
+        //
+    }
+   
+}
+
 
 
