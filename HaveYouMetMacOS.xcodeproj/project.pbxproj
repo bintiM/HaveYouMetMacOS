@@ -39,6 +39,7 @@
 		2CAB9F161E7A7CE100EE9F8C /* RoundedRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectView.swift; sourceTree = "<group>"; };
 		2CAB9F181E7A818B00EE9F8C /* RecipientOneDestinationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientOneDestinationView.swift; sourceTree = "<group>"; };
 		2CC4042C1E69B447006AE32B /* contactTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactTableCellView.swift; sourceTree = "<group>"; };
+		2CCD92B11E8F738C00ED409A /* HaveYouMetMacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaveYouMetMacOS.entitlements; sourceTree = "<group>"; };
 		2CFDFD0F1E64B46F00E967BB /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +73,7 @@
 		2C66B8F81E6330A600115B39 /* HaveYouMetMacOS */ = {
 			isa = PBXGroup;
 			children = (
+				2CCD92B11E8F738C00ED409A /* HaveYouMetMacOS.entitlements */,
 				2CFDFD0E1E64B45E00E967BB /* Resources */,
 				2CFDFD0B1E64AEFA00E967BB /* icons */,
 				2C66B8F91E6330A600115B39 /* AppDelegate.swift */,
@@ -141,6 +143,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = SZ3529JGC3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -302,6 +309,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HaveYouMetMacOS/HaveYouMetMacOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SZ3529JGC3;
@@ -318,6 +326,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HaveYouMetMacOS/HaveYouMetMacOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = SZ3529JGC3;

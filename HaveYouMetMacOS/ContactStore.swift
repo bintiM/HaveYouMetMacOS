@@ -418,7 +418,6 @@ public class oldCStore: CStore {
     var _StoreContactsToShow = [Contact]()
     public static func checkAccess() -> Bool {
         if let AddressBook = ABAddressBook.shared() {
-            let numberContacts = AddressBook.people().count
             return true
         }
         else {
