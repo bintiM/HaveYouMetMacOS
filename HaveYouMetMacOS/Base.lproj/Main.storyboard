@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1080,7 +1080,6 @@
                     </view>
                     <connections>
                         <outlet property="composeMailButtonOutlet" destination="kNM-Y2-XiA" id="xE6-IX-28K"/>
-                        <outlet property="contactScrollViewOutlet" destination="nOx-5k-qIY" id="dDz-Mf-LGP"/>
                         <outlet property="contactTableView" destination="odB-F3-bfI" id="ZQX-TP-ATI"/>
                         <outlet property="deleteRecipientOneOutlet" destination="ZL3-v7-hLH" id="4YU-HN-rTr"/>
                         <outlet property="deleteRecipientTwoOutlet" destination="68V-ge-yFS" id="qrS-Tj-QZY"/>
