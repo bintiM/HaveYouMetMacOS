@@ -43,7 +43,8 @@ public class newContactStore {
                                                CNContactPostalAddressesKey,
                                                CNContactPhoneNumbersKey,
                                                CNContactUrlAddressesKey,
-                                               CNContactOrganizationNameKey] as [Any]
+                                               CNContactOrganizationNameKey,
+                                               CNContactNamePrefixKey] as [Any]
                             
                             let foundContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor])
                             
@@ -102,6 +103,7 @@ public class newContactStore {
 public protocol Contact {
     var prename:String {get}
     var surname:String {get}
+    var prefix: String {get}
     var fullname:String {get}
     var image:Data? {get}
     var imageAvailable:Bool {get}
@@ -112,6 +114,7 @@ public protocol Contact {
     var phone:[String] {get}
     var url:[String]{get}
     var organizationName:String {get}
+    func getEmptyContact()->Contact
 }
 
 @available(OSX 10.11, *)
@@ -121,6 +124,9 @@ public class MyCNContact:  Contact {
     
     init(with contact:CNContact) {
         _contact = contact
+    }
+    public func getEmptyContact()->Contact {
+        return self
     }
     
     public var surname: String {
@@ -132,6 +138,12 @@ public class MyCNContact:  Contact {
     public var prename: String {
         get {
             return _contact.givenName
+        }
+    }
+    
+    public var prefix:String {
+        get {
+            return _contact.namePrefix
         }
     }
 
@@ -239,6 +251,9 @@ public class MyContact: Contact {
     init(with contact:ABPerson) {
         _contact = contact
     }
+    public func getEmptyContact()->Contact {
+        return self
+    }
     
     public var fullname:String {
         get {
@@ -272,6 +287,18 @@ public class MyContact: Contact {
             }
         }
     }
+    
+    public var prefix: String {
+        get {
+            if let prefix = _contact.value(forKey: kABTitleProperty) {
+                return  prefix as! String
+            }
+            else {
+                return String()
+            }
+        }
+    }
+    
     
     public var image:Data? {
         get {
