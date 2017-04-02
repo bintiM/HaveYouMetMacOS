@@ -1059,6 +1059,34 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="y8f-gH-asp">
+                                <rect key="frame" x="607" y="459" width="62" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="58" id="7kL-GP-oXk"/>
+                                    <constraint firstAttribute="height" constant="14" id="adk-ol-Qiq"/>
+                                </constraints>
+                                <buttonCell key="cell" type="check" title="per du" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="C6v-wo-TIS">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="firstNameBasisCheckboxAction:" target="XfG-lQ-9wD" id="anS-lb-7mR"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="AIa-4T-1NP">
+                                <rect key="frame" x="608" y="376" width="62" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="58" id="uZz-Bm-ZH3"/>
+                                    <constraint firstAttribute="height" constant="14" id="zgY-dU-8Tm"/>
+                                </constraints>
+                                <buttonCell key="cell" type="check" title="per du" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Dzx-7d-v6I">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="firstNameBasisCheckbox2Action:" target="XfG-lQ-9wD" id="fog-5y-gL5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="centerX" secondItem="fJJ-6c-2fm" secondAttribute="centerX" id="542-80-gXA"/>
@@ -1067,14 +1095,18 @@
                             <constraint firstAttribute="bottom" secondItem="cZK-Jv-lS3" secondAttribute="bottom" constant="20" id="ADX-Bk-K6r"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="width" secondItem="fJJ-6c-2fm" secondAttribute="width" id="D2a-uM-hb3"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="DR0-H6-emL"/>
+                            <constraint firstItem="y8f-gH-asp" firstAttribute="centerY" secondItem="jUD-tS-6ZH" secondAttribute="centerY" id="EFH-qJ-qgf"/>
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="GT7-dW-zCO"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="top" secondItem="kPc-ob-UzE" secondAttribute="bottom" constant="20" id="Nir-vX-Tja"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="top" secondItem="fJJ-6c-2fm" secondAttribute="bottom" constant="8" id="S52-Be-G6c"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="height" secondItem="fJJ-6c-2fm" secondAttribute="height" id="WE1-wS-6qg"/>
                             <constraint firstItem="kNM-Y2-XiA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="erP-ai-r6p"/>
+                            <constraint firstItem="AIa-4T-1NP" firstAttribute="leading" secondItem="kPc-ob-UzE" secondAttribute="trailing" constant="9" id="gf1-DZ-yaV"/>
                             <constraint firstAttribute="bottom" secondItem="1rN-JV-SBm" secondAttribute="bottom" id="i8q-b6-y5Y"/>
                             <constraint firstItem="1rN-JV-SBm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="poY-Fv-hqf"/>
                             <constraint firstItem="1rN-JV-SBm" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="qeH-b6-PYF"/>
+                            <constraint firstItem="y8f-gH-asp" firstAttribute="leading" secondItem="fJJ-6c-2fm" secondAttribute="trailing" constant="8" id="sD2-KB-qqr"/>
+                            <constraint firstItem="AIa-4T-1NP" firstAttribute="centerY" secondItem="prN-qe-tRz" secondAttribute="centerY" id="xgF-xt-hKK"/>
                             <constraint firstAttribute="trailing" secondItem="kNM-Y2-XiA" secondAttribute="trailing" constant="27" id="zod-xp-yUb"/>
                         </constraints>
                     </view>
@@ -1083,6 +1115,8 @@
                         <outlet property="contactTableView" destination="odB-F3-bfI" id="ZQX-TP-ATI"/>
                         <outlet property="deleteRecipientOneOutlet" destination="ZL3-v7-hLH" id="4YU-HN-rTr"/>
                         <outlet property="deleteRecipientTwoOutlet" destination="68V-ge-yFS" id="qrS-Tj-QZY"/>
+                        <outlet property="firstNameBasis2CheckboxOutlet" destination="AIa-4T-1NP" id="Zb6-E7-6NH"/>
+                        <outlet property="firstNameBasisCheckboxOutlet" destination="y8f-gH-asp" id="zlm-jn-fMz"/>
                         <outlet property="messageSubjectTextViewOutlet" destination="pZA-sM-MBn" id="hlW-3O-Zcg"/>
                         <outlet property="messageTextViewOutlet" destination="QpD-EN-9QM" id="znt-0L-cIQ"/>
                         <outlet property="recipientOneDeleteButtonCellOutlet" destination="cmg-nV-Clm" id="ihq-Hu-ZRG"/>
@@ -1101,6 +1135,14 @@
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <buttonCell type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6BA-Iy-ivg">
+                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                    <font key="font" metaFont="system"/>
+                </buttonCell>
+                <buttonCell type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Pq-tH-fls">
+                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                    <font key="font" metaFont="system"/>
+                </buttonCell>
             </objects>
             <point key="canvasLocation" x="75" y="845.5"/>
         </scene>
