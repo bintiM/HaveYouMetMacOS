@@ -83,9 +83,29 @@ class ViewController: NSViewController {
             firstNameBasisCheckboxOutlet.isHidden = true
         }
     }
+    @IBOutlet weak var maleRecipientOneOutlet: NSButton! {
+        didSet {
+            maleRecipientOneOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientOneOutlet: NSButton! {
+        didSet {
+            femaleRecipientOneOutlet.isHidden = true
+        }
+    }
     @IBOutlet weak var firstNameBasis2CheckboxOutlet: NSButton!  {
         didSet {
             firstNameBasis2CheckboxOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var maleRecipientTwoOutlet: NSButton! {
+        didSet {
+            maleRecipientTwoOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientTwoOutlet: NSButton! {
+        didSet {
+            femaleRecipientTwoOutlet.isHidden = true
         }
     }
     
@@ -108,8 +128,11 @@ class ViewController: NSViewController {
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientOneMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientOneOutlet.isHidden = true
+        firstNameBasisCheckboxOutlet.isHidden = true
+        maleRecipientOneOutlet.isHidden = true
+        femaleRecipientOneOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
@@ -134,8 +157,11 @@ class ViewController: NSViewController {
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientTwoOutlet.isHidden = true
+        firstNameBasis2CheckboxOutlet.isHidden = true
+        maleRecipientTwoOutlet.isHidden = true
+        femaleRecipientTwoOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
@@ -149,8 +175,16 @@ class ViewController: NSViewController {
     }
     @IBAction func firstNameBasisCheckboxAction(_ sender: Any) {
     }
+    @IBAction func genderRecipientOneAction(_ sender: Any) {
+        NSLog("da male" + String(maleRecipientOneOutlet.state))
+        NSLog("da female" + String(femaleRecipientOneOutlet.state) )
+    }
+
     @IBAction func firstNameBasisCheckbox2Action(_ sender: Any) {
     }
+    @IBAction func genderRecipientTwoAction(_ sender: Any) {
+    }
+
     
     
     override func viewDidLoad() {
@@ -361,11 +395,18 @@ extension ViewController: RecipientOneDestinationViewDelegate {
             recipientOneLabelOutlet.textColor = NSColor.red
         }
         
-        //show delete button
+        //show options
         deleteRecipientOneOutlet.isHidden = false
-
-        // show first name basis
         firstNameBasisCheckboxOutlet.isHidden = false
+        maleRecipientOneOutlet.isHidden = false
+        femaleRecipientOneOutlet.isHidden = false
+
+        if Defaults.femalePrefixes.contains(contact.prefix) {
+            femaleRecipientOneOutlet.state = 1
+        }
+        else if Defaults.malePrefixes.contains(contact.prefix) {
+            maleRecipientOneOutlet.state = 1
+        }
         
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
@@ -428,11 +469,11 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
             recipientTwoLabelOutlet.textColor = NSColor.red
         }
         
-        // show delete Button
+        // show options
         deleteRecipientTwoOutlet.isHidden = false
-        
-        // show first name basis
         firstNameBasis2CheckboxOutlet.isHidden = false
+        maleRecipientTwoOutlet.isHidden = false
+        femaleRecipientTwoOutlet.isHidden = false
         
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true

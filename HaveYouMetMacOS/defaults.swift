@@ -20,6 +20,9 @@ struct Defaults {
     
     static let mailSubject = "Kurzschließ-Mail [fullname1] [organization1] und [fullname2] [organization2]"
     
+    static let femalePrefixes:[String] = ["Frau", "Fr.", "Fr", "Miss", "Misses", "Ms", "Ms.", "Mrs.", "Mrs"]
+    static let malePrefixes:[String] = ["Herr", "Hr.", "Hr", "Mister", "Mr", "Mr."]
+    
 }
 
 enum ContactDrag {
