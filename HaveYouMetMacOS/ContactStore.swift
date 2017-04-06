@@ -104,10 +104,13 @@ public protocol Contact {
     var prename:String {get}
     var surname:String {get}
     var prefix: String {get}
+    var gender:Gender{get set}
+    var firstNameBasis:Bool {get set}
     var fullname:String {get}
     var image:Data? {get}
     var imageAvailable:Bool {get}
     var emails:[String] {get}
+    var selectedEmail:String {get set}
     var street:String {get}
     var postalCode:String {get}
     var city:String {get}
@@ -120,10 +123,16 @@ public protocol Contact {
 @available(OSX 10.11, *)
 public class MyCNContact:  Contact {
 
+    private var _firstNameBasis:Bool
+    private var _selectedEmail:String
+    private var _gender:Gender
     public var _contact: CNContact
     
     init(with contact:CNContact) {
         _contact = contact
+        _firstNameBasis = false
+        _selectedEmail = ""
+        _gender = Gender.male
     }
     public func getEmptyContact()->Contact {
         return self
@@ -144,6 +153,24 @@ public class MyCNContact:  Contact {
     public var prefix:String {
         get {
             return _contact.namePrefix
+        }
+    }
+    
+    public var gender: Gender {
+        get {
+            return _gender;
+        }
+        set {
+            _gender = newValue
+        }
+    }
+    
+    public var firstNameBasis: Bool {
+        get {
+            return _firstNameBasis;
+        }
+        set {
+            _firstNameBasis = newValue
         }
     }
 
@@ -184,6 +211,15 @@ public class MyCNContact:  Contact {
                 data.append(email.value as String)
             }
             return data
+        }
+    }
+    
+    public var selectedEmail: String {
+        get {
+            return _selectedEmail;
+        }
+        set {
+            _selectedEmail = newValue
         }
     }
     
@@ -247,9 +283,15 @@ public class MyCNContact:  Contact {
 public class MyContact: Contact {
     
     public var _contact: ABPerson
+    private var _firstNameBasis:Bool
+    private var _selectedEmail:String
+    private var _gender:Gender
     
     init(with contact:ABPerson) {
         _contact = contact
+        _firstNameBasis = false
+        _selectedEmail = ""
+        _gender = Gender.male
     }
     public func getEmptyContact()->Contact {
         return self
@@ -298,7 +340,23 @@ public class MyContact: Contact {
             }
         }
     }
+    public var gender: Gender {
+        get {
+            return _gender;
+        }
+        set {
+            _gender = newValue
+        }
+    }
     
+    public var firstNameBasis: Bool {
+        get {
+            return _firstNameBasis;
+        }
+        set {
+            _firstNameBasis = newValue
+        }
+    }
     
     public var image:Data? {
         get {
@@ -327,6 +385,15 @@ public class MyContact: Contact {
         }
     }
 
+    public var selectedEmail: String {
+        get {
+            return _selectedEmail;
+        }
+        set {
+            _selectedEmail = newValue
+        }
+    }
+    
     public var street: String {
         get {
             if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {

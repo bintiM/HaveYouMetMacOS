@@ -83,9 +83,29 @@ class ViewController: NSViewController {
             firstNameBasisCheckboxOutlet.isHidden = true
         }
     }
+    @IBOutlet weak var maleRecipientOneOutlet: NSButton! {
+        didSet {
+            maleRecipientOneOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientOneOutlet: NSButton! {
+        didSet {
+            femaleRecipientOneOutlet.isHidden = true
+        }
+    }
     @IBOutlet weak var firstNameBasis2CheckboxOutlet: NSButton!  {
         didSet {
             firstNameBasis2CheckboxOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var maleRecipientTwoOutlet: NSButton! {
+        didSet {
+            maleRecipientTwoOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientTwoOutlet: NSButton! {
+        didSet {
+            femaleRecipientTwoOutlet.isHidden = true
         }
     }
     
@@ -108,14 +128,19 @@ class ViewController: NSViewController {
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientOneMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientOneOutlet.isHidden = true
+        firstNameBasisCheckboxOutlet.isHidden = true
+        maleRecipientOneOutlet.isHidden = true
+        femaleRecipientOneOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset mail message -> remove recipients name of email-message
-        messageTextViewOutlet.string = message1.text.string
+        let mailText = message1.resetMessage()
+        messageTextViewOutlet.updateText(with: mailText)
+        messageSubjectTextViewOutlet.stringValue = Defaults.mailSubject
         
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
@@ -134,22 +159,76 @@ class ViewController: NSViewController {
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientTwoOutlet.isHidden = true
+        firstNameBasis2CheckboxOutlet.isHidden = true
+        maleRecipientTwoOutlet.isHidden = true
+        femaleRecipientTwoOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset Message
-        messageTextViewOutlet.string = message1.text.string
+        let mailText = message1.resetMessage()
+        messageTextViewOutlet.updateText(with: mailText)
+        messageSubjectTextViewOutlet.stringValue = Defaults.mailSubject
 
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
 
     }
     @IBAction func firstNameBasisCheckboxAction(_ sender: Any) {
+        
+        if firstNameBasisCheckboxOutlet.state == 1 {
+            recipientOne.firstNameBasis = true
+        }
+        else {
+            recipientOne.firstNameBasis = false
+        }
+ 
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
     }
+    @IBAction func genderRecipientOneAction(_ sender: Any) {
+        
+        if maleRecipientOneOutlet.state == 1 {
+            recipientOne.gender = Gender.male
+        }
+        else if femaleRecipientOneOutlet.state == 1 {
+            recipientOne.gender = Gender.female
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+
     @IBAction func firstNameBasisCheckbox2Action(_ sender: Any) {
+        
+        if firstNameBasis2CheckboxOutlet.state == 1 {
+            recipientTwo.firstNameBasis = true
+        }
+        else {
+            recipientTwo.firstNameBasis = false
+        }
+        
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+    @IBAction func genderRecipientTwoAction(_ sender: Any) {
+        if maleRecipientTwoOutlet.state == 1 {
+            recipientTwo.gender = Gender.male
+        }
+        else if femaleRecipientTwoOutlet.state == 1 {
+            recipientTwo.gender = Gender.female
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+
+    @IBAction func recipientOneMultiMail(_ sender: Any) {
+        if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
+            recipientOne.selectedEmail = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
+        }
+    }
+    @IBAction func recipientTwoMultiMail(_ sender: Any) {
+        if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
+            recipientTwo.selectedEmail = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
+        }
     }
     
     
@@ -361,11 +440,20 @@ extension ViewController: RecipientOneDestinationViewDelegate {
             recipientOneLabelOutlet.textColor = NSColor.red
         }
         
-        //show delete button
+        //show options
         deleteRecipientOneOutlet.isHidden = false
-
-        // show first name basis
         firstNameBasisCheckboxOutlet.isHidden = false
+        maleRecipientOneOutlet.isHidden = false
+        femaleRecipientOneOutlet.isHidden = false
+
+        if Defaults.femalePrefixes.contains(contact.prefix) {
+            femaleRecipientOneOutlet.state = 1
+        }
+        else if Defaults.malePrefixes.contains(contact.prefix) {
+            maleRecipientOneOutlet.state = 1
+        }
+        
+        firstNameBasisCheckboxOutlet.state = 0
         
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
@@ -374,21 +462,10 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         // update Messagetext with contact Information
 
         if(recipientOne != nil && recipientTwo != nil) {
-            var selectedEmail1 = ""
-            var selectedEmail2 = ""
-            
-            if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
-                selectedEmail1 = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
-            }
-            if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
-                selectedEmail2 = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
-            }
-            let mailText = message1.processMessage(contact1: recipientOne, selectedMail1: selectedEmail1, contact2: recipientTwo, selectedMail2: selectedEmail2)
-            let messageTextLength = NSMakeRange(0, (messageTextViewOutlet.string?.characters.count)!)
-            messageTextViewOutlet.insertText(mailText, replacementRange: messageTextLength)
+            let mailText = message1.generateMessage(contact1: recipientOne, contact2: recipientTwo)
+            messageTextViewOutlet.updateText(with: mailText)
+            messageSubjectTextViewOutlet.stringValue = message1.subject
         }
-        
-        
         
         //update status of sendbutton
         updateSendButton()
@@ -428,30 +505,25 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
             recipientTwoLabelOutlet.textColor = NSColor.red
         }
         
-        // show delete Button
+        // show options
         deleteRecipientTwoOutlet.isHidden = false
-        
-        // show first name basis
         firstNameBasis2CheckboxOutlet.isHidden = false
+        maleRecipientTwoOutlet.isHidden = false
+        femaleRecipientTwoOutlet.isHidden = false
+        
+        firstNameBasis2CheckboxOutlet.state = 0
         
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
         
+        
         // update Messagetext with contact Information
+        
         if(recipientOne != nil && recipientTwo != nil) {
-            var selectedEmail1 = ""
-            var selectedEmail2 = ""
-            
-            if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
-                selectedEmail1 = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
-            }
-            if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
-                selectedEmail2 = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
-            }
-            let mailText = message1.processMessage(contact1: recipientOne, selectedMail1: selectedEmail1, contact2: recipientTwo, selectedMail2: selectedEmail2)
-            let messageTextLength = NSMakeRange(0, (messageTextViewOutlet.string?.characters.count)!)
-            messageTextViewOutlet.insertText(mailText, replacementRange: messageTextLength)
+            let mailText = message1.generateMessage(contact1: recipientOne, contact2: recipientTwo)
+            messageTextViewOutlet.updateText(with: mailText)
+            messageSubjectTextViewOutlet.stringValue = message1.subject
         }
         
         
@@ -460,4 +532,11 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         
     }
     
+}
+
+extension NSTextView {
+    func updateText(with newText:NSMutableAttributedString) {
+        let messageTextLength = NSMakeRange(0, (self.string?.characters.count)!)
+        self.insertText(newText, replacementRange: messageTextLength)
+    }
 }
