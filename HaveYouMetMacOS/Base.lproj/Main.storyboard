@@ -846,6 +846,9 @@
                                                                 </items>
                                                             </menu>
                                                         </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="recipientOneMultiMail:" target="XfG-lQ-9wD" id="d0k-ux-tPN"/>
+                                                        </connections>
                                                     </popUpButton>
                                                 </subviews>
                                                 <constraints>
@@ -952,6 +955,9 @@
                                                                 </items>
                                                             </menu>
                                                         </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="recipientTwoMultiMail:" target="XfG-lQ-9wD" id="dFB-hk-cUH"/>
+                                                        </connections>
                                                     </popUpButton>
                                                 </subviews>
                                                 <constraints>
