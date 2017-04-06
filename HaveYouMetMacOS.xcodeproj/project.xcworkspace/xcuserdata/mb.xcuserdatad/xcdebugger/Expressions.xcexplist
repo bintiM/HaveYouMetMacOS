@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "Message.generateMessage(contact1 : Contact, contact2 : Contact) -&gt; NSMutableAttributedString:Message.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contact1.firstNameBasis">
+            </PersistentString>
+            <PersistentString
+               value = "_html">
+            </PersistentString>
+            <PersistentString
+               value = "contact2.firstNameBasis">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.firstNameBasisCheckboxAction(Any) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "recipientOne.firstNameBasis">
+            </PersistentString>
+            <PersistentString
+               value = "recipientTwo.firstNameBasis">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Message.setFirstNameBasis(contact : Contact, firstNameBasis : Bool, recipientNr : Int) -&gt; ():Message.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_html">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
