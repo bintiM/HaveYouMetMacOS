@@ -77,7 +77,7 @@ public class newContactStore {
 
             
     }
-    static func checkAccessCN() -> Bool {
+    static func checkAccessCN( ) -> Bool {
         let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
         
         switch authorizationStatus {
