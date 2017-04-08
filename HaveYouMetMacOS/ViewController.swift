@@ -108,6 +108,11 @@ class ViewController: NSViewController {
             femaleRecipientTwoOutlet.isHidden = true
         }
     }
+    @IBOutlet weak var activityIndicatorOutlet: NSProgressIndicator! {
+        didSet {
+            activityIndicatorOutlet.isHidden = true
+        }
+    }
     
     @IBOutlet weak var messageTabViewOutlet: NSTabView!
     @IBOutlet weak var composeMailButtonOutlet: NSButton!
@@ -258,14 +263,22 @@ class ViewController: NSViewController {
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
-        // self.contactTableView.reloadData()
+        
+        //set target for double click
+        contactTableView.target = self
+        contactTableView.doubleAction = #selector(contactTableViewDoubleClick(_:))
         
         
         //initialize ContactStore with available contacts
         
         DispatchQueue.global(qos: .userInitiated).async {
+            self.activityIndicatorOutlet.isHidden = false
+            self.activityIndicatorOutlet.startAnimation(self)
             self.contactStore.getContacts()
+            
             DispatchQueue.main.async {
+                self.activityIndicatorOutlet.stopAnimation(self)
+                self.activityIndicatorOutlet.isHidden = true
                 self.contactTableView.reloadData()
             }
         }
@@ -354,6 +367,20 @@ class ViewController: NSViewController {
         }
         if recipientTwoLabelOutlet.stringValue == Defaults.recipientTwo {
             recipientTwoRoundedRectView.isHidden = false
+        }
+    }
+    
+    func contactTableViewDoubleClick(_ sender:AnyObject) {
+        
+        if contactTableView.selectedRow >= 0 {
+            
+            if recipientOne == nil {
+                processContactOne(NSIndexSet(index: contactTableView.selectedRow))
+            }
+            else if recipientTwo == nil {
+                processContactTwo(NSIndexSet(index: contactTableView.selectedRow))
+            }
+            
         }
     }
     

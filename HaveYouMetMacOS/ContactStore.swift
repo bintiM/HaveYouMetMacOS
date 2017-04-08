@@ -62,7 +62,6 @@ public class newContactStore {
                             for existingContact in contacts {
                                 if contact.identifier == existingContact.identifier {
                                     notDuplicate = false
-                                    NSLog("Duplicate found:" + contact.familyName + " with identifier " + contact.identifier)
                                     break
                                 }
                             }
@@ -75,9 +74,9 @@ public class newContactStore {
                     contacts.sort(by: {$0.surname < $1.surname})
                     contactsToShow.removeAll()
                     
-                    //remove empty names
+                    //don't show empty names
                     for contact in contacts {
-                        if !(contact.prename.isEmpty && contact.surname.isEmpty)  {
+                        if !(contact.fullname.isEmpty)  {
                             contactsToShow.append(contact)
                         }
                     }
@@ -88,10 +87,10 @@ public class newContactStore {
                 }
                 
             }
+            else {
+                // TODO no access to contacts pop up
+            }
         })
-        
-
-        
     }
     static func checkAccessCN() -> Bool {
         let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
@@ -107,7 +106,7 @@ public class newContactStore {
     }
     
     static func filterContactsCN(by name:String) {
-        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
+        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased()) || $0.organizationName.lowercased().contains(name.lowercased())}
     }
     
     static func resetContactList() {
@@ -195,13 +194,25 @@ public class MyCNContact:  Contact {
 
     public var fullname: String {
         get {
-            // just return space if there is a givenname
-            if (_contact.givenName.isEmpty) {
+            
+            if _contact.organizationName.contains("Test") {
+                NSLog("Testfirma")
+            }
+            
+            // if given name is empty but familyname ist present
+            if (_contact.givenName.isEmpty && !_contact.familyName.isEmpty) {
                 return _contact.familyName
             }
-            else {
+            else if (!_contact.givenName.isEmpty && _contact.familyName.isEmpty) {
+                return _contact.givenName
+            }
+            else if (!_contact.givenName.isEmpty && !_contact.familyName.isEmpty) { // if both names are available set space between them
                 return _contact.givenName + " " + _contact.familyName
             }
+            else if (_contact.givenName.isEmpty && _contact.familyName.isEmpty && !_contact.organizationName.isEmpty){ // if names are empty but organizationname is available
+                return _contact.organizationName
+            }
+            return ""
         }
     }
     
@@ -322,12 +333,21 @@ public class MyContact: Contact {
     
     public var fullname:String {
         get {
-            if prename.characters.count > 0 {
-                return prename + " " + surname
-            }
-            else {
+            let surname = _contact.value(forKey: kABLastNameProperty) as! String
+            let prename = _contact.value(forKey: kABFirstNameProperty) as! String
+            let organizationName = _contact.value(forKey: kABOrganizationProperty) as! String
+            
+            // if given name is empty but familyname ist present
+            if (prename.isEmpty && !surname.isEmpty) {
                 return surname
             }
+            else if (!prename.isEmpty && !surname.isEmpty) { // if both names are available set space between them
+                return prename + " " + surname
+            }
+            else if (prename.isEmpty && surname.isEmpty && !organizationName.isEmpty){ // if names are empty but organizationname is available
+                return organizationName
+            }
+            return ""
         }
     }
 
@@ -591,7 +611,7 @@ public class oldCStore: CStore {
     }
     
     public func filterContacts(by name: String) {
-        NSLog("old filter not implemented")
+        _StoreContactsToShow = _StoreContacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
     }
    
     
