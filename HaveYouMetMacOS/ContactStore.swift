@@ -21,61 +21,77 @@ public class newContactStore {
         AppDelegate.sharedDelegate().checkAccessStatus(completionHandler: { (accessGranted) -> Void in
             if accessGranted {
                 
-                   do {
-                        self.contacts.removeAll(keepingCapacity: false)
-                        
-                        // Get all the containers
-                        var allContainers: [CNContainer] = []
-                        do {
-                            allContainers = try self.store.containers(matching: nil)
-                            
-                        } catch {
-                            print("Error fetching containers")
-                        }
-                        for container in allContainers {
-                            let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-                            let keysToFetch = [CNContactGivenNameKey,
-                                               CNContactFamilyNameKey,
-                                               CNContactBirthdayKey,
-                                               CNContactImageDataKey,
-                                               CNContactThumbnailImageDataKey,
-                                               CNContactEmailAddressesKey,
-                                               CNContactPostalAddressesKey,
-                                               CNContactPhoneNumbersKey,
-                                               CNContactUrlAddressesKey,
-                                               CNContactOrganizationNameKey,
-                                               CNContactNamePrefixKey] as [Any]
-                            
-                            let foundContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor])
-                            
-                            for contact in foundContacts {
-                               contacts.append(MyCNContact(with: contact))
-                            }
-                            // self.contacts.append(contentsOf: foundContacts as! [MyCNContact])
-                            // self.contacts.append(foundContacts as! [MyCNContact])
-                            
-                        }
+                do {
+                    self.contacts.removeAll(keepingCapacity: false)
                     
-                        contacts.sort(by: {$0.surname < $1.surname})
-                        contactsToShow.removeAll()
+                    // Get all the containers
+                    var allContainers: [CNContainer] = []
+                    do {
+                        allContainers = try self.store.containers(matching: nil)
                         
-                        //remove empty names
-                        for contact in contacts {
-                            if !contact.fullname.isEmpty {
-                               contactsToShow.append(contact)
+                    } catch {
+                        print("Error fetching containers")
+                    }
+                    
+                    for container in allContainers {
+                        NSLog("get Container data from " + container.name)
+                    }
+                    
+                    
+                    for container in allContainers {
+
+                        let predicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
+                        let keysToFetch = [CNContactGivenNameKey,
+                                           CNContactFamilyNameKey,
+                                           CNContactBirthdayKey,
+                                           CNContactImageDataKey,
+                                           CNContactThumbnailImageDataKey,
+                                           CNContactEmailAddressesKey,
+                                           CNContactPostalAddressesKey,
+                                           CNContactPhoneNumbersKey,
+                                           CNContactUrlAddressesKey,
+                                           CNContactOrganizationNameKey,
+                                           CNContactNamePrefixKey] as [Any]
+                        
+                        let foundContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch:keysToFetch as! [CNKeyDescriptor])
+                        
+                        for contact in foundContacts {
+
+                            //check if contact already exists
+                            var notDuplicate = true
+                            for existingContact in contacts {
+                                if contact.identifier == existingContact.identifier {
+                                    notDuplicate = false
+                                    NSLog("Duplicate found:" + contact.familyName + " with identifier " + contact.identifier)
+                                    break
+                                }
+                            }
+                            if notDuplicate {
+                                contacts.append(MyCNContact(with: contact))
                             }
                         }
-
                     }
-                    catch {
-                        print("Unable to refetch the selected contact.")
+                    
+                    contacts.sort(by: {$0.surname < $1.surname})
+                    contactsToShow.removeAll()
+                    
+                    //remove empty names
+                    for contact in contacts {
+                        if !(contact.prename.isEmpty && contact.surname.isEmpty)  {
+                            contactsToShow.append(contact)
+                        }
                     }
+                    
+                }
+                catch {
+                    print("Unable to refetch the selected contact.")
+                }
                 
             }
         })
         
 
-            
+        
     }
     static func checkAccessCN() -> Bool {
         let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
@@ -91,10 +107,12 @@ public class newContactStore {
     }
     
     static func filterContactsCN(by name:String) {
-        
-        // contactsToShow = contacts.filter { ($0.familyName.contains(name) ||  $0.givenName.contains(name)) }
         contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
-     
+    }
+    
+    static func resetContactList() {
+        contactsToShow.removeAll()
+        contactsToShow = contacts
     }
  
 }
@@ -118,6 +136,7 @@ public protocol Contact {
     var url:[String]{get}
     var organizationName:String {get}
     func getEmptyContact()->Contact
+    var identifier:String {get}
 }
 
 @available(OSX 10.11, *)
@@ -276,7 +295,11 @@ public class MyCNContact:  Contact {
             return _contact.organizationName
         }
     }
-    
+    public var identifier: String {
+        get {
+            return _contact.identifier
+        }
+    }
 }
 
 
@@ -465,6 +488,12 @@ public class MyContact: Contact {
             }
         }
     }
+    public var identifier: String {
+        get {
+            // TODO return unique identifier
+            return ""
+        }
+    }
 }
 
 
@@ -475,6 +504,7 @@ protocol CStore {
     static func checkAccess() -> Bool
     func getContacts()
     func filterContacts(by name:String)
+    func resetContactList()
 }
 
 @available(OSX 10.11, *)
@@ -504,6 +534,9 @@ public class newCStore : newContactStore, CStore {
         newContactStore.filterContactsCN(by: name)
     }
     
+    public func resetContactList() {
+        newContactStore.resetContactList()
+    }
 }
 
 public class oldCStore: CStore {
@@ -511,10 +544,14 @@ public class oldCStore: CStore {
     var _StoreContacts = [Contact]()
     var _StoreContactsToShow = [Contact]()
     public static func checkAccess() -> Bool {
-        if let AddressBook = ABAddressBook.shared() {
+        
+        let AddressBook = ABAddressBook.shared()
+        
+        if AddressBook != nil {
             return true
         }
         else {
+            print("Access to Addressbook denied")
             return false
         }
     }
@@ -554,9 +591,14 @@ public class oldCStore: CStore {
     }
     
     public func filterContacts(by name: String) {
-        //
+        NSLog("old filter not implemented")
     }
    
+    
+    public func resetContactList() {
+        _StoreContactsToShow.removeAll()
+        _StoreContactsToShow = _StoreContacts
+    }
 }
 
 

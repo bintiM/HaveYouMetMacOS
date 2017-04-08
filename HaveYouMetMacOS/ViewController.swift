@@ -254,14 +254,26 @@ class ViewController: NSViewController {
             NSLog("access to contacts allowed ")
         })*/
 
-        //initialize ContactStore with available contacts
-        contactStore.getContacts()
-        
         //set delegate and dataSource of contactTable
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
-        self.contactTableView.reloadData()
+        // self.contactTableView.reloadData()
+        
+        
+        //initialize ContactStore with available contacts
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.contactStore.getContacts()
+            DispatchQueue.main.async {
+                self.contactTableView.reloadData()
+            }
+        }
+
+        
+
+        
+
 
         /*
         let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
@@ -304,7 +316,7 @@ class ViewController: NSViewController {
             self.contactTableView.reloadData()
         }
         else {
-            contactStore.getContacts()
+            contactStore.resetContactList()
             self.contactTableView.reloadData()
         }
     }
@@ -384,7 +396,7 @@ extension ViewController: NSTableViewDelegate {
 
    
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        NSLog("Drag starts")
+
         
         highlightPossibleDropTargets()
         
