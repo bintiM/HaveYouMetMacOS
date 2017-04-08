@@ -15,7 +15,11 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "199"
             endingLineNumber = "199"
+<<<<<<< HEAD
             landmarkName = "imageAvailable"
+=======
+            landmarkName = "fullname"
+>>>>>>> ContactList_Performance
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

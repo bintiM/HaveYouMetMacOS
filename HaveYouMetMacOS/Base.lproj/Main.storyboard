@@ -1163,6 +1163,13 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Un2-P8-ipp">
+                                <rect key="frame" x="248" y="555" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="IWp-c3-wh3"/>
+                                    <constraint firstAttribute="height" constant="16" id="bwa-F3-BeU"/>
+                                </constraints>
+                            </progressIndicator>
                         </subviews>
                         <constraints>
                             <constraint firstItem="5u4-77-EaD" firstAttribute="centerY" secondItem="prN-qe-tRz" secondAttribute="centerY" id="0by-Q9-0fM"/>
@@ -1171,11 +1178,13 @@
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="8rK-SU-1MM"/>
                             <constraint firstAttribute="bottom" secondItem="cZK-Jv-lS3" secondAttribute="bottom" constant="20" id="ADX-Bk-K6r"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="width" secondItem="fJJ-6c-2fm" secondAttribute="width" id="D2a-uM-hb3"/>
+                            <constraint firstItem="Un2-P8-ipp" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="8" id="DGm-p9-aXx"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="DR0-H6-emL"/>
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="GT7-dW-zCO"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="top" secondItem="kPc-ob-UzE" secondAttribute="bottom" constant="20" id="Nir-vX-Tja"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="top" secondItem="fJJ-6c-2fm" secondAttribute="bottom" constant="8" id="S52-Be-G6c"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="height" secondItem="fJJ-6c-2fm" secondAttribute="height" id="WE1-wS-6qg"/>
+                            <constraint firstItem="Un2-P8-ipp" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="cW4-X7-SPk"/>
                             <constraint firstItem="kNM-Y2-XiA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="erP-ai-r6p"/>
                             <constraint firstItem="j9R-SQ-I63" firstAttribute="leading" secondItem="fJJ-6c-2fm" secondAttribute="trailing" constant="8" id="f5y-5K-wXf"/>
                             <constraint firstAttribute="bottom" secondItem="1rN-JV-SBm" secondAttribute="bottom" id="i8q-b6-y5Y"/>
@@ -1187,6 +1196,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorOutlet" destination="Un2-P8-ipp" id="DqA-yk-ZCS"/>
                         <outlet property="composeMailButtonOutlet" destination="kNM-Y2-XiA" id="xE6-IX-28K"/>
                         <outlet property="contactTableView" destination="odB-F3-bfI" id="ZQX-TP-ATI"/>
                         <outlet property="deleteRecipientOneOutlet" destination="ZL3-v7-hLH" id="4YU-HN-rTr"/>
