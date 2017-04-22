@@ -195,10 +195,6 @@ public class MyCNContact:  Contact {
     public var fullname: String {
         get {
             
-            if _contact.organizationName.contains("Test") {
-                NSLog("Testfirma")
-            }
-            
             // if given name is empty but familyname ist present
             if (_contact.givenName.isEmpty && !_contact.familyName.isEmpty) {
                 return _contact.familyName

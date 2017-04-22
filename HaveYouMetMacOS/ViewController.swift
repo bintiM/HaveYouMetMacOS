@@ -25,6 +25,11 @@ class ViewController: NSViewController {
     var recipientOne: Contact!
     var recipientTwo: Contact!
 
+    // tab view controllers
+    private var recipient1TabView: recipient1TabView?
+    private var recipient2TabView: recipient2TabView?
+    
+    
     var contactStore: CStore!
     
     @IBOutlet weak var recipientOneLabelOutlet: NSTextField! {
@@ -181,6 +186,7 @@ class ViewController: NSViewController {
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
 
+ 
     }
     @IBAction func firstNameBasisCheckboxAction(_ sender: Any) {
         
@@ -236,6 +242,9 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func showTabsAction(_ sender: Any) {
+        recipient1TabView?.selectedRecipient = recipientOne
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -283,8 +292,15 @@ class ViewController: NSViewController {
             }
         }
 
+        // get recipient Tab Views
         
-
+        /*
+        for childViewController in self.childViewControllers {
+            if let recipient1TabController = childViewController as? recipient1TabView {
+                recipient1TabController.buttonOutlet.title = "Test"
+            }
+        }
+*/
         
 
 
@@ -322,6 +338,39 @@ class ViewController: NSViewController {
        
     }
 
+
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
+        
+        for controller in tabViewController.childViewControllers {
+            if let controller = controller as? recipient1TabView {
+                
+                recipient1TabView = controller
+                recipient1TabView?.selectedRecipient = recipientOne
+                
+                
+                //controller.testLabel.stringValue = "Hurra"
+                //overviewController?.selectedProdukt = selectedProduct
+            }
+            else if let controller = controller as? recipient2TabView {
+                recipient2TabView = controller
+                recipient2TabView?.selectedRecipient = recipientTwo
+            }
+        }
+        
+    }
+    
+    func setTabViewData(for recipientNr:Int, contact:Contact) {
+        if recipientNr == 1 {
+            recipient1TabView?.selectedRecipient = recipientOne
+        }
+        else if recipientNr == 2 {
+            recipient2TabView?.selectedRecipient = recipientTwo
+        }
+    }
+    
+    
     func searchFieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
@@ -383,6 +432,9 @@ class ViewController: NSViewController {
             
         }
     }
+    
+
+    
     
     class SendEmail: NSObject {
         static func send(mailOne:String, mailTwo:String, subject:String, message:NSAttributedString) {
@@ -455,6 +507,10 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         let contact = contactStore.StoreContactsToShow[index]
         recipientOne = contact
         
+        // set TabView Data
+        setTabViewData(for: 1, contact: contact)
+        
+        
         recipientOneLabelOutlet.stringValue = contact.fullname
         if contact.imageAvailable {
             recipientOneImageOutlet.image = NSImage(data: contact.image!)
@@ -520,6 +576,10 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         let index = indexSet.firstIndex
         let contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
+        
+        // set TabView Data
+        setTabViewData(for: 2, contact: contact)
+        
         
         recipientTwoLabelOutlet.stringValue = contact.fullname
         if (contact.imageAvailable) {
