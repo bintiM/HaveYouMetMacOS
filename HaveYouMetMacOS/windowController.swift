@@ -22,6 +22,7 @@ class windowController: NSWindowController {
         self.window?.backgroundColor = NSColor.white
     
         
+        
     }
 
 }
