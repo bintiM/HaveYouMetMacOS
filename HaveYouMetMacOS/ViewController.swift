@@ -25,6 +25,11 @@ class ViewController: NSViewController {
     var recipientOne: Contact!
     var recipientTwo: Contact!
 
+    // tab view controllers
+    private var recipient1TabView: recipient1TabView?
+    private var recipient2TabView: recipient2TabView?
+    
+    
     var contactStore: CStore!
     
     @IBOutlet weak var recipientOneLabelOutlet: NSTextField! {
@@ -64,7 +69,7 @@ class ViewController: NSViewController {
     
     
     
-    var message1:String = ""
+    var message1:Message = Message()
     
    
     @IBOutlet weak var deleteRecipientOneOutlet: NSButton! {
@@ -78,6 +83,41 @@ class ViewController: NSViewController {
         }
     }
 
+    @IBOutlet weak var firstNameBasisCheckboxOutlet: NSButton! {
+        didSet {
+            firstNameBasisCheckboxOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var maleRecipientOneOutlet: NSButton! {
+        didSet {
+            maleRecipientOneOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientOneOutlet: NSButton! {
+        didSet {
+            femaleRecipientOneOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var firstNameBasis2CheckboxOutlet: NSButton!  {
+        didSet {
+            firstNameBasis2CheckboxOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var maleRecipientTwoOutlet: NSButton! {
+        didSet {
+            maleRecipientTwoOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var femaleRecipientTwoOutlet: NSButton! {
+        didSet {
+            femaleRecipientTwoOutlet.isHidden = true
+        }
+    }
+    @IBOutlet weak var activityIndicatorOutlet: NSProgressIndicator! {
+        didSet {
+            activityIndicatorOutlet.isHidden = true
+        }
+    }
     
     @IBOutlet weak var messageTabViewOutlet: NSTabView!
     @IBOutlet weak var composeMailButtonOutlet: NSButton!
@@ -88,7 +128,6 @@ class ViewController: NSViewController {
     @IBAction func deleteRecipientOneAction(_ sender: Any) {
         
         //delete data from recipientOne
-        // recipientOne = CNContact()
         recipientOne = nil
         
         //reset Label of recipients name
@@ -99,14 +138,19 @@ class ViewController: NSViewController {
         recipientOneMultiEmailadressesOutlet.removeAllItems()
         recipientOneMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientOneOutlet.isHidden = true
+        firstNameBasisCheckboxOutlet.isHidden = true
+        maleRecipientOneOutlet.isHidden = true
+        femaleRecipientOneOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset mail message -> remove recipients name of email-message
-        messageTextViewOutlet.string = message1
+        let mailText = message1.resetMessage()
+        messageTextViewOutlet.updateText(with: mailText)
+        messageSubjectTextViewOutlet.stringValue = Defaults.mailSubject
         
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
@@ -115,7 +159,6 @@ class ViewController: NSViewController {
     @IBAction func deleteRecipientTwoAction(_ sender: Any) {
         
         //delete data from recipientTwo
-        // recipientTwo = CNContact()
         recipientTwo = nil
         
         //reset Label of recipients name
@@ -126,20 +169,82 @@ class ViewController: NSViewController {
         recipientTwoMultiEmailadressesOutlet.removeAllItems()
         recipientTwoMultiEmailadressesOutlet.isHidden = true
         
-        //hide delete recipient button
+        //hide option buttons
         deleteRecipientTwoOutlet.isHidden = true
+        firstNameBasis2CheckboxOutlet.isHidden = true
+        maleRecipientTwoOutlet.isHidden = true
+        femaleRecipientTwoOutlet.isHidden = true
         
         //reset recipient to default empty recipent Image
         recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
         
         //reset Message
-        messageTextViewOutlet.string = message1
+        let mailText = message1.resetMessage()
+        messageTextViewOutlet.updateText(with: mailText)
+        messageSubjectTextViewOutlet.stringValue = Defaults.mailSubject
 
         // deactivate sendButton
         composeMailButtonOutlet.isEnabled = false
 
+ 
+    }
+    @IBAction func firstNameBasisCheckboxAction(_ sender: Any) {
+        
+        if firstNameBasisCheckboxOutlet.state == 1 {
+            recipientOne.firstNameBasis = true
+        }
+        else {
+            recipientOne.firstNameBasis = false
+        }
+ 
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+    @IBAction func genderRecipientOneAction(_ sender: Any) {
+        
+        if maleRecipientOneOutlet.state == 1 {
+            recipientOne.gender = Gender.male
+        }
+        else if femaleRecipientOneOutlet.state == 1 {
+            recipientOne.gender = Gender.female
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+
+    @IBAction func firstNameBasisCheckbox2Action(_ sender: Any) {
+        
+        if firstNameBasis2CheckboxOutlet.state == 1 {
+            recipientTwo.firstNameBasis = true
+        }
+        else {
+            recipientTwo.firstNameBasis = false
+        }
+        
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+    @IBAction func genderRecipientTwoAction(_ sender: Any) {
+        if maleRecipientTwoOutlet.state == 1 {
+            recipientTwo.gender = Gender.male
+        }
+        else if femaleRecipientTwoOutlet.state == 1 {
+            recipientTwo.gender = Gender.female
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+
+    @IBAction func recipientOneMultiMail(_ sender: Any) {
+        if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
+            recipientOne.selectedEmail = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
+        }
+    }
+    @IBAction func recipientTwoMultiMail(_ sender: Any) {
+        if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
+            recipientTwo.selectedEmail = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
+        }
     }
     
+    @IBAction func showTabsAction(_ sender: Any) {
+        recipient1TabView?.selectedRecipient = recipientOne
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,29 +268,53 @@ class ViewController: NSViewController {
             NSLog("access to contacts allowed ")
         })*/
 
-        //initialize ContactStore with available contacts
-        contactStore.getContacts()
-        
         //set delegate and dataSource of contactTable
         contactTableView.delegate = self
         contactTableView.dataSource = self
         contactTableView.rowHeight = 50
-        self.contactTableView.reloadData()
+        
+        //set target for double click
+        contactTableView.target = self
+        contactTableView.doubleAction = #selector(contactTableViewDoubleClick(_:))
+        
+        
+        //initialize ContactStore with available contacts
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.activityIndicatorOutlet.isHidden = false
+            self.activityIndicatorOutlet.startAnimation(self)
+            self.contactStore.getContacts()
+            
+            DispatchQueue.main.async {
+                self.activityIndicatorOutlet.stopAnimation(self)
+                self.activityIndicatorOutlet.isHidden = true
+                self.contactTableView.reloadData()
+            }
+        }
 
+        // get recipient Tab Views
+        
+        /*
+        for childViewController in self.childViewControllers {
+            if let recipient1TabController = childViewController as? recipient1TabView {
+                recipient1TabController.buttonOutlet.title = "Test"
+            }
+        }
+*/
+        
+
+
+        /*
         let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
         
         let defaultDictionary = NSDictionary(contentsOf: defaultsFile!)
         let standardwerte = defaultDictionary as! [String : AnyObject]
         
         UserDefaults.standard.register(defaults: standardwerte)
+        */
         
-        let defaults = UserDefaults.standard
-        message1 = defaults.object(forKey: "message1") as! String
-        let message1title = defaults.object(forKey: "message1title") as! String
-
-        
-        messageTextViewOutlet.string = message1
-        messageSubjectTextViewOutlet.stringValue = message1title
+        messageTextViewOutlet.insertText(message1.text)
+        messageSubjectTextViewOutlet.stringValue = message1.subject
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.searchFieldTextDidChange), name: .NSControlTextDidChange, object: nil)
         
@@ -209,6 +338,39 @@ class ViewController: NSViewController {
        
     }
 
+
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
+        
+        for controller in tabViewController.childViewControllers {
+            if let controller = controller as? recipient1TabView {
+                
+                recipient1TabView = controller
+                recipient1TabView?.selectedRecipient = recipientOne
+                
+                
+                //controller.testLabel.stringValue = "Hurra"
+                //overviewController?.selectedProdukt = selectedProduct
+            }
+            else if let controller = controller as? recipient2TabView {
+                recipient2TabView = controller
+                recipient2TabView?.selectedRecipient = recipientTwo
+            }
+        }
+        
+    }
+    
+    func setTabViewData(for recipientNr:Int, contact:Contact) {
+        if recipientNr == 1 {
+            recipient1TabView?.selectedRecipient = recipientOne
+        }
+        else if recipientNr == 2 {
+            recipient2TabView?.selectedRecipient = recipientTwo
+        }
+    }
+    
+    
     func searchFieldTextDidChange() {
         let query = searchNameOutlet.stringValue
         if query != "" {
@@ -216,7 +378,7 @@ class ViewController: NSViewController {
             self.contactTableView.reloadData()
         }
         else {
-            contactStore.getContacts()
+            contactStore.resetContactList()
             self.contactTableView.reloadData()
         }
     }
@@ -232,9 +394,8 @@ class ViewController: NSViewController {
         let mailadress1 = recipientOneMultiEmailadressesOutlet.selectedItem?.title
         let mailadress2 = recipientTwoMultiEmailadressesOutlet.selectedItem?.title
         let mailSubject = messageSubjectTextViewOutlet.stringValue
-        let mailMessage = messageTextViewOutlet.string!
-        
-        SendEmail.send(mailOne: mailadress1!, mailTwo: mailadress2!, subject: mailSubject, message: mailMessage)
+        let mailText = message1.text
+        SendEmail.send(mailOne: mailadress1!, mailTwo: mailadress2!, subject: mailSubject, message: mailText)
     }
     
 
@@ -248,69 +409,6 @@ class ViewController: NSViewController {
         }
     }
     
-    // replace all [name1],.. etc with contact information
-    func processMessage(contact1:Contact, contact2:Contact) -> String? {
-        var text = messageTextViewOutlet.string!
-        
-        //familyname
-        if !contact1.surname.isEmpty {
-                text = text.replacingOccurrences(of: "[familyname1]", with: contact1.surname)
-        }
-        if !contact2.surname.isEmpty {
-            text = text.replacingOccurrences(of: "[familyname2]", with: contact2.surname)
-        }
-        
-        //fullname
-        if !contact1.fullname.isEmpty {
-            text = text.replacingOccurrences(of: "[fullname1]", with: contact1.fullname)
-        }
-        if !contact2.fullname.isEmpty {
-            text = text.replacingOccurrences(of: "[fullname2]", with: contact2.fullname)
-        }
-        
-        //selected email
-        if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
-            text = text.replacingOccurrences(of: "[email1]", with: (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!)
-        }
-        if recipientTwoMultiEmailadressesOutlet.selectedItem != nil {
-            text = text.replacingOccurrences(of: "[email2]", with: (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!)
-        }
-
-        //organization
-        if !contact1.organizationName.isEmpty {
-            text = text.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
-        }
-        if !contact2.organizationName.isEmpty {
-            text = text.replacingOccurrences(of: "[organizationName1]", with: contact2.organizationName)
-        }
-
-        //address
-        
-        text = text.replacingOccurrences(of: "[address1]", with: "\(contact1.street)\n\(contact1.postalCode) \(contact1.city)")
-
-        text = text.replacingOccurrences(of: "[address2]", with: "\(contact2.street)\n\(contact2.postalCode) \(contact2.city)")
-
-        
-        //phones
-        if let phoneNumber = contact1.phone.first {
-            text = text.replacingOccurrences(of: "[phone1]", with: phoneNumber)
-        }
-        if let phoneNumber2 = contact2.phone.first {
-            text = text.replacingOccurrences(of: "[phone2]", with: phoneNumber2)
-        }
-
-        
-        //urls
-        if let url1 = contact1.url.first {
-            text = text.replacingOccurrences(of: "[url1]", with: url1)
-        }
-        if let url2 = contact2.url.first {
-            text = text.replacingOccurrences(of: "[url2]", with: url2)
-        }
-
-        
-        return text
-    }
 
     func highlightPossibleDropTargets() {
         if recipientOneLabelOutlet.stringValue  == Defaults.recipientOne {
@@ -321,8 +419,25 @@ class ViewController: NSViewController {
         }
     }
     
+    func contactTableViewDoubleClick(_ sender:AnyObject) {
+        
+        if contactTableView.selectedRow >= 0 {
+            
+            if recipientOne == nil {
+                processContactOne(NSIndexSet(index: contactTableView.selectedRow))
+            }
+            else if recipientTwo == nil {
+                processContactTwo(NSIndexSet(index: contactTableView.selectedRow))
+            }
+            
+        }
+    }
+    
+
+    
+    
     class SendEmail: NSObject {
-        static func send(mailOne:String, mailTwo:String, subject:String, message:String) {
+        static func send(mailOne:String, mailTwo:String, subject:String, message:NSAttributedString) {
             let service = NSSharingService(named: NSSharingServiceNameComposeEmail)!
             service.recipients = [mailOne, mailTwo]
             service.subject = subject
@@ -360,7 +475,7 @@ extension ViewController: NSTableViewDelegate {
 
    
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        NSLog("Drag starts")
+
         
         highlightPossibleDropTargets()
         
@@ -392,6 +507,10 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         let contact = contactStore.StoreContactsToShow[index]
         recipientOne = contact
         
+        // set TabView Data
+        setTabViewData(for: 1, contact: contact)
+        
+        
         recipientOneLabelOutlet.stringValue = contact.fullname
         if contact.imageAvailable {
             recipientOneImageOutlet.image = NSImage(data: contact.image!)
@@ -415,18 +534,33 @@ extension ViewController: RecipientOneDestinationViewDelegate {
             recipientOneMultiEmailadressesOutlet.isHidden = true
             recipientOneLabelOutlet.textColor = NSColor.red
         }
+        
+        //show options
         deleteRecipientOneOutlet.isHidden = false
+        firstNameBasisCheckboxOutlet.isHidden = false
+        maleRecipientOneOutlet.isHidden = false
+        femaleRecipientOneOutlet.isHidden = false
 
+        if Defaults.femalePrefixes.contains(contact.prefix) {
+            femaleRecipientOneOutlet.state = 1
+        }
+        else if Defaults.malePrefixes.contains(contact.prefix) {
+            maleRecipientOneOutlet.state = 1
+        }
+        
+        firstNameBasisCheckboxOutlet.state = 0
+        
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
      
         // update Messagetext with contact Information
+
         if(recipientOne != nil && recipientTwo != nil) {
-                messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
+            let mailText = message1.generateMessage(contact1: recipientOne, contact2: recipientTwo)
+            messageTextViewOutlet.updateText(with: mailText)
+            messageSubjectTextViewOutlet.stringValue = message1.subject
         }
-        
-        
         
         //update status of sendbutton
         updateSendButton()
@@ -442,6 +576,10 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         let index = indexSet.firstIndex
         let contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
+        
+        // set TabView Data
+        setTabViewData(for: 2, contact: contact)
+        
         
         recipientTwoLabelOutlet.stringValue = contact.fullname
         if (contact.imageAvailable) {
@@ -465,20 +603,39 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
             recipientTwoMultiEmailadressesOutlet.isHidden = true
             recipientTwoLabelOutlet.textColor = NSColor.red
         }
+        
+        // show options
         deleteRecipientTwoOutlet.isHidden = false
+        firstNameBasis2CheckboxOutlet.isHidden = false
+        maleRecipientTwoOutlet.isHidden = false
+        femaleRecipientTwoOutlet.isHidden = false
+        
+        firstNameBasis2CheckboxOutlet.state = 0
         
         //hide highlights of recipientFields
         recipientOneRoundedRectView.isHidden = true
         recipientTwoRoundedRectView.isHidden = true
         
+        
         // update Messagetext with contact Information
+        
         if(recipientOne != nil && recipientTwo != nil) {
-            messageTextViewOutlet.string = processMessage(contact1: recipientOne!, contact2: recipientTwo!)
+            let mailText = message1.generateMessage(contact1: recipientOne, contact2: recipientTwo)
+            messageTextViewOutlet.updateText(with: mailText)
+            messageSubjectTextViewOutlet.stringValue = message1.subject
         }
+        
         
         //update status of sendbutton
         updateSendButton()
         
     }
     
+}
+
+extension NSTextView {
+    func updateText(with newText:NSMutableAttributedString) {
+        let messageTextLength = NSMakeRange(0, (self.string?.characters.count)!)
+        self.insertText(newText, replacementRange: messageTextLength)
+    }
 }
