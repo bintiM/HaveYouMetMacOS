@@ -91,11 +91,13 @@ public class Message {
         
         //organization
         if !contact1.organizationName.isEmpty {
+            _html = _html.replacingOccurrences(of: "Firma [organizationName1]", with: contact1.organizationName)
             _html = _html.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
             _subject = _subject.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
         }
         if !contact2.organizationName.isEmpty {
-            _html = _html.replacingOccurrences(of: "[organizationName1]", with: contact2.organizationName)
+            _html = _html.replacingOccurrences(of: "Firma [organizationName2]", with: contact2.organizationName)
+            _html = _html.replacingOccurrences(of: "[organizationName2]", with: contact2.organizationName)
             _subject = _subject.replacingOccurrences(of: "[organizationName2]", with: contact2.organizationName)
         }
         
@@ -165,18 +167,18 @@ public class Message {
         }
         if contact2.gender == Gender.male {
             if contact2.firstNameBasis {
-                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationMaleFirstNameBasis)
+                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationMaleFirstNameBasis2)
             }
             else {
-                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationMale)
+                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationMale2)
             }
         }
         else if contact2.gender == Gender.female {
             if contact2.firstNameBasis {
-                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationFemaleFirstNameBasis)
+                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationFemaleFirstNameBasis2)
             }
             else {
-                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationFemale)
+                _html = _html.replacingOccurrences(of: "[Anrede2]", with: Defaults.salutationFemale2)
             }
         }
         
