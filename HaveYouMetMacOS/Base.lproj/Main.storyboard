@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
@@ -685,23 +685,9 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="1793" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1572" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNM-Y2-XiA">
-                                <rect key="frame" x="1648" y="557" width="124" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="112" id="NIb-1E-3T8"/>
-                                    <constraint firstAttribute="height" constant="21" id="gkH-24-iyi"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="compose Mail" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RyJ-7o-Kx9">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="composeMailAction:" target="XfG-lQ-9wD" id="gdE-W7-nAb"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1rN-JV-SBm" userLabel="contactList">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="590"/>
                                 <subviews>
@@ -1040,7 +1026,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="minSize" width="1247" height="360"/>
-                                                    <size key="maxSize" width="1264" height="10000000"/>
+                                                    <size key="maxSize" width="1461" height="10000000"/>
                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 </textView>
                                             </subviews>
@@ -1118,6 +1104,20 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="D5F-dk-9dV">
+                                <rect key="frame" x="689" y="544" width="73" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="4d6-na-I7g"/>
+                                    <constraint firstAttribute="height" constant="16" id="Yt3-nd-0PS"/>
+                                </constraints>
+                                <buttonCell key="cell" type="radio" title="Initiative" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="IUC-9A-rMU">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="initiativeRecipientOneAction:" target="XfG-lQ-9wD" id="ByN-KT-Jg3"/>
+                                </connections>
+                            </button>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-77-EaD" userLabel="OptionsRecipient2">
                                 <rect key="frame" x="609" y="437" width="73" height="65"/>
                                 <subviews>
@@ -1167,6 +1167,16 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="jy4-eR-jwI">
+                                <rect key="frame" x="689" y="461" width="73" height="18"/>
+                                <buttonCell key="cell" type="radio" title="Initiative" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eyS-ew-fqN">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="initiativeRecipientTwoAction:" target="XfG-lQ-9wD" id="jOA-UD-fVd"/>
+                                </connections>
+                            </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Un2-P8-ipp">
                                 <rect key="frame" x="248" y="574" width="16" height="16"/>
                                 <constraints>
@@ -1174,57 +1184,51 @@
                                     <constraint firstAttribute="height" constant="16" id="bwa-F3-BeU"/>
                                 </constraints>
                             </progressIndicator>
-                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="tvS-AU-JrV">
-                                <rect key="frame" x="1553" y="0.0" width="240" height="544"/>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNM-Y2-XiA">
+                                <rect key="frame" x="1427" y="557" width="124" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="K59-JJ-4X9"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="112" id="3Ht-AX-Jab"/>
+                                    <constraint firstAttribute="width" constant="112" id="NIb-1E-3T8"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="fRx-ug-Kzu"/>
+                                    <constraint firstAttribute="height" constant="21" id="gkH-24-iyi"/>
                                 </constraints>
-                                <connections>
-                                    <segue destination="lHq-lb-zZf" kind="embed" identifier="tabViewSegue" id="cyw-pY-eld"/>
-                                </connections>
-                            </containerView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qI5-09-9Ks">
-                                <rect key="frame" x="1567" y="557" width="81" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="69" id="8lR-Jf-QlV"/>
-                                    <constraint firstAttribute="height" constant="21" id="vTa-7W-gOC"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UbH-O0-xyv">
+                                <buttonCell key="cell" type="push" title="compose Mail" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RyJ-7o-Kx9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="composeMailAction:" target="XfG-lQ-9wD" id="gdE-W7-nAb"/>
+                                    </connections>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="showTabsAction:" target="XfG-lQ-9wD" id="p2K-IV-Hns"/>
-                                </connections>
                             </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="5u4-77-EaD" firstAttribute="centerY" secondItem="prN-qe-tRz" secondAttribute="centerY" id="0by-Q9-0fM"/>
-                            <constraint firstItem="tvS-AU-JrV" firstAttribute="top" secondItem="qI5-09-9Ks" secondAttribute="bottom" constant="20" id="4HW-mb-9J9"/>
-                            <constraint firstItem="tvS-AU-JrV" firstAttribute="leading" secondItem="cZK-Jv-lS3" secondAttribute="trailing" constant="8" symbolic="YES" id="4It-3G-rx3"/>
+                            <constraint firstItem="jy4-eR-jwI" firstAttribute="leading" secondItem="D5F-dk-9dV" secondAttribute="leading" id="2Le-qF-ZkJ"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="centerX" secondItem="fJJ-6c-2fm" secondAttribute="centerX" id="542-80-gXA"/>
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="8rK-SU-1MM"/>
                             <constraint firstAttribute="bottom" secondItem="cZK-Jv-lS3" secondAttribute="bottom" constant="20" id="ADX-Bk-K6r"/>
+                            <constraint firstItem="kNM-Y2-XiA" firstAttribute="trailing" secondItem="cZK-Jv-lS3" secondAttribute="trailing" id="BYD-Eb-lLk"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="width" secondItem="fJJ-6c-2fm" secondAttribute="width" id="D2a-uM-hb3"/>
                             <constraint firstItem="Un2-P8-ipp" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="8" id="DGm-p9-aXx"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="trailing" constant="41" id="DR0-H6-emL"/>
                             <constraint firstItem="fJJ-6c-2fm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="GT7-dW-zCO"/>
-                            <constraint firstAttribute="bottom" secondItem="tvS-AU-JrV" secondAttribute="bottom" id="Hhh-lK-oYi"/>
+                            <constraint firstItem="jy4-eR-jwI" firstAttribute="height" secondItem="D5F-dk-9dV" secondAttribute="height" id="Mof-rB-w5v"/>
                             <constraint firstItem="cZK-Jv-lS3" firstAttribute="top" secondItem="kPc-ob-UzE" secondAttribute="bottom" constant="20" id="Nir-vX-Tja"/>
-                            <constraint firstItem="tvS-AU-JrV" firstAttribute="top" secondItem="kNM-Y2-XiA" secondAttribute="bottom" constant="20" id="RIa-v1-fwF"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="top" secondItem="fJJ-6c-2fm" secondAttribute="bottom" constant="8" id="S52-Be-G6c"/>
                             <constraint firstItem="kPc-ob-UzE" firstAttribute="height" secondItem="fJJ-6c-2fm" secondAttribute="height" id="WE1-wS-6qg"/>
+                            <constraint firstItem="kNM-Y2-XiA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="ZKJ-WI-wLY"/>
                             <constraint firstItem="Un2-P8-ipp" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="cW4-X7-SPk"/>
                             <constraint firstItem="kNM-Y2-XiA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="erP-ai-r6p"/>
                             <constraint firstItem="j9R-SQ-I63" firstAttribute="leading" secondItem="fJJ-6c-2fm" secondAttribute="trailing" constant="8" id="f5y-5K-wXf"/>
-                            <constraint firstItem="kNM-Y2-XiA" firstAttribute="leading" secondItem="qI5-09-9Ks" secondAttribute="trailing" constant="12" id="gSi-ws-He7"/>
-                            <constraint firstItem="qI5-09-9Ks" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="hy1-hi-MIL"/>
                             <constraint firstAttribute="bottom" secondItem="1rN-JV-SBm" secondAttribute="bottom" id="i8q-b6-y5Y"/>
-                            <constraint firstAttribute="trailing" secondItem="tvS-AU-JrV" secondAttribute="trailing" id="o5b-D0-Mdx"/>
+                            <constraint firstItem="jy4-eR-jwI" firstAttribute="centerY" secondItem="5u4-77-EaD" secondAttribute="centerY" id="k0l-89-URq"/>
                             <constraint firstItem="5u4-77-EaD" firstAttribute="leading" secondItem="kPc-ob-UzE" secondAttribute="trailing" constant="8" id="oxW-zI-iS1"/>
                             <constraint firstItem="1rN-JV-SBm" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="poY-Fv-hqf"/>
                             <constraint firstItem="1rN-JV-SBm" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="qeH-b6-PYF"/>
+                            <constraint firstItem="D5F-dk-9dV" firstAttribute="leading" secondItem="j9R-SQ-I63" secondAttribute="trailing" constant="8" id="vee-Re-VJt"/>
                             <constraint firstItem="j9R-SQ-I63" firstAttribute="centerY" secondItem="jUD-tS-6ZH" secondAttribute="centerY" id="wDP-A2-9Ic"/>
+                            <constraint firstItem="D5F-dk-9dV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="39" id="wNu-9V-b6e"/>
+                            <constraint firstItem="jy4-eR-jwI" firstAttribute="width" secondItem="D5F-dk-9dV" secondAttribute="width" id="xq4-4N-pZQ"/>
                             <constraint firstAttribute="trailing" secondItem="kNM-Y2-XiA" secondAttribute="trailing" constant="27" id="zod-xp-yUb"/>
                         </constraints>
                     </view>
@@ -1238,6 +1242,9 @@
                         <outlet property="femaleRecipientTwoOutlet" destination="uK1-BX-u3S" id="2tQ-WU-Nw8"/>
                         <outlet property="firstNameBasis2CheckboxOutlet" destination="AIa-4T-1NP" id="Zb6-E7-6NH"/>
                         <outlet property="firstNameBasisCheckboxOutlet" destination="y8f-gH-asp" id="zlm-jn-fMz"/>
+                        <outlet property="initiativeRecipientOneOutlet" destination="D5F-dk-9dV" id="zmg-p6-brk"/>
+                        <outlet property="initiativeRecipientTwoAction" destination="jy4-eR-jwI" id="sBf-ef-rHa"/>
+                        <outlet property="initiativeRecipientTwoOutlet" destination="jy4-eR-jwI" id="xi5-CJ-D5j"/>
                         <outlet property="maleRecipientOneOutlet" destination="Fm7-l9-j3D" id="xqj-Zw-o3V"/>
                         <outlet property="maleRecipientTwoOutlet" destination="sGF-re-n6p" id="K13-9i-tPk"/>
                         <outlet property="messageSubjectTextViewOutlet" destination="pZA-sM-MBn" id="hlW-3O-Zcg"/>
@@ -1267,7 +1274,7 @@
                     <font key="font" metaFont="system"/>
                 </buttonCell>
             </objects>
-            <point key="canvasLocation" x="84.5" y="845"/>
+            <point key="canvasLocation" x="-29.5" y="845"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hYl-9c-hDZ">

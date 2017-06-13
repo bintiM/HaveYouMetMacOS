@@ -136,6 +136,7 @@ public protocol Contact {
     var organizationName:String {get}
     func getEmptyContact()->Contact
     var identifier:String {get}
+    var initiative:Bool {get set}
 }
 
 @available(OSX 10.11, *)
@@ -144,6 +145,7 @@ public class MyCNContact:  Contact {
     private var _firstNameBasis:Bool
     private var _selectedEmail:String
     private var _gender:Gender
+    private var _initiative:Bool
     public var _contact: CNContact
     
     init(with contact:CNContact) {
@@ -151,6 +153,7 @@ public class MyCNContact:  Contact {
         _firstNameBasis = false
         _selectedEmail = ""
         _gender = Gender.male
+        _initiative = false
     }
     public func getEmptyContact()->Contact {
         return self
@@ -307,6 +310,14 @@ public class MyCNContact:  Contact {
             return _contact.identifier
         }
     }
+    public var initiative: Bool {
+        get {
+            return _initiative;
+        }
+        set {
+            _initiative = newValue
+        }
+    }
 }
 
 
@@ -316,12 +327,14 @@ public class MyContact: Contact {
     private var _firstNameBasis:Bool
     private var _selectedEmail:String
     private var _gender:Gender
+    private var _initiative:Bool
     
     init(with contact:ABPerson) {
         _contact = contact
         _firstNameBasis = false
         _selectedEmail = ""
         _gender = Gender.male
+        _initiative = false
     }
     public func getEmptyContact()->Contact {
         return self
@@ -508,6 +521,14 @@ public class MyContact: Contact {
         get {
             // TODO return unique identifier
             return ""
+        }
+    }
+    public var initiative: Bool {
+        get {
+            return _initiative;
+        }
+        set {
+            _initiative = newValue
         }
     }
 }

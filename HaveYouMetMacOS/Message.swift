@@ -64,6 +64,14 @@ public class Message {
         //reset to original HTML Text Version
         _html = _originalHtml
         
+        //first delete initiative sentence from contact not initiative
+        if contact1.initiative {
+            _html = _html.replacingOccurrences(of: "<p style=\"font-family:Helvetica\">@ [Titel2] [familyname2]: darf ich [SieDu2_2] bitten, dass [SieDu2] in der nächsten Zeit mit [fullname1] Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?</p>", with: "")
+        }
+        if contact2.initiative {
+            _html = _html.replacingOccurrences(of: "<p style=\"font-family:Helvetica\">@ [Titel1] [familyname1]: darf ich [SieDu1_2] bitten, dass [SieDu1] in nächster Zeit mit [fullname2] Kontakt aufnehmen, um ein persönliches Treffen zu vereinbaren / das weitere Vorgehen zu definieren?</p>", with: "")
+        }
+        
         //familyname
         if !contact1.surname.isEmpty {
             _html = _html.replacingOccurrences(of: "[familyname1]", with: contact1.surname)

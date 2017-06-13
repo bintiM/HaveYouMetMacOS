@@ -113,6 +113,19 @@ class ViewController: NSViewController {
             femaleRecipientTwoOutlet.isHidden = true
         }
     }
+    
+    @IBOutlet var initiativeRecipientOneOutlet: NSButton! {
+        didSet {
+            initiativeRecipientOneOutlet.isHidden = true
+        }
+    }
+    
+    @IBOutlet var initiativeRecipientTwoOutlet: NSButton! {
+        didSet {
+            initiativeRecipientTwoOutlet.isHidden = true
+        }
+    }
+    
     @IBOutlet weak var activityIndicatorOutlet: NSProgressIndicator! {
         didSet {
             activityIndicatorOutlet.isHidden = true
@@ -241,6 +254,26 @@ class ViewController: NSViewController {
             recipientTwo.selectedEmail = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
         }
     }
+    
+    @IBAction func initiativeRecipientOneAction(_ sender: Any) {
+        if initiativeRecipientOneOutlet.state == 1 {
+            recipientOne.initiative = true
+            recipientTwo.initiative = false
+            initiativeRecipientTwoOutlet.state = 0
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+    }
+    
+    @IBAction func initiativeRecipientTwoAction(_ sender: Any) {
+        if initiativeRecipientTwoOutlet.state == 1 {
+            recipientTwo.initiative = true
+            recipientOne.initiative = false
+            initiativeRecipientOneOutlet.state = 0
+        }
+        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+
+    }
+    
     
     @IBAction func showTabsAction(_ sender: Any) {
         recipient1TabView?.selectedRecipient = recipientOne
@@ -540,6 +573,7 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         firstNameBasisCheckboxOutlet.isHidden = false
         maleRecipientOneOutlet.isHidden = false
         femaleRecipientOneOutlet.isHidden = false
+        initiativeRecipientOneOutlet.isHidden = false
 
         if Defaults.femalePrefixes.contains(contact.prefix) {
             femaleRecipientOneOutlet.state = 1
@@ -609,6 +643,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         firstNameBasis2CheckboxOutlet.isHidden = false
         maleRecipientTwoOutlet.isHidden = false
         femaleRecipientTwoOutlet.isHidden = false
+        initiativeRecipientTwoOutlet.isHidden = false
         
         firstNameBasis2CheckboxOutlet.state = 0
         
