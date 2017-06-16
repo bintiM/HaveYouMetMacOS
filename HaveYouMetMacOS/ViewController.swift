@@ -25,10 +25,6 @@ class ViewController: NSViewController {
     var recipientOne: Contact!
     var recipientTwo: Contact!
 
-    // tab view controllers
-    private var recipient1TabView: recipient1TabView?
-    private var recipient2TabView: recipient2TabView?
-    
     
     var contactStore: CStore!
     
@@ -275,10 +271,7 @@ class ViewController: NSViewController {
     }
     
     
-    @IBAction func showTabsAction(_ sender: Any) {
-        recipient1TabView?.selectedRecipient = recipientOne
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -373,35 +366,7 @@ class ViewController: NSViewController {
 
 
     
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
-        
-        for controller in tabViewController.childViewControllers {
-            if let controller = controller as? recipient1TabView {
-                
-                recipient1TabView = controller
-                recipient1TabView?.selectedRecipient = recipientOne
-                
-                
-                //controller.testLabel.stringValue = "Hurra"
-                //overviewController?.selectedProdukt = selectedProduct
-            }
-            else if let controller = controller as? recipient2TabView {
-                recipient2TabView = controller
-                recipient2TabView?.selectedRecipient = recipientTwo
-            }
-        }
-        
-    }
-    
-    func setTabViewData(for recipientNr:Int, contact:Contact) {
-        if recipientNr == 1 {
-            recipient1TabView?.selectedRecipient = recipientOne
-        }
-        else if recipientNr == 2 {
-            recipient2TabView?.selectedRecipient = recipientTwo
-        }
-    }
+
     
     
     func searchFieldTextDidChange() {
@@ -540,10 +505,7 @@ extension ViewController: RecipientOneDestinationViewDelegate {
         let contact = contactStore.StoreContactsToShow[index]
         recipientOne = contact
         
-        // set TabView Data
-        setTabViewData(for: 1, contact: contact)
-        
-        
+    
         recipientOneLabelOutlet.stringValue = contact.fullname
         if contact.imageAvailable {
             recipientOneImageOutlet.image = NSImage(data: contact.image!)
@@ -611,10 +573,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         let contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
         
-        // set TabView Data
-        setTabViewData(for: 2, contact: contact)
-        
-        
+    
         recipientTwoLabelOutlet.stringValue = contact.fullname
         if (contact.imageAvailable) {
             recipientTwoImageOutlet.image = NSImage(data: contact.image!)

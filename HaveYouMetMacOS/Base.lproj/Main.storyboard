@@ -658,16 +658,16 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="HaveYouMetMacOS" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="76" y="-76"/>
+            <point key="canvasLocation" x="-13" y="-334"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" customClass="windowController" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="wc" id="B8D-0N-5wS" customClass="windowController" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="900" height="450"/>
+                        <rect key="contentRect" x="196" y="240" width="1000" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="1000" height="600"/>
                         <value key="minFullScreenContentSize" type="size" width="500" height="270"/>
@@ -678,7 +678,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="58" y="103"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -1056,7 +1056,7 @@
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j9R-SQ-I63" userLabel="OptionsRecipient1">
-                                <rect key="frame" x="609" y="520" width="73" height="65"/>
+                                <rect key="frame" x="609" y="520" width="80" height="65"/>
                                 <subviews>
                                     <button verticalHuggingPriority="249" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="y8f-gH-asp">
                                         <rect key="frame" x="-2" y="46" width="62" height="21"/>
@@ -1069,7 +1069,7 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Fm7-l9-j3D">
-                                        <rect key="frame" x="-1" y="23" width="76" height="18"/>
+                                        <rect key="frame" x="-1" y="23" width="77" height="18"/>
                                         <buttonCell key="cell" type="radio" title="männlich" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Vgu-ks-hGE">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -1091,7 +1091,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="DXB-Cd-lqr"/>
-                                    <constraint firstAttribute="width" constant="73" id="m7x-8Y-qtx"/>
+                                    <constraint firstAttribute="width" constant="80" id="m7x-8Y-qtx"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
@@ -1105,7 +1105,7 @@
                                 </customSpacing>
                             </stackView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="D5F-dk-9dV">
-                                <rect key="frame" x="689" y="544" width="73" height="18"/>
+                                <rect key="frame" x="696" y="544" width="73" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="4d6-na-I7g"/>
                                     <constraint firstAttribute="height" constant="16" id="Yt3-nd-0PS"/>
@@ -1119,7 +1119,7 @@
                                 </connections>
                             </button>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-77-EaD" userLabel="OptionsRecipient2">
-                                <rect key="frame" x="609" y="437" width="73" height="65"/>
+                                <rect key="frame" x="609" y="437" width="80" height="65"/>
                                 <subviews>
                                     <button verticalHuggingPriority="249" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="AIa-4T-1NP">
                                         <rect key="frame" x="-2" y="46" width="62" height="21"/>
@@ -1132,7 +1132,7 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="sGF-re-n6p">
-                                        <rect key="frame" x="-1" y="23" width="76" height="18"/>
+                                        <rect key="frame" x="-1" y="23" width="77" height="18"/>
                                         <buttonCell key="cell" type="radio" title="männlich" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="z2d-vw-3Yz">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -1153,7 +1153,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="BBt-XO-NiM"/>
+                                    <constraint firstAttribute="width" constant="80" id="BBt-XO-NiM"/>
                                     <constraint firstAttribute="height" constant="65" id="Xjr-sl-Utn"/>
                                 </constraints>
                                 <visibilityPriorities>
@@ -1168,7 +1168,7 @@
                                 </customSpacing>
                             </stackView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="jy4-eR-jwI">
-                                <rect key="frame" x="689" y="461" width="73" height="18"/>
+                                <rect key="frame" x="696" y="461" width="73" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Initiative" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eyS-ew-fqN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1243,7 +1243,6 @@
                         <outlet property="firstNameBasis2CheckboxOutlet" destination="AIa-4T-1NP" id="Zb6-E7-6NH"/>
                         <outlet property="firstNameBasisCheckboxOutlet" destination="y8f-gH-asp" id="zlm-jn-fMz"/>
                         <outlet property="initiativeRecipientOneOutlet" destination="D5F-dk-9dV" id="zmg-p6-brk"/>
-                        <outlet property="initiativeRecipientTwoAction" destination="jy4-eR-jwI" id="sBf-ef-rHa"/>
                         <outlet property="initiativeRecipientTwoOutlet" destination="jy4-eR-jwI" id="xi5-CJ-D5j"/>
                         <outlet property="maleRecipientOneOutlet" destination="Fm7-l9-j3D" id="xqj-Zw-o3V"/>
                         <outlet property="maleRecipientTwoOutlet" destination="sGF-re-n6p" id="K13-9i-tPk"/>
@@ -1275,111 +1274,6 @@
                 </buttonCell>
             </objects>
             <point key="canvasLocation" x="-29.5" y="845"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="hYl-9c-hDZ">
-            <objects>
-                <viewController id="FUY-w0-wWg" sceneMemberID="viewController">
-                    <view key="view" id="5Lq-SC-yiC">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="BOI-8w-GP6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
-        <!--Tab View Controller-->
-        <scene sceneID="PGh-P3-nR9">
-            <objects>
-                <tabViewController selectedTabViewItemIndex="0" id="lHq-lb-zZf" sceneMemberID="viewController">
-                    <tabViewItems>
-                        <tabViewItem identifier="" id="bNw-Pf-jFt"/>
-                        <tabViewItem identifier="" id="k1Q-Mg-30Y"/>
-                    </tabViewItems>
-                    <tabView key="tabView" type="noTabsNoBorder" id="aEn-cm-D4t">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="message"/>
-                        <tabViewItems/>
-                    </tabView>
-                    <connections>
-                        <segue destination="JgC-vZ-Wv0" kind="relationship" relationship="tabItems" id="Pzs-ve-ee1"/>
-                        <segue destination="rwj-iu-AYJ" kind="relationship" relationship="tabItems" id="4eT-JC-2SJ"/>
-                    </connections>
-                </tabViewController>
-                <customObject id="qFn-Q1-bzl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1438" y="864"/>
-        </scene>
-        <!--recipient1-->
-        <scene sceneID="tsm-5K-YFH">
-            <objects>
-                <viewController title="recipient1" id="JgC-vZ-Wv0" customClass="recipient1TabView" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="bzj-q6-Lu3">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XNk-fj-Rfq">
-                                <rect key="frame" x="178" y="132" width="94" height="32"/>
-                                <buttonCell key="cell" type="push" title="Prename" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ggg-rg-jAY">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gqc-wp-DEd">
-                                <rect key="frame" x="195" y="168" width="61" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="57" id="N6q-pl-AdX"/>
-                                    <constraint firstAttribute="height" constant="17" id="bnW-2T-431"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="testLabel" id="AzJ-Jb-Yuf">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="XNk-fj-Rfq" firstAttribute="centerY" secondItem="bzj-q6-Lu3" secondAttribute="centerY" id="EeO-IF-2eZ"/>
-                            <constraint firstItem="XNk-fj-Rfq" firstAttribute="top" secondItem="Gqc-wp-DEd" secondAttribute="bottom" constant="8" id="H6q-ti-KcL"/>
-                            <constraint firstItem="Gqc-wp-DEd" firstAttribute="centerX" secondItem="XNk-fj-Rfq" secondAttribute="centerX" id="UHm-a5-vRv"/>
-                            <constraint firstItem="XNk-fj-Rfq" firstAttribute="centerX" secondItem="bzj-q6-Lu3" secondAttribute="centerX" id="XuN-ya-Lq5"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="buttonOutlet" destination="XNk-fj-Rfq" id="uFn-0U-sDm"/>
-                        <outlet property="testLabel" destination="Gqc-wp-DEd" id="4tj-tx-ogC"/>
-                    </connections>
-                </viewController>
-                <customObject id="SIr-He-oNg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2108" y="683"/>
-        </scene>
-        <!--recipient2-->
-        <scene sceneID="NJr-Tq-8sG">
-            <objects>
-                <viewController title="recipient2" id="rwj-iu-AYJ" customClass="recipient2TabView" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="WTx-Cv-pyW">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4hV-81-HLi">
-                                <rect key="frame" x="178" y="132" width="94" height="32"/>
-                                <buttonCell key="cell" type="push" title="Surname" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Eyc-KR-F5a">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="4hV-81-HLi" firstAttribute="centerX" secondItem="WTx-Cv-pyW" secondAttribute="centerX" id="5cC-vc-LKa"/>
-                            <constraint firstItem="4hV-81-HLi" firstAttribute="centerY" secondItem="WTx-Cv-pyW" secondAttribute="centerY" id="jFU-DH-G2v"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <customObject id="KMu-vO-Fde" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2108" y="1044"/>
         </scene>
     </scenes>
     <resources>
