@@ -64,6 +64,8 @@ public class Message {
         //reset to original HTML Text Version
         _html = _originalHtml
         
+        NSLog("Starting regenerating Message...")
+        
         //familyname
         if !contact1.surname.isEmpty {
             _html = _html.replacingOccurrences(of: "[familyname1]", with: contact1.surname)
@@ -74,6 +76,8 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[familyname2]", with: contact2.surname)
         }
         
+        NSLog("Familynames done...")
+        
         //fullname
         if !contact1.fullname.isEmpty {
             _html = _html.replacingOccurrences(of: "[fullname1]", with: contact1.fullname)
@@ -83,6 +87,8 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[fullname2]", with: contact2.fullname)
             _subject = _subject.replacingOccurrences(of: "[fullname2]", with: contact2.fullname)
         }
+        
+        NSLog("Fullnames done...")
         
         //selected email
         
@@ -99,12 +105,15 @@ public class Message {
             _subject = _subject.replacingOccurrences(of: "[organizationName2]", with: contact2.organizationName)
         }
         
+        NSLog("Mails done...")
+        
         //address
         
         _html = _html.replacingOccurrences(of: "[address1]", with: "\(contact1.street)\n\(contact1.postalCode) \(contact1.city)")
         
         _html = _html.replacingOccurrences(of: "[address2]", with: "\(contact2.street)\n\(contact2.postalCode) \(contact2.city)")
         
+        NSLog("Adresses done...")
         
         //phones
         if let phoneNumber = contact1.phone.first {
@@ -115,6 +124,8 @@ public class Message {
         }
         
         
+        NSLog("Phones done...")
+        
         //urls
         if let url1 = contact1.url.first {
             _html = _html.replacingOccurrences(of: "[url1]", with: url1)
@@ -123,6 +134,8 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[url2]", with: url2)
         }
 
+        NSLog("Urls done...")
+        
         //FristNameBasis
         
         if contact1.firstNameBasis {
@@ -143,6 +156,7 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[SieDu2_2]", with: Defaults.Pronoun2)
         }
         
+        NSLog("firstnamebasis done...")
 
         //Gender Recipient1
         
@@ -180,6 +194,8 @@ public class Message {
             }
         }
         
+        NSLog("Genders done...")
+        
         // Titles
         
         // if no title available
@@ -200,6 +216,8 @@ public class Message {
             }
         }
         
+        NSLog("Titles done...")
+        
         //generate AttributedString Version
         do {
             _outputText = try NSMutableAttributedString(data: _html.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType], documentAttributes: nil)
@@ -208,6 +226,8 @@ public class Message {
             
             print("Can't convert html message text to attributed string")
         }
+        
+        NSLog("AttributedString done...")
         
         return _outputText
     }

@@ -409,6 +409,7 @@ public class MyContact: Contact {
 
     public var selectedEmail: String {
         get {
+            NSLog("selected email: " + _selectedEmail)
             return _selectedEmail;
         }
         set {
@@ -418,39 +419,44 @@ public class MyContact: Contact {
     
     public var street: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
+            NSLog("Try to get street")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let street = address.value(forKey: "Street") as? String {
                 
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "Street") as! String
                 return street
+                
             }
             else {
+                NSLog("no street")
                 return String()
             }
         }
     }
     public var city: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
-                
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "City") as! String
-                return street
+            NSLog("Try to get city")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let city = address.value(forKey: "City") as? String {
+                return city
             }
             else {
+                NSLog("no city")
                 return String()
             }
         }
     }
     public var postalCode: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
-                
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "ZIP") as! String
-                return street
+            NSLog("Try to get zip")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let zip = address.value(forKey: "ZIP") as? String {
+                return zip
             }
             else {
+                NSLog("no zip")
                 return String()
             }
         }

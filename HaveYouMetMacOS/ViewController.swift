@@ -186,7 +186,9 @@ class ViewController: NSViewController {
             recipientOne.firstNameBasis = false
         }
  
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
     @IBAction func genderRecipientOneAction(_ sender: Any) {
         
@@ -196,7 +198,9 @@ class ViewController: NSViewController {
         else if femaleRecipientOneOutlet.state == 1 {
             recipientOne.gender = Gender.female
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
 
     @IBAction func firstNameBasisCheckbox2Action(_ sender: Any) {
@@ -208,7 +212,9 @@ class ViewController: NSViewController {
             recipientTwo.firstNameBasis = false
         }
         
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
     @IBAction func genderRecipientTwoAction(_ sender: Any) {
         if maleRecipientTwoOutlet.state == 1 {
@@ -217,17 +223,25 @@ class ViewController: NSViewController {
         else if femaleRecipientTwoOutlet.state == 1 {
             recipientTwo.gender = Gender.female
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
 
     @IBAction func recipientOneMultiMail(_ sender: Any) {
         if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
             recipientOne.selectedEmail = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
+            if recipientOne != nil && recipientTwo != nil {
+                messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+            }
         }
     }
     @IBAction func recipientTwoMultiMail(_ sender: Any) {
         if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
             recipientTwo.selectedEmail = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
+            if recipientOne != nil && recipientTwo != nil {
+                messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+            }
         }
     }
     
@@ -413,7 +427,7 @@ extension ViewController: RecipientOneDestinationViewDelegate {
     func processContactOne(_ indexSet: NSIndexSet) {
 
         let index = indexSet.firstIndex
-        let contact = contactStore.StoreContactsToShow[index]
+        var contact = contactStore.StoreContactsToShow[index]
         recipientOne = contact
         
         recipientOneLabelOutlet.stringValue = contact.fullname
@@ -430,6 +444,10 @@ extension ViewController: RecipientOneDestinationViewDelegate {
             recipientOneLabelOutlet.textColor = NSColor.black
             recipientOneMultiEmailadressesOutlet.removeAllItems()
             recipientOneMultiEmailadressesOutlet.isHidden = false
+            
+            // set first as selected email
+            contact.selectedEmail = emailadresses.first!
+            
             for email in emailadresses {
                 recipientOneMultiEmailadressesOutlet.addItem(withTitle: email)
             }
@@ -477,9 +495,9 @@ extension ViewController: RecipientOneDestinationViewDelegate {
 extension ViewController: RecipientTwoDestinationViewDelegate {
     
     func processContactTwo(_ indexSet: NSIndexSet) {
-        /*
+        
         let index = indexSet.firstIndex
-        let contact = contactStore.StoreContactsToShow[index]
+        var contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
         
         recipientTwoLabelOutlet.stringValue = contact.fullname
@@ -495,6 +513,11 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
             recipientTwoLabelOutlet.textColor = NSColor.black
             recipientTwoMultiEmailadressesOutlet.removeAllItems()
             recipientTwoMultiEmailadressesOutlet.isHidden = false
+            
+            // set first as selected email
+            contact.selectedEmail = emailadresses.first!
+            
+            
             for email in emailadresses {
                 recipientTwoMultiEmailadressesOutlet.addItem(withTitle: email)
             }
@@ -521,6 +544,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         // update Messagetext with contact Information
         
         if(recipientOne != nil && recipientTwo != nil) {
+            NSLog("start processing Message with " + recipientOne.fullname + " and " + recipientTwo.fullname)
             let mailText = message1.generateMessage(contact1: recipientOne, contact2: recipientTwo)
             messageTextViewOutlet.updateText(with: mailText)
             messageSubjectTextViewOutlet.stringValue = message1.subject
@@ -529,7 +553,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         
         //update status of sendbutton
         updateSendButton()
- */
+ 
         
     }
     
