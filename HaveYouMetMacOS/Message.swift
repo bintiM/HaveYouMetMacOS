@@ -103,10 +103,16 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
             _subject = _subject.replacingOccurrences(of: "[organizationName1]", with: contact1.organizationName)
         }
+        else {
+            _html = _html.replacingOccurrences(of: "Firma [organizationName1]", with: "")
+        }
         if !contact2.organizationName.isEmpty {
             _html = _html.replacingOccurrences(of: "Firma [organizationName2]", with: contact2.organizationName)
             _html = _html.replacingOccurrences(of: "[organizationName2]", with: contact2.organizationName)
             _subject = _subject.replacingOccurrences(of: "[organizationName2]", with: contact2.organizationName)
+        }
+        else {
+            _html = _html.replacingOccurrences(of: "Firma [organizationName2]", with: "")
         }
         
         //address
@@ -153,7 +159,11 @@ public class Message {
             _html = _html.replacingOccurrences(of: "[SieDu2_2]", with: Defaults.Pronoun2)
         }
         
-
+        if contact1.firstNameBasis && contact2.firstNameBasis {
+            _html = _html.replacingOccurrences(of: "Wie mit Ihnen beiden bereits besprochen möchte ich Sie auf", with: "Wie mit Euch beiden bereits besprochen möchte ich Euch auf")
+        }
+        
+        
         //Gender Recipient1
         
         //replace Salutations

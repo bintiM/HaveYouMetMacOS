@@ -685,14 +685,14 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="HaveYouMetMacOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="1572" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1632" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1rN-JV-SBm" userLabel="contactList">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="590"/>
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="590"/>
                                 <subviews>
                                     <searchField wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lLr-r8-AuC">
-                                        <rect key="frame" x="5" y="568" width="230" height="22"/>
+                                        <rect key="frame" x="5" y="568" width="290" height="22"/>
                                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="cme-7o-Jdy">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -700,19 +700,19 @@
                                         </searchFieldCell>
                                     </searchField>
                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOx-5k-qIY">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="560"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="560"/>
                                         <clipView key="contentView" copiesOnScroll="NO" id="KYB-MC-p5G">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="560"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="560"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="50" rowSizeStyle="automatic" viewBased="YES" id="odB-F3-bfI">
-                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="560"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="560"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn width="237" minWidth="40" maxWidth="1000" id="vUW-Dl-8Wo">
+                                                        <tableColumn width="297" minWidth="40" maxWidth="1000" id="vUW-Dl-8Wo">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Name">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -726,7 +726,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView identifier="nameCell" id="V5W-VF-zy3" customClass="contactTableCellView" customModule="HaveYouMetMacOS" customModuleProvider="target">
-                                                                    <rect key="frame" x="1" y="1" width="237" height="50"/>
+                                                                    <rect key="frame" x="1" y="1" width="297" height="50"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <imageView identifier="contactImage" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wck-TR-bJt">
@@ -738,7 +738,7 @@
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="0qL-16-qMv"/>
                                                                         </imageView>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ekv-wP-iCN">
-                                                                            <rect key="frame" x="57" y="16" width="131" height="17"/>
+                                                                            <rect key="frame" x="57" y="16" width="191" height="17"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Hq5-pw-5Re">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -777,8 +777,9 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="lLr-r8-AuC" firstAttribute="width" secondItem="1rN-JV-SBm" secondAttribute="width" constant="-10" id="5Wy-t0-zIQ"/>
-                                    <constraint firstAttribute="width" constant="240" id="AnR-JP-00u"/>
+                                    <constraint firstAttribute="width" constant="300" id="AnR-JP-00u"/>
                                     <constraint firstItem="nOx-5k-qIY" firstAttribute="leading" secondItem="1rN-JV-SBm" secondAttribute="leading" id="IGJ-Lr-6if"/>
+                                    <constraint firstItem="nOx-5k-qIY" firstAttribute="width" secondItem="1rN-JV-SBm" secondAttribute="width" id="hE7-Lj-6Vi"/>
                                     <constraint firstItem="lLr-r8-AuC" firstAttribute="centerX" secondItem="1rN-JV-SBm" secondAttribute="centerX" id="qn8-SE-FTY"/>
                                     <constraint firstAttribute="bottom" secondItem="nOx-5k-qIY" secondAttribute="bottom" id="ulP-dd-KNj"/>
                                 </constraints>
@@ -792,7 +793,7 @@
                                 </customSpacing>
                             </stackView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="fJJ-6c-2fm" userLabel="recipientOne">
-                                <rect key="frame" x="281" y="515" width="320" height="75"/>
+                                <rect key="frame" x="341" y="515" width="320" height="75"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="TZl-2o-Ljs" customClass="RoundedRectView" customModule="HaveYouMetMacOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
@@ -901,7 +902,7 @@
                                 </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="kPc-ob-UzE" userLabel="recipientTwo">
-                                <rect key="frame" x="281" y="432" width="320" height="75"/>
+                                <rect key="frame" x="341" y="432" width="320" height="75"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="P5d-NT-qaq" userLabel="Recipient Two Rounded Rect View" customClass="RoundedRectView" customModule="HaveYouMetMacOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
@@ -1005,7 +1006,7 @@
                                 </constraints>
                             </customView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZK-Jv-lS3" userLabel="message">
-                                <rect key="frame" x="281" y="20" width="1264" height="392"/>
+                                <rect key="frame" x="341" y="20" width="1264" height="392"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pZA-sM-MBn">
                                         <rect key="frame" x="0.0" y="370" width="1264" height="22"/>
@@ -1056,7 +1057,7 @@
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j9R-SQ-I63" userLabel="OptionsRecipient1">
-                                <rect key="frame" x="609" y="520" width="80" height="65"/>
+                                <rect key="frame" x="669" y="520" width="80" height="65"/>
                                 <subviews>
                                     <button verticalHuggingPriority="249" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="y8f-gH-asp">
                                         <rect key="frame" x="-2" y="46" width="62" height="21"/>
@@ -1105,7 +1106,7 @@
                                 </customSpacing>
                             </stackView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="D5F-dk-9dV">
-                                <rect key="frame" x="696" y="544" width="73" height="18"/>
+                                <rect key="frame" x="756" y="544" width="73" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="4d6-na-I7g"/>
                                     <constraint firstAttribute="height" constant="16" id="Yt3-nd-0PS"/>
@@ -1119,7 +1120,7 @@
                                 </connections>
                             </button>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-77-EaD" userLabel="OptionsRecipient2">
-                                <rect key="frame" x="609" y="437" width="80" height="65"/>
+                                <rect key="frame" x="669" y="437" width="80" height="65"/>
                                 <subviews>
                                     <button verticalHuggingPriority="249" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="AIa-4T-1NP">
                                         <rect key="frame" x="-2" y="46" width="62" height="21"/>
@@ -1168,7 +1169,7 @@
                                 </customSpacing>
                             </stackView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="jy4-eR-jwI">
-                                <rect key="frame" x="696" y="461" width="73" height="18"/>
+                                <rect key="frame" x="756" y="461" width="73" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Initiative" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eyS-ew-fqN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1178,14 +1179,14 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Un2-P8-ipp">
-                                <rect key="frame" x="248" y="574" width="16" height="16"/>
+                                <rect key="frame" x="308" y="574" width="16" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="16" id="IWp-c3-wh3"/>
                                     <constraint firstAttribute="height" constant="16" id="bwa-F3-BeU"/>
                                 </constraints>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNM-Y2-XiA">
-                                <rect key="frame" x="1427" y="557" width="124" height="32"/>
+                                <rect key="frame" x="1487" y="557" width="124" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="112" id="3Ht-AX-Jab"/>
                                     <constraint firstAttribute="width" constant="112" id="NIb-1E-3T8"/>

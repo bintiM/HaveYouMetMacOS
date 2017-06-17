@@ -342,10 +342,6 @@ public class MyContact: Contact {
     
     public var fullname:String {
         get {
-            let surname = _contact.value(forKey: kABLastNameProperty) as! String
-            let prename = _contact.value(forKey: kABFirstNameProperty) as! String
-            let organizationName = _contact.value(forKey: kABOrganizationProperty) as! String
-            
             // if given name is empty but familyname ist present
             if (prename.isEmpty && !surname.isEmpty) {
                 return surname
@@ -448,39 +444,44 @@ public class MyContact: Contact {
     
     public var street: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
+            NSLog("Try to get street")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let street = address.value(forKey: "Street") as? String {
                 
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "Street") as! String
                 return street
+                
             }
             else {
+                NSLog("no street")
                 return String()
             }
         }
     }
     public var city: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
-                
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "City") as! String
-                return street
+            NSLog("Try to get city")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let city = address.value(forKey: "City") as? String {
+                return city
             }
             else {
+                NSLog("no city")
                 return String()
             }
         }
     }
     public var postalCode: String {
         get {
-            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue {
-                
-                let address = postaladdress.value(at: 0) as! NSDictionary
-                let street = address.value(forKey: "ZIP") as! String
-                return street
+            NSLog("Try to get zip")
+            if let postaladdress = _contact.value(forKey: kABAddressProperty) as? ABMultiValue,
+                let address = postaladdress.value(at: 0) as? NSDictionary,
+                let zip = address.value(forKey: "ZIP") as? String {
+                return zip
             }
             else {
+                NSLog("no zip")
                 return String()
             }
         }
@@ -607,23 +608,33 @@ public class oldCStore: CStore {
     
     public func getContacts() {
         
+        NSLog("entering getContacts...")
+        
         if let AddressBook = ABAddressBook.shared(),  let people = AddressBook.people() {
+            NSLog("before appending people")
             for person in people {
-                _StoreContacts.append(MyContact(with: person as! ABPerson))
+                let mycontact = MyContact(with: person as! ABPerson)
+                _StoreContacts.append(mycontact)
+                NSLog("added " + mycontact.fullname)
             }
-            
+            NSLog("after appending people")
             _StoreContacts.sort(by: {$0.surname < $1.surname})
-            
+            NSLog("after sorting people")
             _StoreContactsToShow.removeAll()
-            
+            NSLog("after removeall old people")
             //remove empty names
+            
             for contact in _StoreContacts {
+                
                 if !contact.fullname.isEmpty {
                     _StoreContactsToShow.append(contact)
                 }
             }
+    
+            NSLog("added all people")
             
         }
+        NSLog("executing getContacts - success!")
         
     }
     

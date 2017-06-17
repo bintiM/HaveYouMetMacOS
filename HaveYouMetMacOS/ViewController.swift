@@ -152,6 +152,13 @@ class ViewController: NSViewController {
         firstNameBasisCheckboxOutlet.isHidden = true
         maleRecipientOneOutlet.isHidden = true
         femaleRecipientOneOutlet.isHidden = true
+        initiativeRecipientOneOutlet.isHidden = true
+        
+        //reset option values
+        firstNameBasisCheckboxOutlet.state = 0
+        maleRecipientOneOutlet.state = 0
+        femaleRecipientOneOutlet.state = 0
+        initiativeRecipientOneOutlet.state = 0
         
         //reset recipient to default empty recipent Image
         recipientOneImageOutlet.image = NSImage(named: Defaults.placeholderImage)
@@ -183,6 +190,14 @@ class ViewController: NSViewController {
         firstNameBasis2CheckboxOutlet.isHidden = true
         maleRecipientTwoOutlet.isHidden = true
         femaleRecipientTwoOutlet.isHidden = true
+        initiativeRecipientTwoOutlet.isHidden = true
+        
+        //reset option values
+        firstNameBasis2CheckboxOutlet.state = 0
+        maleRecipientTwoOutlet.state = 0
+        femaleRecipientTwoOutlet.state = 0
+        initiativeRecipientTwoOutlet.state = 0
+        
         
         //reset recipient to default empty recipent Image
         recipientTwoImageOutlet.image = NSImage(named: Defaults.placeholderImage)
@@ -205,8 +220,9 @@ class ViewController: NSViewController {
         else {
             recipientOne.firstNameBasis = false
         }
- 
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
     @IBAction func genderRecipientOneAction(_ sender: Any) {
         
@@ -216,7 +232,9 @@ class ViewController: NSViewController {
         else if femaleRecipientOneOutlet.state == 1 {
             recipientOne.gender = Gender.female
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
 
     @IBAction func firstNameBasisCheckbox2Action(_ sender: Any) {
@@ -228,7 +246,9 @@ class ViewController: NSViewController {
             recipientTwo.firstNameBasis = false
         }
         
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
     @IBAction func genderRecipientTwoAction(_ sender: Any) {
         if maleRecipientTwoOutlet.state == 1 {
@@ -237,36 +257,49 @@ class ViewController: NSViewController {
         else if femaleRecipientTwoOutlet.state == 1 {
             recipientTwo.gender = Gender.female
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
 
     @IBAction func recipientOneMultiMail(_ sender: Any) {
         if (recipientOneMultiEmailadressesOutlet.selectedItem?.title != nil) {
             recipientOne.selectedEmail = (recipientOneMultiEmailadressesOutlet.selectedItem?.title)!
+            if recipientOne != nil && recipientTwo != nil {
+                messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+            }
         }
     }
     @IBAction func recipientTwoMultiMail(_ sender: Any) {
         if (recipientTwoMultiEmailadressesOutlet.selectedItem?.title != nil) {
             recipientTwo.selectedEmail = (recipientTwoMultiEmailadressesOutlet.selectedItem?.title)!
+            if recipientOne != nil && recipientTwo != nil {
+                messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+            }
         }
     }
     
     @IBAction func initiativeRecipientOneAction(_ sender: Any) {
         if initiativeRecipientOneOutlet.state == 1 {
             recipientOne.initiative = true
-            recipientTwo.initiative = false
             initiativeRecipientTwoOutlet.state = 0
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            recipientTwo.initiative = false
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
     }
     
     @IBAction func initiativeRecipientTwoAction(_ sender: Any) {
         if initiativeRecipientTwoOutlet.state == 1 {
             recipientTwo.initiative = true
-            recipientOne.initiative = false
+            
             initiativeRecipientOneOutlet.state = 0
         }
-        messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        if recipientOne != nil && recipientTwo != nil {
+            recipientOne.initiative = false
+            messageTextViewOutlet.updateText(with: message1.generateMessage(contact1: recipientOne, contact2: recipientTwo))
+        }
 
     }
     
@@ -318,26 +351,6 @@ class ViewController: NSViewController {
             }
         }
 
-        // get recipient Tab Views
-        
-        /*
-        for childViewController in self.childViewControllers {
-            if let recipient1TabController = childViewController as? recipient1TabView {
-                recipient1TabController.buttonOutlet.title = "Test"
-            }
-        }
-*/
-        
-
-
-        /*
-        let defaultsFile = Bundle.main.url(forResource: "defaults", withExtension: "plist")
-        
-        let defaultDictionary = NSDictionary(contentsOf: defaultsFile!)
-        let standardwerte = defaultDictionary as! [String : AnyObject]
-        
-        UserDefaults.standard.register(defaults: standardwerte)
-        */
         
         messageTextViewOutlet.insertText(message1.text)
         messageSubjectTextViewOutlet.stringValue = message1.subject
