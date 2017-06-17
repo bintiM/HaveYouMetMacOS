@@ -91,10 +91,12 @@ public class newContactStore {
     }
     
     static func filterContactsCN(by name:String) {
-        
-        // contactsToShow = contacts.filter { ($0.familyName.contains(name) ||  $0.givenName.contains(name)) }
-        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
-     
+        contactsToShow = contacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased()) || $0.organizationName.lowercased().contains(name.lowercased())}
+    }
+    
+    static func resetContactList() {
+        contactsToShow.removeAll()
+        contactsToShow = contacts
     }
  
 }
@@ -118,6 +120,8 @@ public protocol Contact {
     var url:[String]{get}
     var organizationName:String {get}
     func getEmptyContact()->Contact
+    var identifier:String {get}
+    var initiative:Bool {get set}
 }
 
 @available(OSX 10.11, *)
@@ -126,6 +130,7 @@ public class MyCNContact:  Contact {
     private var _firstNameBasis:Bool
     private var _selectedEmail:String
     private var _gender:Gender
+    private var _initiative:Bool
     public var _contact: CNContact
     
     init(with contact:CNContact) {
@@ -133,6 +138,7 @@ public class MyCNContact:  Contact {
         _firstNameBasis = false
         _selectedEmail = ""
         _gender = Gender.male
+        _initiative = false
     }
     public func getEmptyContact()->Contact {
         return self
@@ -276,6 +282,20 @@ public class MyCNContact:  Contact {
             return _contact.organizationName
         }
     }
+    public var initiative: Bool {
+        get {
+            return _initiative;
+        }
+        set {
+            _initiative = newValue
+        }
+    }
+    public var identifier: String {
+        get {
+            return _contact.identifier
+        }
+    }
+
     
 }
 
@@ -286,12 +306,14 @@ public class MyContact: Contact {
     private var _firstNameBasis:Bool
     private var _selectedEmail:String
     private var _gender:Gender
+    private var _initiative:Bool
     
     init(with contact:ABPerson) {
         _contact = contact
         _firstNameBasis = false
         _selectedEmail = ""
         _gender = Gender.male
+        _initiative = false
     }
     public func getEmptyContact()->Contact {
         return self
@@ -465,6 +487,20 @@ public class MyContact: Contact {
             }
         }
     }
+    public var initiative: Bool {
+        get {
+            return _initiative;
+        }
+        set {
+            _initiative = newValue
+        }
+    }
+    public var identifier: String {
+        get {
+            // TODO return unique identifier
+            return ""
+        }
+    }
 }
 
 
@@ -475,6 +511,7 @@ protocol CStore {
     static func checkAccess() -> Bool
     func getContacts()
     func filterContacts(by name:String)
+    func resetContactList()
 }
 
 @available(OSX 10.11, *)
@@ -502,6 +539,9 @@ public class newCStore : newContactStore, CStore {
     
     public func filterContacts(by name: String) {
         newContactStore.filterContactsCN(by: name)
+    }
+    public func resetContactList() {
+        newContactStore.resetContactList()
     }
     
 }
@@ -554,10 +594,12 @@ public class oldCStore: CStore {
     }
     
     public func filterContacts(by name: String) {
-        //
+        _StoreContactsToShow = _StoreContacts.filter { $0.surname.lowercased().contains(name.lowercased()) || $0.prename.lowercased().contains(name.lowercased())}
+    }
+    
+    public func resetContactList() {
+        _StoreContactsToShow.removeAll()
+        _StoreContactsToShow = _StoreContacts
     }
    
 }
-
-
-
