@@ -477,7 +477,7 @@ extension ViewController: RecipientOneDestinationViewDelegate {
 extension ViewController: RecipientTwoDestinationViewDelegate {
     
     func processContactTwo(_ indexSet: NSIndexSet) {
-        
+        /*
         let index = indexSet.firstIndex
         let contact = contactStore.StoreContactsToShow[index]
         recipientTwo = contact
@@ -529,6 +529,7 @@ extension ViewController: RecipientTwoDestinationViewDelegate {
         
         //update status of sendbutton
         updateSendButton()
+ */
         
     }
     
